@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from "styled-components";
 import * as actions from '../actions';
 
-const Nav = ({ authenticated, email, signout }) => {
+const Nav = ({ authenticated, username, signout }) => {
   const handleSignOutClick = () => {
     signout();
   };
@@ -48,7 +48,7 @@ const Nav = ({ authenticated, email, signout }) => {
 function mapStateToProps(state) {
   return {
     authenticated: state.auth.authenticated,
-    email: state.auth.email
+    username: state.auth.username
   };
 }
 

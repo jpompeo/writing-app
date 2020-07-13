@@ -6,7 +6,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import MainPage from './MainPage'
 import Signup from './auth/Signup';
 import Signin from './auth/Signin';
-import TextEditor from './TextEditor';
 import '../css/App.css'
 
 class App extends React.Component {
@@ -23,7 +22,6 @@ class App extends React.Component {
               <Route exact path="/" component={MainPage} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/signin" component={Signin} />
-              <Route exact path="/editor" component={TextEditor} />
             </Switch>
           </Col>
         </Row>

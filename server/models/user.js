@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const documentSchema = require('./document');
-const trophySchema = require('./trophy');
+const bookSchema = require('./book');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 // Define our model
 const UserSchema = new Schema({
-  email: { type: String, unique: true, lowercase: true },
+  username: { 
+    type: String, 
+    unique: true, 
+    lowercase: true },
   hash: String,
   salt: String,
-  docs: [documentSchema],
   totalWordCount: {
     type: Number,
     default: 0
@@ -19,10 +20,8 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
-  level: {
-    type: String
-  },
-  trophies: [trophySchema]
+  books: [{ type: Schema.Types.ObjectId, ref: 'update' }],
+  goals: [{ type: Schema.Types.ObjectId, ref: 'goal' }]
 })
 
 UserSchema.methods.setPassword = function(password){
@@ -38,7 +37,7 @@ UserSchema.methods.validPassword = function(password) {
 }
 
 // Create the model class
-const ModelClass = mongoose.model('user', UserSchema)
+const User = mongoose.model('user', UserSchema);
 
 // Export the model
-module.exports = ModelClass
+module.exports = User;

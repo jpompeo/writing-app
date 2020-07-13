@@ -37,11 +37,11 @@ export const signup = (formProps, callback) => dispatch => {
   ).then(function (response) {
     dispatch({ type: AUTH_USER, payload: response.data });
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('email', response.data.email);
+    localStorage.setItem('username', response.data.username);
     callback();
   })
   .catch(function (error) {
-    dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
+    dispatch({ type: AUTH_ERROR, payload: 'Username in use' });
   });
 };
 
@@ -52,17 +52,17 @@ export const signin = (formProps, callback) => dispatch => {
   ).then(function (response) {
     dispatch({ type: AUTH_USER, payload: response.data });
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('email', response.data.email);
+    localStorage.setItem('email', response.data.username);
     callback();
   })
   .catch(function (error) {
-    dispatch({ type: AUTH_ERROR, payload: 'Incorrect email or password' });
+    dispatch({ type: AUTH_ERROR, payload: 'Incorrect username or password' });
   });
 };
 
 export const signout = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('email');
+  localStorage.removeItem('username');
 
   return {
     type: AUTH_USER,

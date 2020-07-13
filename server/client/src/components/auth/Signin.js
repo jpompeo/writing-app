@@ -17,9 +17,9 @@ class Signin extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <fieldset>
-          <label>Email</label>
+          <label>Username</label>
           <Field
-            name="email"
+            name="username"
             type="text"
             component="input"
             autoComplete="none"

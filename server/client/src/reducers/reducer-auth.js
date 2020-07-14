@@ -10,7 +10,7 @@ export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
       return { ...state, authenticated: action.payload.token,
-          email: action.payload.username
+          username: action.payload.username
         };
     case AUTH_ERROR:
       return { ...state, errorMessage: action.payload };

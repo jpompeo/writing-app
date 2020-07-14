@@ -28,5 +28,5 @@ const goalSchema = new Schema({
     notes: String,
 }, { timestamps: true });
 
-const Goal = mongoose.model('goal', updateSchema)
-module.exports = Update;
+const Goal = mongoose.model('goal', goalSchema)
+module.exports = Goal;

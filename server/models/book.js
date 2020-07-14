@@ -13,6 +13,10 @@ const bookSchema = new Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     wordCount: {
         type: Number,
         default: 0

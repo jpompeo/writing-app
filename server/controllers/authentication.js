@@ -20,8 +20,7 @@ exports.signin = function(req, res) {
 exports.currentUser = function(req, res) {
   const user = {
     username: req.user.username,
-    token: tokenForUser(req.user),
-    watchList: req.user.watchList
+    token: tokenForUser(req.user)
   }
 
   res.send(user)
@@ -57,7 +56,8 @@ exports.signup = function(req, res, next) {
       // Repond to request indicating the user was created
       res.json({ 
         token: tokenForUser(user), 
-        username: user.username 
+        username: user.username,
+        userId: user._id 
       })
     });
   });

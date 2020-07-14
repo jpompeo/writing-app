@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { connect } from 'react-redux';
-import styled from "styled-components";
+import '../styles/Nav.css'
 import * as actions from '../actions';
+import { Navbar, Container, Col, Row, Button, NavDropdown, Form, FormControl, ButtonGroup } from 'react-bootstrap';
 
 const Nav = ({ authenticated, username, signout }) => {
   const handleSignOutClick = () => {
@@ -13,15 +14,22 @@ const Nav = ({ authenticated, username, signout }) => {
     if (authenticated) {
       return (
         <React.Fragment>
-          <li>{email}</li>
-          <li><a href="#" onClick={handleSignOutClick}>Sign Out</a></li>
+          <p>Signed in as {username} </p>
+            <Button onClick={handleSignOutClick}>Sign Out</Button>
         </React.Fragment>
       );
     } else {
       return (
         <React.Fragment>
-          <li><Link to="/signup">Sign Up</Link></li>
-          <li><Link to="/signin">Sign In</Link></li>
+          <Link to="/signin">
+            <Button className="mr-2" variant="secondary">
+          Sign In
+          </Button>
+          </Link>
+          <Link to="/signup">
+          <Button variant="secondary">
+            Register
+          </Button></Link>
         </React.Fragment>
       );
     }
@@ -29,19 +37,17 @@ const Nav = ({ authenticated, username, signout }) => {
 
 
   return (
-    <NavContainer>
-      <div id="logo">
-        <NavLink to="/">
-          Writing App
-        </NavLink>
-      </div>
+    <Container>
+      <Row>
+        <Col md={8}>
+        <Link to="/">Writing App</Link>
+        </Col>
 
-  
-      <NavUl>
-
-        {renderLinks()}
-      </NavUl>
-    </NavContainer>
+          <Col md={4}>
+          {renderLinks()}
+          </Col>
+      </Row>
+    </Container>
   );
 };
 
@@ -53,43 +59,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, actions)(Nav);
-
-const NavContainer = styled.div`
-  position: fixed;
-  z-index: 999;
-  background: hsl(0, 0%, 13%);
-  color: whitesmoke;
-  margin: 0;
-  width: 100%;
-  height: auto;
-  padding: 1.5em, 5em;
-  #logo {
-    position: relative;
-    float: left;
-    width: 150px;
-    height: auto;
-  }
-  a {
-    color: #fff;
-  }
-`;
-
-const NavUl = styled.ul`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  list-style: none;
-
-  li:first-child {
-    float: left;
-  }
-
-  li {
-    margin-left: 0.8em;
-    padding: 0.5em;
-  }
-
-  li a {
-    color: whitesmoke;
-  }
-`;

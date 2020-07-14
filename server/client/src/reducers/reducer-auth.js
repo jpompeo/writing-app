@@ -9,11 +9,17 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
-      return { ...state, authenticated: action.payload.token,
-          username: action.payload.username
-        };
-    case AUTH_ERROR:
-      return { ...state, errorMessage: action.payload };
+      console.log("ACTION PAYLOAD", action.payload)
+      // localStorage.setItem('token', action.payload.data.token);
+      // localStorage.setItem('username', action.payload.data.username);
+      if (action.payload.request.status == 200) {
+        return { ...state, authenticated: action.payload.data.token,
+            username: action.payload.data.username
+          };
+      }
+      else {
+        return { ...state, errorMessage: action.payload };
+      }
     default:
       return state;
   }

@@ -1,25 +1,25 @@
 import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { render } from "react-dom";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import Nav from "./components/Nav";
 import App from './components/App';
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import rootReducer from "./reducers/index";
+import ReduxPromise from "redux-promise";
+import reducers from "./reducers";
 import "bootstrap/dist/css/bootstrap.css";
 import './styles/index.css'
 
-const store = createStore(rootReducer, {}, applyMiddleware(thunk));
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
-render(
-  <Provider store={store}>
-    <Router>
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <BrowserRouter>
       <Fragment>
         <Nav />
         <App/>
       </Fragment>
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

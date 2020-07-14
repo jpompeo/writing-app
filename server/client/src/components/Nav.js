@@ -11,6 +11,7 @@ const Nav = ({ authenticated, username, signout }) => {
   };
 
   const renderLinks = () => {
+    console.log("IS AUTHENTICATED", authenticated)
     if (authenticated) {
       return (
         <React.Fragment>

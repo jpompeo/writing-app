@@ -1,12 +1,14 @@
 import React from 'react';
 import { withRouter, Route, Switch } from "react-router-dom";
-import * as actions from '../actions';
+import { fetchUser } from '../actions';
 import { connect } from "react-redux";
 import { Container, Row, Col } from 'react-bootstrap'
 import MainPage from './MainPage'
 import Signup from './auth/Signup';
 import Signin from './auth/Signin';
-import '../css/App.css'
+import Login from './auth/Login';
+import { bindActionCreators } from "redux";
+import '../styles/App.css'
 
 class App extends React.Component {
   componentDidMount() {
@@ -14,6 +16,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log("")
     return (
       <Container className="app">
         <Row>
@@ -22,6 +25,7 @@ class App extends React.Component {
               <Route exact path="/" component={MainPage} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/signin" component={Signin} />
+              <Route exact path="/login" component={Login} />
             </Switch>
           </Col>
         </Row>
@@ -30,7 +34,9 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(connect(
-  null,
-  actions
-)(App));
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchUser }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(App);
+

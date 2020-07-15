@@ -19,13 +19,13 @@ class Login extends Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
         this.renderLoginNav = this.renderLoginNav.bind(this);
-        this.handleSignOutClick = this.handleSignOutClick.bind(this);
+        // this.handleSignOutClick = this.handleSignOutClick.bind(this);
     }
 
-    handleSignOutClick() {
-        logoutUser();
-        // this.props.history.push('/');
-    };
+    // handleSignOutClick() {
+    //     logoutUser();
+    //     // this.props.history.push('/');
+    // };
 
     componentDidUpdate(prevProps) {
         // if(this.props.authenticated !== this.prevProps.authenticated) {
@@ -55,23 +55,23 @@ class Login extends Component {
     }
 
     renderLoginNav() {
-        if (this.props.authenticated) {
+        // if (this.props.authenticated) {
+        //     return (
+        //         <React.Fragment>
+        //             <span>Signed in as {this.props.username} </span>
+        //             <Link to="/"><Button size="sm"
+        //                 className="mb-2"
+        //                 variant="outline-danger"
+        //                 type="submit"
+        //                 onClick={event => { this.handleSignOutClick(event) }}>
+        //                 Sign Out
+        //         </Button>
+        //         </Link>
+        //         </React.Fragment>
+        //     )
+        // } else {
             return (
-                <React.Fragment>
-                    <span>Signed in as {this.props.username} </span>
-                    <Link to="/"><Button size="sm"
-                        className="mb-2"
-                        variant="outline-danger"
-                        type="submit"
-                        onClick={event => { this.handleSignOutClick(event) }}>
-                        Sign Out
-                </Button>
-                </Link>
-                </React.Fragment>
-            )
-        } else {
-            return (
-                <Form inline>
+                <Form >
                     <Form.Group controlId="formBasicUsername">
                         <Form.Control size="sm"
                             className="mb-2 mr-sm-2"
@@ -91,6 +91,7 @@ class Login extends Component {
                             onChange={event => { this.setState({ password: event.target.value }) }}
                         />
                     </Form.Group>
+                    
                     <Button size="sm"
                         className="mb-2"
                         variant="outline-secondary"
@@ -98,7 +99,10 @@ class Login extends Component {
                         onClick={event => { this.handleLogin(event) }}>
                         Sign In
                 </Button>
+                       
                     <div className="button-break"> or </div>
+                   
+
                     <Button size="sm"
                         className="mb-2"
                         variant="outline-danger"
@@ -106,13 +110,14 @@ class Login extends Component {
                         onClick={event => { this.handleSignup(event) }}>
                         Register
                 </Button>
+                      
                     <Form.Text className="text-muted">
                         {this.props.errorMessage}
                     </Form.Text>
                 </Form>
 
             )
-        }
+        // }
     }
 
     render() {

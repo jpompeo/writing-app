@@ -9,6 +9,9 @@ import Signup from './auth/Signup';
 import Signin from './auth/Signin';
 import Login from './auth/Login';
 import BubbleWordCount from './BubbleWordCount'
+import BurnDownChart from './BurnDownChart'
+import WeeklyDoughnut from './WeeklyDoughnut'
+import LineGraph from './LineGraph'
 import { bindActionCreators } from "redux";
 import '../styles/App.css'
 
@@ -24,7 +27,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container className="app">
+      <Container id="app-container" fluid>
         <Row>
           <Col>
           <Nav />
@@ -33,7 +36,10 @@ class App extends React.Component {
               {/* <Route exact path="/signup" component={Signup} />
               <Route exact path="/signin" component={Signin} /> */}
               <Route exact path="/login" component={Login} />
-              {/* <Route exact path="/bubblechart" component={BubbleWordCount}/> */}
+              <Route exact path="/bubblechart" component={BubbleWordCount}/>
+              <Route exact path="/burndownchart" component={BurnDownChart}/>
+              <Route exact path="/linegraph" component={LineGraph}/>
+              <Route exact path="/doughnut" component={WeeklyDoughnut}/>
             </Switch>
           </Col>
         </Row>

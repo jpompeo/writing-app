@@ -1,5 +1,10 @@
 header {
+box-sizing: border-box;
    padding: 20px 0;
+   height: 20vh;
+   width: 100%;
+   border: 5px solid gray;
+   margin: 0;
 }
 
 #header-nav h1 {
@@ -10,3 +15,7 @@ header {
 #header-nav a:hover {
 text-decoration: none;
 }
+
+/* #header-nav {
+    height: 20vh;
+} */

@@ -1,26 +1,36 @@
 import React, { Component } from "react";
 import { Container, Col, Row } from 'react-bootstrap';
+import Goals from './Goals';
+import Progress from './Progress';
+import Updates from './Updates';
 
-class MainPage extends Component {  
+class MainPage extends Component {
   constructor(props) {
     super(props)
-
-    this.renderUserView = this.renderUserView.bind(this);
-  }
-
-  renderUserView() {
-    // if ()
   }
 
   render() {
-    
+
     return (
-      <Container>
-          <Row>
-              <Col>
-              <h1>Public Main Page</h1>
-              </Col>
-          </Row>
+      <Container fluid>
+        <Row>
+          {/* Goals  */}
+          <Col md={6}>
+            <Goals />
+          </Col>
+
+          {/* Progress */}
+          <Col md={6}>
+            <Progress />
+          </Col>
+        </Row>
+
+        {/* Updates */}
+        <Row>
+          <Col>
+            <Updates />
+          </Col>
+        </Row>
       </Container>
     );
   }

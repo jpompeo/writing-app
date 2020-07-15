@@ -13,6 +13,7 @@ class Nav extends Component {
 
     // this.handleSignOutClick = this.handleSignOutClick.bind(this);
     // this.renderLogin = this.renderLogin.bind(this);
+    this.handleLogoutClick = this.handleLogout.bind(this);
   }
 
   // handleSignOutClick() {
@@ -49,22 +50,52 @@ class Nav extends Component {
   //   }
   // }
 
-  // renderLogin() {
-  //   if (this.props.authenticated) {
-  //     return (
-  //       <React.Fragment>
-  //         <p>Signed in as {this.props.username} </p>
-  //         <Button onClick={this.handleSignOutClick}>Sign Out</Button>
-  //       </React.Fragment>
-  //     )
-  //   } else {
-  //     return (
-  //       <Login />
+  handleLogout() {
+    logoutUser();
+    // this.props.history.push('/');
+};
 
-  //     )
-  //   }
-  // }
+  renderLoginNav() {
+    if (this.props.authenticated) {
+      return (
+        <React.Fragment>
+                    <span>Signed in as {this.props.username} </span>
+                    <Link to="/"><Button size="sm"
+                        className="mb-2"
+                        variant="outline-danger"
+                        type="submit"
+                        onClick={event => { this.handleLogout(event) }}>
+                        Sign Out
+                </Button>
+                </Link>
+                </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <Link to="/login">
+            <Button size="sm"
+              className="mb-2"
+              variant="outline-secondary"
+              type="text">
+              Sign In
+            </Button>
+          </Link>
 
+          <div className="button-break"> or </div>
+
+          <Link to="/login">
+            <Button size="sm"
+              className="mb-2"
+              variant="outline-danger"
+              type="text">
+              Register
+            </Button>
+          </Link>
+        </React.Fragment>
+      )
+    }
+  }
 
   render() {
     return (
@@ -73,16 +104,16 @@ class Nav extends Component {
           <Row>
             <Col>
 
-            {/* app header  */}
-              <Link to="/"><h1>Writing App</h1></Link>
-              
+              {/* app header  */}
+              <Link to="/"><h1>Write Away</h1></Link>
+
             </Col>
             <Col className="login-section">
               <Container>
                 <Row>
 
-                  {/* login component */}
-                  <Login />
+                  {/* login/logout buttons */}
+                  {this.renderLoginNav()}
 
                 </Row>
               </Container>

@@ -20,7 +20,7 @@ exports.signin = function(req, res) {
 exports.currentUser = function(req, res) {
   const user = {
     username: req.user.username,
-    token: tokenForUser(req.user)
+    token: tokenForUser(req.user),
   }
 
   res.send(user)

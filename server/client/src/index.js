@@ -16,7 +16,6 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <Fragment>
-        <Nav />
         <App/>
       </Fragment>
     </BrowserRouter>

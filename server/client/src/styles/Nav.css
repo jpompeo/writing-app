@@ -1,0 +1,12 @@
+header {
+   padding: 20px 0;
+}
+
+#header-nav h1 {
+    text-decoration: none;
+    color: #000;
+}
+
+#header-nav a:hover {
+text-decoration: none;
+}

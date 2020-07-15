@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-// import styled from "styled-components";
 import { Container, Col, Row } from 'react-bootstrap';
 
 class MainPage extends Component {  
-  
+  constructor(props) {
+    super(props)
+
+    this.renderUserView = this.renderUserView.bind(this);
+  }
+
+  renderUserView() {
+    // if ()
+  }
 
   render() {
-
+    
     return (
       <Container>
           <Row>

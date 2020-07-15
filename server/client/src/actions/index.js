@@ -110,9 +110,6 @@ export function loginUser(userInfo) {
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('username', response.data.username);
   })
-    .catch(function (error) {
-      return { type: AUTH_ERROR, payload: 'Incorrect username or password' };
-    });
 
   return { type: AUTH_USER, payload: request }
 };

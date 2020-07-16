@@ -1,19 +1,24 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
-import { fetchUser } from '../actions';
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { fetchUser } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap'
+import '../styles/App.css'
+
 import MainPage from './MainPage'
 import Nav from './Nav'
 import Signup from './auth/Signup';
 import Signin from './auth/Signin';
 import Login from './auth/Login';
-import BubbleWordCount from './BubbleWordCount'
-import BurnDownChart from './BurnDownChart'
-import WeeklyDoughnut from './WeeklyDoughnut'
-import LineGraph from './LineGraph'
-import { bindActionCreators } from "redux";
-import '../styles/App.css'
+import BubbleWordCount from './charts/BubbleWordCount'
+import BurnDownChart from './charts/BurnDownChart'
+import WeeklyDoughnut from './charts/WeeklyDoughnut'
+import LineGraph from './charts/LineGraph'
+import AddBookForm from './forms/AddBookForm'
+import AddChapterForm from './forms/AddChapterForm'
+import UpdateForm from './forms/UpdateForm'
+import StoryMap from './StoryMap'
 
 class App extends React.Component {
   componentDidMount() {
@@ -30,16 +35,23 @@ class App extends React.Component {
       <Container id="app-container" fluid>
         <Row>
           <Col>
-          <Nav />
+          <Switch>
+            <Route path="/" component={Nav} />
+          </Switch>
+          {/* <Nav /> */}
             <Switch>
               <Route exact path="/me" component={MainPage} />
               {/* <Route exact path="/signup" component={Signup} />
               <Route exact path="/signin" component={Signin} /> */}
               <Route exact path="/login" component={Login} />
+              <Route exact path="/me/addbook" component={AddBookForm} />
               <Route exact path="/bubblechart" component={BubbleWordCount}/>
               <Route exact path="/burndownchart" component={BurnDownChart}/>
               <Route exact path="/linegraph" component={LineGraph}/>
               <Route exact path="/doughnut" component={WeeklyDoughnut}/>
+              <Route exact path="/me/addchapter" component={AddChapterForm}/>
+              <Route exact path="/me/addupdate" component={UpdateForm}/>
+              <Route exact path="/me/storymap" component={StoryMap}/>
             </Switch>
           </Col>
         </Row>

@@ -1,4 +1,5 @@
 import { AUTH_USER } from '../actions/types';
+import { AUTH_ERROR } from '../actions/types';
 
 const INITIAL_STATE = {
   authenticated: localStorage.getItem('token') || '',
@@ -17,9 +18,11 @@ export default function(state = INITIAL_STATE, action) {
             userId: action.payload.data.userId
           };
       } else {
-        console.log("ACTION PAYLOAD ERROR", action.payload.error)
-        return { ...state, errorMessage: action.payload.error };
+        console.log("ACTION PAYLOAD ERROR", action.payload)
+        return state
       }
+    case AUTH_ERROR:
+      return { ...state, errorMessage: action.payload}
     default:
       return state;
   }

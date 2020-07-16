@@ -33,3 +33,7 @@
     background-color: #777 !important;
     border: #999 2px solid !important;
 }
+
+.logout-button-container {
+    text-align: right;
+}

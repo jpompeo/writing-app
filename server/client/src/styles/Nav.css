@@ -31,3 +31,11 @@ text-decoration: none;
     width: 50px;
     float: right;
 }
+
+.hide-login {
+    display: none;
+}
+
+#toggle-login-button {
+    text-align: right;
+}

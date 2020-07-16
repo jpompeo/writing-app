@@ -1,0 +1,39 @@
+#update-form {
+    margin: 30px auto;
+    border-radius: 7px ;
+    width: 60%;
+    padding: 30px;
+    /* border: solid .5px #7E8181; */
+    /* background-color: #dadcde; */
+    color: #7E8181;
+    font-weight: 500;
+}
+
+.form-button-container {
+    text-align: right;
+}
+
+#add-update-button {
+    /* background-color: #FFF5A3 !important; */
+    background-color: transparent;
+    border: solid 2px #7E8181;
+    color: #7E8181;
+    font-weight: 500;
+}
+
+#add-update-button:hover {
+    background-color: #7E8181;
+    color: #FFF;
+    border: #7E8181 2px solid;
+
+}
+.date-label {
+    margin: 0 5px 0 0;
+}
+
+input {
+    color: #7E8181;
+    border-radius: 5px; 
+    border: solid 1px #dadcde;
+}
+

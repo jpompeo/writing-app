@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import { Container, Col, Row } from 'react-bootstrap';
 import '../styles/Progress.css'
+
 
 class Progress extends Component {
     constructor(props) {
@@ -48,6 +51,12 @@ class Progress extends Component {
         }
         this.renderChapterProgress = this.renderTotalProgress.bind(this);
         this.renderTotalProgress = this.renderTotalProgress.bind(this);
+    }
+
+    
+
+    componentDidMount() {
+        console.log("PROGRESS UPDAAAAAAAAAAAAAAAATED", this.props)
     }
 
     renderTotalProgress() {
@@ -105,22 +114,21 @@ class Progress extends Component {
     }
 }
 
-export default Progress;
+function mapStateToProps(state) {
+    return {
+     user: state.userData,
+     userId: state.auth.userId
+    };
+  }
 
-
-// SubmitForm() {
-//     if (this.state.income && this.state.goal && this.state.expenseCategoryOne && this.state.expenseAmountOne) {
-//         const budgetData = {
-//             income: this.state.income,
-//             expenses: [
-//                 {category: this.state.CategoryOne,
-//                 amount: this.state.AmountOne},
-//                 {category: this.state.CategoryTwo,
-//                     amount: this.state.AmountTwo},
-//             ],
-//             goal: this.state.goal
-//         }
-
-//       this.props.createBudget(budgetInfo);
-//     } else alert("Please fill out income, expenses and goal");
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators(
+//         { logoutUser },
+//         dispatch
+//     );
 //   }
+  
+  export default connect(mapStateToProps, null)(Progress);
+  
+
+

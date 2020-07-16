@@ -1,5 +1,57 @@
 import axios from "axios";
-import { AUTH_USER, AUTH_ERROR } from './types';
+import { AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA } from './types';
+
+
+
+  // server address
+const ROOT_URL = 'http://localhost:5000/api';
+
+export function addBook(bookInfo) {
+  const url = `${ROOT_URL}/users/${bookInfo.userId}/book`;
+  const request = axios.post(url, bookInfo);
+
+  request.then((response) => {
+    console.log("RESPONSE ADD BOOK", response)
+  });
+
+  return {
+    type: ADD_BOOK,
+    payload: request,
+  };
+}
+
+export function addChapter(chapterInfo) {
+  const url = `${ROOT_URL}/users/${chapterInfo.userId}/${chapterInfo.bookId}/chapter`;
+  const request = axios.post(url, chapterInfo);
+
+  request.then((response) => {
+    console.log("RESPONSE ADD CHAPTER", response)
+  });
+
+  return {
+    type: ADD_CHAPTER,
+    payload: request,
+  };
+}
+
+export function getUserData(userId) {
+  const url = `${ROOT_URL}/users/${userId}`;
+  const request = axios.get(url);
+
+  // request.then((response) => {
+  //   console.log("RESPONSE GET USER INFO", response)
+  // });
+
+  return {
+    type: GET_USER_DATA,
+    payload: request,
+  };
+}
+
+
+
+/////////////////// Authorization actions 
+
 
 // export const fetchMovies = (page = 1) => dispatch => {
 //   axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=a50dd974dc6bceb5358b37229983facc&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
@@ -109,6 +161,9 @@ export function loginUser(userInfo) {
     console.log("HIIIIIIIIIIIIIIIIII!!!!!!!!!!!!!!!!!!!!!!")
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('username', response.data.username);
+  })
+  .catch((error) => {
+   return  {type: AUTH_ERROR, payload: 'Incorrect username or password'}
   })
 
   return { type: AUTH_USER, payload: request }

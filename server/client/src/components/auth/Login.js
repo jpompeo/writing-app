@@ -42,7 +42,7 @@ class Login extends Component {
             password: this.state.password
         }
         loginUser(userInfo)
-        // this.props.history.push('/me');
+        this.props.history.push('/me');
     }
 
     handleRegister(event) {
@@ -52,33 +52,36 @@ class Login extends Component {
             password: this.state.password
         }
         registerUser(userInfo)
+        this.props.history.push('/me');
     }
 
     renderLoginNav() {
-        if (this.props.authenticated) {
-            return (
-                
-                    <Container >
-                        <Row>
-                            <Col>
-                        <p className="text-muted signed-in">
+        // if (this.props.auth.authenticated) {
+            console.log("AUTHENTICATED", this.props.auth)
+            // return (
 
-                    Signed in as {this.props.username} 
-                        </p>
-                        </Col>
-                        <Col>
-                    <Link to="/"><Button size="sm"
-                        className="mb-2 logout-button"
-                        type="submit"
-                        onClick={event => { this.handleLogout(event) }}>
-                        Sign Out
-                </Button>
-                    </Link>
-                            </Col>
-                        </Row>
-                        </Container>
-            )
-        } else {
+                // <Container >
+                //     <Row>
+                //         <Col>
+                //             <p className="text-muted signed-in">
+
+                //                 Signed in as {this.props.auth.username}
+                //             </p>
+                //         </Col>
+                //         <Col>
+                //             <Link to="/">
+                //                 <Button size="sm"
+                //                 className="mb-2 logout-button"
+                //                 type="submit"
+                //                 onClick={event => { this.handleLogout(event) }}>
+                //                 Sign Out
+                //                 </Button>
+                //             </Link>
+                //         </Col>
+                //     </Row>
+                // </Container>
+            // )
+        // } else {
             return (
                 <Form>
                     <Form.Row>
@@ -125,13 +128,14 @@ class Login extends Component {
                             </Button>
                         </Col>
                     </Form.Row>
-
+                        {this.props.auth.errorMessage ? (
                     <Form.Text className="text-muted">
-                        {this.props.errorMessage}
+                        {this.props.auth.errorMessage}
                     </Form.Text>
+                        ) : ''}
                 </Form>
             )
-        }
+        // }
     }
 
     render() {
@@ -149,9 +153,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.errorMessage,
-        authenticated: state.auth.authenticated,
-        username: state.auth.username
+        auth: state.auth
     };
 }
 

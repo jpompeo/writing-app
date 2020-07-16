@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bookSchema = require('./book');
+const updateSchema = require('./update')
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
@@ -20,8 +21,8 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
-  books: [{ type: Schema.Types.ObjectId, ref: 'update' }],
-  goals: [{ type: Schema.Types.ObjectId, ref: 'goal' }]
+  books: [bookSchema],
+  updates: [updateSchema]
 })
 
 UserSchema.methods.setPassword = function(password){

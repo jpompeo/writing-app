@@ -19,20 +19,20 @@ class Login extends Component {
         this.handleLogin = this.handleLogin.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
         this.renderLoginNav = this.renderLoginNav.bind(this);
-        // this.handleSignOutClick = this.handleSignOutClick.bind(this);
+        this.handleSignOutClick = this.handleLogout.bind(this);
     }
 
-    // handleSignOutClick() {
-    //     logoutUser();
-    //     // this.props.history.push('/');
-    // };
+    handleLogout() {
+        logoutUser();
+        // this.props.history.push('/');
+    };
 
     componentDidUpdate(prevProps) {
         // if(this.props.authenticated !== this.prevProps.authenticated) {
 
         // }
         console.log("LOGIN UPDATED")
-        
+
     }
 
     handleLogin(event) {
@@ -55,80 +55,94 @@ class Login extends Component {
     }
 
     renderLoginNav() {
-        // if (this.props.authenticated) {
-        //     return (
-        //         <React.Fragment>
-        //             <span>Signed in as {this.props.username} </span>
-        //             <Link to="/"><Button size="sm"
-        //                 className="mb-2"
-        //                 variant="outline-danger"
-        //                 type="submit"
-        //                 onClick={event => { this.handleSignOutClick(event) }}>
-        //                 Sign Out
-        //         </Button>
-        //         </Link>
-        //         </React.Fragment>
-        //     )
-        // } else {
+        if (this.props.authenticated) {
             return (
-                <Form >
-                    <Form.Group controlId="formBasicUsername">
-                        <Form.Control size="sm"
-                            className="mb-2 mr-sm-2"
-                            type="text"
-                            placeholder="Enter username"
-                            value={this.state.username}
-                            onChange={event => { this.setState({ username: event.target.value }) }}
-                        />
-                    </Form.Group>
+                
+                    <Container >
+                        <Row>
+                            <Col>
+                        <p className="text-muted signed-in">
 
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Control size="sm"
-                            className="mb-2 mr-sm-2"
-                            type="password"
-                            placeholder="Password"
-                            value={this.state.password}
-                            onChange={event => { this.setState({ password: event.target.value }) }}
-                        />
-                    </Form.Group>
-                    
-                    <Button size="sm"
-                        className="mb-2"
-                        variant="outline-secondary"
+                    Signed in as {this.props.username} 
+                        </p>
+                        </Col>
+                        <Col>
+                    <Link to="/"><Button size="sm"
+                        className="mb-2 logout-button"
                         type="submit"
-                        onClick={event => { this.handleLogin(event) }}>
-                        Sign In
+                        onClick={event => { this.handleLogout(event) }}>
+                        Sign Out
                 </Button>
-                       
-                    <div className="button-break"> or </div>
-                   
+                    </Link>
+                            </Col>
+                        </Row>
+                        </Container>
+            )
+        } else {
+            return (
+                <Form>
+                    <Form.Row>
+                        <Col>
+                            {/* <Form.Group controlId="formBasicUsername"> */}
+                            <Form.Control size="sm"
+                                className="mb-2 mr-sm-2 login-input"
+                                type="text"
+                                placeholder="Enter username"
+                                value={this.state.username}
+                                onChange={event => { this.setState({ username: event.target.value }) }}
+                            />
+                            {/* </Form.Group> */}
 
-                    <Button size="sm"
-                        className="mb-2"
-                        variant="outline-danger"
-                        type="submit"
-                        onClick={event => { this.handleSignup(event) }}>
-                        Register
-                </Button>
-                      
+                            {/* <Form.Group controlId="formBasicPassword"> */}
+                            <Form.Control size="sm"
+                                className="mb-2 mr-sm-2 login-input"
+                                type="password"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={event => { this.setState({ password: event.target.value }) }}
+                            />
+                            {/* </Form.Group> */}
+                        </Col>
+                    </Form.Row>
+                    <Form.Row>
+                        {/* <Col >
+                        </Col> */}
+                        <Col className="login-buttons">
+                            <Button size="sm"
+                                className="mb-2 register-button"
+                                variant="outline-danger"
+                                type="submit"
+                                onClick={event => { this.handleSignup(event) }}>
+                                Register
+                            </Button>
+
+                            <Button size="sm"
+                                className="mb-2 login-button"
+                                variant="outline-secondary"
+                                type="submit"
+                                onClick={event => { this.handleLogin(event) }}>
+                                Sign In
+                            </Button>
+                        </Col>
+                    </Form.Row>
+
                     <Form.Text className="text-muted">
                         {this.props.errorMessage}
                     </Form.Text>
                 </Form>
-
             )
-        // }
+        }
     }
 
     render() {
         return (
-            <Col className="login-section">
-              {/* <Container>
-                <Row> */}
-                  {this.renderLoginNav()}
-                {/* </Row>
-              </Container> */}
-            </Col>
+            <Container>
+                <Row>
+                    <Col className="login-section">
+                        {this.renderLoginNav()}
+                    </Col>
+                </Row>
+            </Container>
         )
     }
 }

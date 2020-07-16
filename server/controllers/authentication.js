@@ -13,7 +13,8 @@ exports.signin = function(req, res) {
   // We just need to give them a token
   res.send({
     token: tokenForUser(req.user),
-    username: req.user.username
+    username: req.user.username,
+    userId: req.user._id
   })
 }
 
@@ -21,6 +22,7 @@ exports.currentUser = function(req, res) {
   const user = {
     username: req.user.username,
     token: tokenForUser(req.user),
+    userId: req.user._id
   }
 
   res.send(user)
@@ -57,7 +59,7 @@ exports.signup = function(req, res, next) {
       res.json({ 
         token: tokenForUser(user), 
         username: user.username,
-        userId: user._id 
+        userId: user._id
       })
     });
   });

@@ -1,27 +1,27 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const chapterUpdateSchema = new Schema({
+    chapterTitle: {
+        type: String
+    },
+    chapterNumber: {
+        type: Number,
+        required: true
+    },
+    progress: {
+        type: Number,
+        required: true
+    }
+}, { timestamps: true });
+
 const updateSchema = new Schema({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-        required: true
-    },
-    bookId: {
-        type: Schema.Types.ObjectId,
-        ref: 'book',
-        required: true
-    },
-    date: {
-        type: Date,
-        default: new Date()
-    },
     dailyWordCount: {
         type: Number,
         default: 0
     },
+    chapterUpdates: [chapterUpdateSchema],
     notes: String,
 }, { timestamps: true });
 
-const Update = mongoose.model('update', updateSchema)
-module.exports = Update;
+module.exports = updateSchema;

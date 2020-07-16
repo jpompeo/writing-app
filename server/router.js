@@ -21,34 +21,45 @@ module.exports = function (app) {
   app.get('/auth/current_user', requireAuth, Authentication.currentUser);
 
   //add book
-  app.post('/users/:userId/book', requireAuth, (request, response) => {
+  app.post('/api/users/:userId/book', (request, response) => {
     //get book info from request
     const title = request.body.title;
     const description = request.body.description;
+    const expectedLength = request.body.expectedLength;
+    const deadline = request.body.deadline;
     const userId = request.params.userId;
 
     //create new book
-    const newBook = new Book({
+    const newBook = {
       title: title,
       description: description,
-      userId: userId
-    });
+      expectedLength: expectedLength,
+      deadline: deadline
+    };
 
-  //save book and send back response
-    newBook.save((error, bookCreated) => {
-      if (error) response.end(error)
+  
       //find user and add new book ID to books array
       User
-        .findOneAndUpdate({ _id: userId }, { $push: { books: [bookCreated._id] } }, { runValidators: true })
+        .findOneAndUpdate({ _id: userId }, { $push: { books: [newBook] } }, { runValidators: true })
         .exec((error, updatedUser) => {
           if (error) response.end(error)
-          response.send(bookCreated)
+          response.send(updatedUser)
         })
     })
-  });
+  
+    //get user
+    app.get('/api/users/:userId', (request, response) => {
+      //find user
+      User
+        .findById(request.params.userId)
+        .exec((error, user) => {
+          if (error) response.status(404).end(error)
+          response.send(user);
+        })
+    });
 
   //add goal
-  app.post('users/:userId/goals', (request, response) => {
+  app.post('/api/users/:userId/goals', (request, response) => {
     //get goal info from request
     const goalStartDate = request.body.goalStartDate;
     const goalEndDate = request.body.description;
@@ -78,10 +89,10 @@ module.exports = function (app) {
           response.send(goalCreated)
         })
     })
-  });
+  }); 
 
     //add update
-    // app.post('users/:userId/update', (request, response) => {
+    // app.post('/api/users/:userId/update', (request, response) => {
     //   //get update info from request
     //   const bookId = request.body.bookId;
     //   const dailyWordCount = request.body.dailyWordCount;

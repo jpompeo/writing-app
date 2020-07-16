@@ -1,0 +1,10 @@
+#goal-container {
+    box-sizing: border-box;
+    border: 5px solid turquoise;
+    height: 35vh;
+    margin: 10px auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

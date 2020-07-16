@@ -1,31 +1,57 @@
 import React from 'react';
-import { withRouter, Route, Switch } from "react-router-dom";
-import { fetchUser } from '../actions';
+import { Route, Switch } from "react-router-dom";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { fetchUser } from '../actions';
 import { Container, Row, Col } from 'react-bootstrap'
+import '../styles/App.css'
+
 import MainPage from './MainPage'
+import Nav from './Nav'
 import Signup from './auth/Signup';
 import Signin from './auth/Signin';
 import Login from './auth/Login';
-import { bindActionCreators } from "redux";
-import '../styles/App.css'
+import BubbleWordCount from './charts/BubbleWordCount'
+import BurnDownChart from './charts/BurnDownChart'
+import WeeklyDoughnut from './charts/WeeklyDoughnut'
+import LineGraph from './charts/LineGraph'
+import AddBookForm from './forms/AddBookForm'
+import AddChapterForm from './forms/AddChapterForm'
+import UpdateForm from './forms/UpdateForm'
+import StoryMap from './StoryMap'
 
 class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser();
   }
 
+  componentDidUpdate() {
+    console.log("APP UPDATED")
+    this.props.fetchUser();
+  }
+
   render() {
-    console.log("")
     return (
-      <Container className="app">
+      <Container id="app-container" fluid>
         <Row>
           <Col>
+          <Switch>
+            <Route path="/" component={Nav} />
+          </Switch>
+          {/* <Nav /> */}
             <Switch>
-              <Route exact path="/" component={MainPage} />
-              <Route exact path="/signup" component={Signup} />
-              <Route exact path="/signin" component={Signin} />
+              <Route exact path="/me" component={MainPage} />
+              {/* <Route exact path="/signup" component={Signup} />
+              <Route exact path="/signin" component={Signin} /> */}
               <Route exact path="/login" component={Login} />
+              <Route exact path="/me/addbook" component={AddBookForm} />
+              <Route exact path="/bubblechart" component={BubbleWordCount}/>
+              <Route exact path="/burndownchart" component={BurnDownChart}/>
+              <Route exact path="/linegraph" component={LineGraph}/>
+              <Route exact path="/doughnut" component={WeeklyDoughnut}/>
+              <Route exact path="/me/addchapter" component={AddChapterForm}/>
+              <Route exact path="/me/addupdate" component={UpdateForm}/>
+              <Route exact path="/me/storymap" component={StoryMap}/>
             </Switch>
           </Col>
         </Row>
@@ -34,9 +60,15 @@ class App extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+    return {
+      authenticatedUser: state.auth.authenticated
+    }
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchUser }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 

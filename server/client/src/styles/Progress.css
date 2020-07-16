@@ -1,0 +1,8 @@
+#progress-container {
+    box-sizing: border-box;
+    border: 5px solid gold;
+    height: 35vh;
+    margin: 10px auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

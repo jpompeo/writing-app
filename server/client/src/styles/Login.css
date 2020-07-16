@@ -1,3 +1,39 @@
-.button-break {
+/* .login-button {
+    display: inline-block;
+    margin: 2px;
+}
+
+.login-buttons {
+    margin: 0 auto;
+} */
+/* 
+.login-button {
+    text-align: right;
+} */
+
+.register-button {
     margin: 0 5px;
+}
+
+.login-buttons {
+    text-align: right;
+}
+
+.login-section {
+
+}
+
+.logout-button {
+    background-color: #999 !important;
+    border: #777 2px solid !important;
+}
+
+
+.logout-button:hover {
+    background-color: #777 !important;
+    border: #999 2px solid !important;
+}
+
+.logout-button-container {
+    text-align: right;
 }

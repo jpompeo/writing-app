@@ -1,16 +1,22 @@
 import axios from "axios";
-import { AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA } from './types';
+import { SET_CURRENT_BOOK, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA } from './types';
 
 
 
   // server address
 const ROOT_URL = 'http://localhost:5000/api';
 
+export function setCurrentBook(bookInfo) {
+ 
+  return {
+    type: SET_CURRENT_BOOK,
+    payload: bookInfo,
+  };
+}
+
 export function addBook(bookInfo) {
   const url = `${ROOT_URL}/users/${bookInfo.userId}/book`;
   const request = axios.post(url, bookInfo);
-
- 
 
   return {
     type: ADD_BOOK,
@@ -21,8 +27,6 @@ export function addBook(bookInfo) {
 export function addChapter(chapterInfo) {
   const url = `${ROOT_URL}/users/${chapterInfo.userId}/${chapterInfo.bookId}/chapter`;
   const request = axios.post(url, chapterInfo);
-
-  
 
   return {
     type: ADD_CHAPTER,

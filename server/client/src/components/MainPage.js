@@ -6,6 +6,7 @@ import Goals from './Goals';
 import Progress from './Progress';
 import Updates from './Updates';
 import { getUserData } from '../actions'
+import '../styles/MainPage.css'
 
 class MainPage extends Component {
   constructor(props) {
@@ -25,18 +26,18 @@ componentDidUpdate() {
   render() {
 
     return (
-      <Container fluid>
+      <Container id="main-page-container" fluid>
 
         {/* Progress */}
-        <Row>
-          <Col>
-            <Progress />
-          </Col>
-        </Row>
+        {/* <Row>
+          <Col> */}
+          {/* </Col>
+        </Row> */}
       
         <Row>
           {/* Goals  */}
           <Col md={7}>
+        <Progress />
             <Goals />
           </Col>
 

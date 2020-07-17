@@ -10,8 +10,18 @@
     border: 4px solid #F5D76B;
     border-radius: 7px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: hidden; 
+    overflow: hidden;
     background: #e3e3e3;
+    max-height: 100vh;
+    padding: 0;
+}
+
+.scrollbar-container {
+    overflow: hidden;
+    border-radius: 7px;
+    padding: 0;
+    border: 1px solid red;
 }
 
 h3.vertical-timeline-element-title {

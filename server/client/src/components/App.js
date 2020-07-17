@@ -35,7 +35,7 @@ class App extends React.Component {
     return (
       <Container id="app-container" fluid>
         <Row>
-          <Col>
+          <Col id="app-col">
           <Switch>
             <Route path="/" component={Nav} />
           </Switch>

@@ -216,7 +216,6 @@ let fakeDate = faker.date.future();
       .findOne({ username: request.params.username })
       .exec((error, user) => {
         if (error) response.status(404).end(error)
-        console.log("BACK END GET USER DATA", user)
         response.send(user);
       })
   });

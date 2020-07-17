@@ -29,17 +29,7 @@ class StoryMap extends Component {
     console.log("STORY MAP UPDATED", this.state)
   }
 
-  renderBooks() {
-    console.log("story map props", this.props)
-    if (this.props.user.books) {
-      console.log(this.props)
-      return this.props.user.books.map(book => {
-        return (
-          <option>{book.title}</option>
-        )
-      });
-    }
-  }
+ 
 
   renderChapters() {
 
@@ -79,21 +69,6 @@ class StoryMap extends Component {
       <Container id="storymap-container" fluid>
         <Row>
           <Col>
-            <Form id="choose-book-form" >
-              <Form.Group>
-                {/* <Form.Label></Form.Label> */}
-                <Form.Control
-                  as="select"
-                  defaultValue=""
-                  value={this.state.currentBookTitle}
-                  onChange={event => { console.log("EVENT FORM", event.target.value)
-                    this.setState({ currentBookTitle: event.target.value });
-                  }}>
-                  <option value="">Select Book...</option>
-                  {this.renderBooks()}
-                </Form.Control>
-              </Form.Group>
-            </Form>
             <div id="no-book">
               <p >Select a book to start mapping! Don't have any books yet? <Link to="/me/addbook">Add one here!</Link></p>
             </div>
@@ -111,7 +86,8 @@ class StoryMap extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.userData
+    user: state.userData,
+    currentBook: state.currentBook
   };
 }
 

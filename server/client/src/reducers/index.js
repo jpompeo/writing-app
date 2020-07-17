@@ -2,12 +2,13 @@ import { combineReducers } from "redux";
 import AuthReducer from './reducer-auth';
 import LoginStatusReducer from './reducer-loginStatus';
 import UserDataReducer from './user-data-reducer'
-import { reducer as formReducer } from 'redux-form';
+import CurrentBookReducer from './current-book-reducer'
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
   loggedIn: LoginStatusReducer,
-  userData: UserDataReducer
+  userData: UserDataReducer,
+  currentBook: CurrentBookReducer
 });
 
 export default rootReducer;

@@ -19,6 +19,7 @@ exports.signin = function(req, res) {
 }
 
 exports.currentUser = function(req, res) {
+  console.log("ARE YOU EVEN TRYING TO GET A USER", req.user._id)
   const user = {
     username: req.user.username,
     token: tokenForUser(req.user),

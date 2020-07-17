@@ -108,7 +108,7 @@ class AddBookForm extends Component {
                     <DatePicker
                         classname="deadline-date"
                         selected={this.state.deadline}
-                        onChange={date => { console.log(date); this.setState({ deadline: date }) }}
+                        onChange={date => { this.setState({ deadline: date }) }}
                     />
                 </Form.Group>
 
@@ -126,7 +126,6 @@ class AddBookForm extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log("STATE", state)
     return {
         userId: state.auth.userId,
     };

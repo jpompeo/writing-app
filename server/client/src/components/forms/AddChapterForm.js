@@ -26,7 +26,6 @@ class AddChapterForm extends Component {
             chapterNumbers.push(chapterNumber)
         }
 
-        console.log("CHAPTER NUMBERS", chapterNumbers)
         return chapterNumbers.map(chapter => {
             return (
                 <option>{chapter}</option>

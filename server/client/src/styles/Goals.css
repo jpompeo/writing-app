@@ -1,10 +1,14 @@
 #goal-container {
     box-sizing: border-box;
-    border: 5px solid turquoise;
-    height: 35vh;
-    margin: 10px auto;
+    /* border: 2px solid rgba(210, 106, 90, .5); */
+    border: 4px solid #DD8172;
+    /* height: 35vh; */
+    margin: 15px auto;
     overflow-y: auto;
     overflow-x: hidden;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: #e3e3e3;
+    border-radius: 7px;
+    /* box-shadow: 3px 3px 10px #BFC0C0; */
 }

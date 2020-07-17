@@ -11,8 +11,9 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AUTH_USER:
-      console.log("ACTION PAYLOAD", action.payload)
+      console.log("ACTION PAYLOAD AUTH USER PLEASE GOD", action.payload.data)
       if (action.payload.request.status == 200) {
+        
         return { ...state, authenticated: action.payload.data.token,
             username: action.payload.data.username, 
             userId: action.payload.data.userId

@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 const chapterUpdateSchema = new Schema({
     chapterTitle: {
+        type: String
+    },
+    bookTitle: {
         type: String
     },
     chapterNumber: {
@@ -20,6 +24,7 @@ const updateSchema = new Schema({
         type: Number,
         default: 0
     },
+    date: Date,
     chapterUpdates: [chapterUpdateSchema],
     notes: String,
 }, { timestamps: true });

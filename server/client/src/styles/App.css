@@ -1,4 +1,10 @@
 #app-container {
     padding: 0;
+    /* background-color: #FFFFEF; */
+    
+}
+
+* {
+    color: #4D4F4F;
 }
 

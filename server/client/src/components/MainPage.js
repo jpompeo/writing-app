@@ -13,41 +13,48 @@ class MainPage extends Component {
   }
 
   componentDidMount() {
-    this.props.getUserData(this.props.userId)
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",  this.props)
+  // this.props.getUserData('bestselling_author1')
+    
+    console.log("main page props", this.props.auth)
+}
+
+componentDidUpdate() {
+  console.log("main page updated props", this.props)
 }
 
   render() {
 
     return (
       <Container fluid>
-        <Row>
-          {/* Goals  */}
-          <Col md={6}>
-            <Goals />
-          </Col>
 
-          {/* Progress */}
-          <Col md={6}>
+        {/* Progress */}
+        <Row>
+          <Col>
             <Progress />
           </Col>
         </Row>
-
-        {/* Updates */}
+      
         <Row>
-          <Col>
-            <Updates />
+          {/* Goals  */}
+          <Col md={7}>
+            <Goals />
+          </Col>
+
+          {/* Updates */}
+          <Col md={5}>
+          <Updates />
           </Col>
         </Row>
-      </Container>
+
+        </Container>
+        
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-   user: state.userData,
-   userId: state.auth.userId,
+   user: state.userData
   };
 }
 

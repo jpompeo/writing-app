@@ -53,12 +53,6 @@ class Progress extends Component {
         this.renderTotalProgress = this.renderTotalProgress.bind(this);
     }
 
-    
-
-    componentDidMount() {
-        console.log("PROGRESS UPDAAAAAAAAAAAAAAAATED", this.props)
-    }
-
     renderTotalProgress() {
         //calculate chapter progress
         let chaptersTotal = this.state.book.chapters.length;
@@ -116,8 +110,7 @@ class Progress extends Component {
 
 function mapStateToProps(state) {
     return {
-     user: state.userData,
-     userId: state.auth.userId
+     user: state.userData
     };
   }
 

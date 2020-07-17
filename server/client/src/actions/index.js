@@ -10,9 +10,7 @@ export function addBook(bookInfo) {
   const url = `${ROOT_URL}/users/${bookInfo.userId}/book`;
   const request = axios.post(url, bookInfo);
 
-  request.then((response) => {
-    console.log("RESPONSE ADD BOOK", response)
-  });
+ 
 
   return {
     type: ADD_BOOK,
@@ -24,9 +22,7 @@ export function addChapter(chapterInfo) {
   const url = `${ROOT_URL}/users/${chapterInfo.userId}/${chapterInfo.bookId}/chapter`;
   const request = axios.post(url, chapterInfo);
 
-  request.then((response) => {
-    console.log("RESPONSE ADD CHAPTER", response)
-  });
+  
 
   return {
     type: ADD_CHAPTER,
@@ -34,13 +30,13 @@ export function addChapter(chapterInfo) {
   };
 }
 
-export function getUserData(userId) {
-  const url = `${ROOT_URL}/users/${userId}`;
+export function getUserData(username) {
+  const url = `${ROOT_URL}/users/${username}`;
   const request = axios.get(url);
 
-  // request.then((response) => {
-  //   console.log("RESPONSE GET USER INFO", response)
-  // });
+  request.then((response) => {
+    console.log("RESPONSE GET USER INFO", response)
+  });
 
   return {
     type: GET_USER_DATA,
@@ -51,7 +47,7 @@ export function getUserData(userId) {
 
 
 /////////////////// Authorization actions 
-
+/*
 
 // export const fetchMovies = (page = 1) => dispatch => {
 //   axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=a50dd974dc6bceb5358b37229983facc&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
@@ -153,12 +149,11 @@ export function registerUser(userInfo) {
 // };
 
 export function loginUser(userInfo) {
-  console.log("USER INFO", userInfo)
+  
   const request = axios.post('http://localhost:5000/auth/signin', userInfo)
 
   request.then(function (response) {
-    console.log("RESPONSE", response)
-    console.log("HIIIIIIIIIIIIIIIIII!!!!!!!!!!!!!!!!!!!!!!")
+    
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('username', response.data.username);
   })
@@ -208,3 +203,4 @@ export function logoutUser() {
     payload: ''
   };
 };
+*/

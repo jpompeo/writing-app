@@ -1,0 +1,24 @@
+#no-book {
+    display: inline-block;
+    font-size: 20px;
+    text-align: center;
+}
+
+#storymap-default-view {
+    padding: 20px;
+}
+
+#storymap-container {
+    border: 3px solid yellow;
+}
+
+#choose-book-form {
+    display: inline-block;
+    width: 25%;
+    margin: 20px;
+}
+
+/* #break {
+    width: 100%;
+    margin: 30px auto;
+} */

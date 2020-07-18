@@ -20,6 +20,7 @@ import AddBookForm from './forms/AddBookForm'
 import AddChapterForm from './forms/AddChapterForm'
 import UpdateForm from './forms/UpdateForm'
 import StoryMap from './StoryMap'
+import FakeData from './FakeData'
 
 class App extends React.Component {
   componentDidMount() {
@@ -53,6 +54,7 @@ class App extends React.Component {
               <Route exact path="/me/addchapter" component={AddChapterForm}/>
               <Route exact path="/me/addupdate" component={UpdateForm}/>
               <Route exact path="/me/storymap" component={StoryMap}/>
+              <Route exact path="/generate-fake-data" component={FakeData} />
             </Switch>
           </Col>
         </Row>

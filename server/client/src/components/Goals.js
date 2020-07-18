@@ -52,9 +52,9 @@ class Goals extends Component {
     }
 
     renderDailyGoals() {
-        return this.state.recurringGoals.map(goal => {
+        return this.state.recurringGoals.map((goal, index) => {
             return (
-                <li>{goal.quantity} {goal.item}s per {goal.timeline}</li>
+                <li key={index}>{goal.quantity} {goal.item}s per {goal.timeline}</li>
             )
         })
     }

@@ -20,51 +20,48 @@ class Updates extends Component {
   }
 
   renderUpdates() {
-    let userUpdates = this.props.user.updates;
-    if (userUpdates) {
-      let updates = _.sortBy(userUpdates, (update => {
-        let sortByDate = update.date || update.createdAt; return sortByDate;
+    //find updates for currently selected book
+    const currentBookUpdates = this.props.currentBook.updates;
+
+    if (currentBookUpdates) {
+      let updates = _.sortBy(currentBookUpdates, (update => {
+        let sortByDate = update.date || update.createdAt; 
+        return sortByDate;
       }))
 
       updates.reverse();
 
       return updates.map((update, index) => {
-        let sampleChapter = update.chapterUpdates[0];
-        let chapterBook = this.props.user.books.find(book => {
-          return book.title == sampleChapter.bookTitle
-        })
-        let chapterExpectedLength = chapterBook.chapters.find(chapter => {
-          return chapter.title = sampleChapter.chapterTitle;
-        }).expectedLength;
+        
+        let sampleChapter = update.chapterUpdates[Math.floor(Math.random() * update.chapterUpdates.length)];
 
-        let bookProgress = Math.round((update.dailyWordCount / chapterBook.expectedLength) * 100);
+        let bookProgress = Math.round((sampleChapter.progress / this.props.currentBook.expectedLength) * 100);
+
 
         if (index < 20) {
 
           return (
-            
-            <VerticalTimelineElement 
-            key={update._id}
-            className="vertical-timeline-element"
-            contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
-            contentArrowStyle={{ borderRight: '7px solid  #fff' }}
-            date={Moment(update.date || update.created).format('MMM D YYYY')}
-            iconStyle={{ background: '#6BBEC9', color: '#fff' }}
+
+            <VerticalTimelineElement
+              key={update._id}
+              className="vertical-timeline-element"
+              contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
+              contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+              date={Moment(update.date || update.created).format('MMM D YYYY')}
+              iconStyle={{ background: '#6BBEC9', color: '#fff' }}
             // icon={<WorkIcon />}
             >
-            <p className="update-subtitle">Updated Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}</p>
-            <hr />
-            <p className="update-title">{update.dailyWordCount} words written</p>
-            <hr />
-            <p className="update-text">
-              Completed {bookProgress > 0 ? bookProgress : 3}% more of {chapterBook.title}!
+              <p className="update-subtitle">Updated Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}</p>
+              <hr />
+              <p className="update-title">{sampleChapter.progress} words written</p>
+              <hr />
+              <p className="update-text">
+                Completed {bookProgress > 0 ? bookProgress : 3}% more of {this.props.currentBook.title}!
     </p>
-          </VerticalTimelineElement>
+            </VerticalTimelineElement>
 
-)
-}
-
-
+          )
+        }
 
       })
     }
@@ -87,20 +84,20 @@ class Updates extends Component {
     return (
       // <div className="scrollbar-container">
 
-        <Container id="update-container" fluid>
-          <Row>
-            <Col>
-        <SimpleBar style={{ maxHeight: 600 }}>
+      <Container id="update-container" fluid>
+        <Row>
+          <Col>
+            <SimpleBar style={{ maxHeight: 600 }}>
 
               <VerticalTimeline>
-              {this.renderUpdates()}
+                {this.renderUpdates()}
 
               </VerticalTimeline>
 
-      </SimpleBar>
-            </Col>
-          </Row>
-        </Container>
+            </SimpleBar>
+          </Col>
+        </Row>
+      </Container>
       // </div>
     )
   }
@@ -108,7 +105,6 @@ class Updates extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.userData,
     currentBook: state.currentBook
   };
 }

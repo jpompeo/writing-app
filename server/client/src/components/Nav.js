@@ -18,16 +18,25 @@ class Nav extends Component {
     }
 
     handleBookChange(event) {
-        //set current book value
-        this.setState({ selectedBook: event.target.value });
-
+        // event.preventDefault();
+        // console.log("Book selected:", event.target.value)
+        // //set current book value
+        // this.setState({ selectedBook: event.target.value }, () => {
+        //     console.log("Nav state set book to:", this.state.selectedBook)
+        // });
+console.log("Book selected in nav state", this.state.selectedBook)
         //find book object
         let currentBook = this.props.books.find(book => {
-            return book.title = this.state.selectedBook
+            console.log("Books being iterated in handleBookChange", book)
+            return book.title == this.state.selectedBook;
         })
+
+        console.log("Book object found, to be set to current book:", currentBook)
 
         //reset current book in store
         this.props.setCurrentBook(currentBook);
+
+        setTimeout(console.log("Updated nav props after book sent", this.props), 3000)
     }
 
     renderBooks() {
@@ -64,11 +73,12 @@ class Nav extends Component {
                                         {/* <Form.Label></Form.Label> */}
                                         <Form.Control
                                             as="select"
-                                            defaultValue=""
-                                            value={this.state.selectedBook}
+                                            value={this.props.selectedBook}
                                             onChange={event => {
-                                                this.handleBookChange(event)
-
+                                                
+                                                this.setState({selectedBook: event.target.value}, () => {
+                                                    this.handleBookChange(event)
+                                                })
                                             }}>
                                             <option value="">Select Book...</option>
                                             {this.renderBooks()}

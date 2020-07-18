@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Update = require('./update')
 const chapterSchema = require('./chapter')
+const updateSchema = require('./update')
 
 const bookSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     description: {
         type: String,
@@ -29,6 +31,7 @@ const bookSchema = new Schema({
         required: true
     },
     chapters: [chapterSchema],
+    updates: [updateSchema]
 }, { timestamps: true });
 
 module.exports = bookSchema;

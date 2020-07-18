@@ -6,9 +6,6 @@ const chapterUpdateSchema = new Schema({
     chapterTitle: {
         type: String
     },
-    bookTitle: {
-        type: String
-    },
     chapterNumber: {
         type: Number,
         required: true
@@ -16,13 +13,19 @@ const chapterUpdateSchema = new Schema({
     progress: {
         type: Number,
         required: true
+    },
+    expectedLength: {
+        type: String
     }
 }, { timestamps: true });
 
 const updateSchema = new Schema({
-    dailyWordCount: {
+    progress: {
         type: Number,
         default: 0
+    },
+    bookTitle: {
+        type: String
     },
     date: Date,
     chapterUpdates: [chapterUpdateSchema],

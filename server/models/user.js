@@ -21,8 +21,7 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
-  books: [bookSchema],
-  updates: [updateSchema]
+  books: [bookSchema]
 })
 
 UserSchema.methods.setPassword = function(password){

@@ -1,10 +1,26 @@
 import axios from "axios";
-import { SET_CURRENT_BOOK, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA } from './types';
+import { SET_CURRENT_BOOK, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
 
 
 
   // server address
 const ROOT_URL = 'http://localhost:5000/api';
+
+//for fake data
+
+export function generateFakeData(path) {
+  const url = ROOT_URL + path;
+  const request = axios.get(url);
+
+  request.then((response) => {
+    console.log("Fake Data Response: ", response)
+  })
+
+  return {
+    type: GENERATE_FAKE_DATA,
+    payload: request,
+  };
+}
 
 export function setCurrentBook(bookInfo) {
  

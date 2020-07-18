@@ -20,50 +20,56 @@ class Updates extends Component {
   }
 
   renderUpdates() {
-    //find updates for currently selected book
-    const currentBookUpdates = this.props.currentBook.updates;
-
-    if (currentBookUpdates) {
-      let updates = _.sortBy(currentBookUpdates, (update => {
-        let sortByDate = update.date || update.createdAt; 
-        return sortByDate;
-      }))
-
-      updates.reverse();
-
-      return updates.map((update, index) => {
-        
-        let sampleChapter = update.chapterUpdates[Math.floor(Math.random() * update.chapterUpdates.length)];
-
-        let bookProgress = Math.round((sampleChapter.progress / this.props.currentBook.expectedLength) * 100);
+    if (this.props.updates) {
 
 
-        if (index < 20) {
+      //find updates for currently selected book
+      const currentBookUpdates = this.props.updates.filter(update => {
+        return update.bookTitle === this.props.currentBook.title;
+      });
 
-          return (
+      if (currentBookUpdates) {
+        let updates = _.sortBy(currentBookUpdates, (update => {
+          let sortByDate = update.date || update.createdAt;
+          return sortByDate;
+        }))
 
-            <VerticalTimelineElement
-              key={update._id}
-              className="vertical-timeline-element"
-              contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
-              contentArrowStyle={{ borderRight: '7px solid  #fff' }}
-              date={Moment(update.date || update.created).format('MMM D YYYY')}
-              iconStyle={{ background: '#6BBEC9', color: '#fff' }}
-            // icon={<WorkIcon />}
-            >
-              <p className="update-subtitle">Updated Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}</p>
-              <hr />
-              <p className="update-title">{sampleChapter.progress} words written</p>
-              <hr />
-              <p className="update-text">
-                Completed {bookProgress > 0 ? bookProgress : 3}% more of {this.props.currentBook.title}!
+        updates.reverse();
+
+        return updates.map((update, index) => {
+
+          let sampleChapter = update.chapterUpdates[Math.floor(Math.random() * update.chapterUpdates.length)];
+
+          let bookProgress = Math.round((sampleChapter.progress / this.props.currentBook.expectedLength) * 100);
+
+
+          if (index < 20) {
+
+            return (
+
+              <VerticalTimelineElement
+                key={update._id}
+                className="vertical-timeline-element"
+                contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
+                contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+                date={Moment(update.date || update.created).format('MMM D YYYY')}
+                iconStyle={{ background: '#6BBEC9', color: '#fff' }}
+              // icon={<WorkIcon />}
+              >
+                <p className="update-subtitle">Updated Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}</p>
+                <hr />
+                <p className="update-title">{sampleChapter.progress} words written</p>
+                <hr />
+                <p className="update-text">
+                  Completed {bookProgress > 0 ? bookProgress : 3}% more of {this.props.currentBook.title}!
     </p>
-            </VerticalTimelineElement>
+              </VerticalTimelineElement>
 
-          )
-        }
+            )
+          }
 
-      })
+        })
+      }
     }
   }
 
@@ -105,7 +111,8 @@ class Updates extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentBook: state.currentBook
+    currentBook: state.currentBook,
+    updates: state.userData.updates
   };
 }
 

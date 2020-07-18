@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 
 const chapterUpdateSchema = new Schema({
+    bookTitle: {
+        type: String,
+        required: true
+    },
     chapterTitle: {
         type: String
     },

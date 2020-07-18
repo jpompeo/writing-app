@@ -30,8 +30,7 @@ const bookSchema = new Schema({
         type: Date,
         required: true
     },
-    chapters: [chapterSchema],
-    updates: [updateSchema]
+    chapters: [chapterSchema]
 }, { timestamps: true });
 
 module.exports = bookSchema;

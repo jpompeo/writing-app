@@ -26,7 +26,8 @@ module.exports = function (app) {
   app.get('/api/generate-fake-user/:username', (request, response) => {
     const fakeAuthor = new User({
       username: request.params.username,
-      streakDays: Math.round(Math.random() * 14)
+      streakDays: Math.round(Math.random() * 14),
+      totalWordCount: Math.round(Math.random() * 30000)
     })
     fakeAuthor.save((error, addedUser) => {
       if (error) response.end(error)
@@ -53,17 +54,15 @@ module.exports = function (app) {
         "During the railroad boom, a group of homesteaders tries to keep up with a changing society."
       ]
       let fakeDate = faker.date.future();
+      const fakeBook = {
+        title: titles[i],
+        description: summaries[i],
+        expectedLength: bookLengths[Math.floor(Math.random() * bookLengths.length)],
+        deadline: fakeDate,
+        chapters: []
+      }
 
-      let fakeBook = {
-      title: titles[i],
-      description: summaries[i],
-      expectedLength: bookLengths[Math.floor(Math.random() * bookLengths.length)],
-      deadline: fakeDate,
-      chapters: []
-    };
-
-    fakeBook.progress = Math.round(Math.random() * (fakeBook.expectedLength / 2))
-
+      fakeBook.progress = Math.round(Math.random() * fakeBook.expectedLength / 2)
       fakeBooks.push(fakeBook)
     }
 
@@ -94,12 +93,12 @@ module.exports = function (app) {
       let chapterTitles = [
         "An Unexpected Letter",
         "The Vanishing Glass",
-        "The Letters from No One",
-        "The Keeper of Keys",
-        "Lighter Than A Feather",
-        "An Empty Ink Bottle",
-        "Use a Pebble",
-        "Partings, and A Meeting",
+        "	The Letters from No One",
+        "	The Keeper of Keys",
+        " Lighter Than A Feather",
+        "	An Empty Ink Bottle",
+        " Use a Pebble",
+        "	Partings, and A Meeting",
         "The End of a Legend",
         "The Midnight Duel",
         "A Storm of Light",
@@ -120,7 +119,7 @@ module.exports = function (app) {
           completed: completedStatus[Math.floor(Math.random() * completedStatus.length)]
         })
       }
-      book.chapters.forEach((chapter) => {
+      book.chapters.forEach(chapter => {
         chapter.progress = Math.round(Math.random() * chapter.expectedLength);
         if (chapter.progress >= chapter.expectedLength) {
           chapter.completed = true;
@@ -137,84 +136,60 @@ module.exports = function (app) {
 
   })
 
-  app.get('/api/generate-fake-updates/:username/', (request, response) => {
+  app.get('/api/generate-fake-updates/:username', (request, response) => {
     let fakeUser = request.params.username;
-    
-    
-    User.findOneAndUpdate({username: fakeUser}).exec((error, user) => {
-    
-        const updatedBooks = user.books.map((book) => {
-          let fakeChapters = []
-          let fakeUpdates = []
-          let fakeChapterUpdates = []
-          let newUserBookArray = []
-          
-          let fakeProgress = Math.round(Math.random() * chapter.expectedLength)
-          fakeChapters.push({
-            bookTitle: book.title,
-            chapterTitle: chapter.title,
-            chapterNumber: chapter.number,
-            progress: fakeProgress,
-            expectedLength: chapter.expectedLength
+    let fakeUpdates = []
+    let fakeChapterUpdates = []
+    let fakeChapters = []
+
+    User
+      .findOne({ username: fakeUser })
+      .exec((error, user) => {
+        user.books.forEach(book => {
+          book.chapters.forEach(chapter => {
+
+            let fakeProgress = Math.round(Math.random() * chapter.expectedLength)
+            fakeChapters.push({
+              bookTitle: book.title,
+              chapterTitle: chapter.title,
+              chapterNumber: chapter.number,
+              progress: fakeProgress,
+              expectedLength: chapter.expectedLength
+            })
           })
           for (let i = 0; i < 3; i++) {
-            console.log("fake chapter updates", i)
             fakeChapterUpdates.push(fakeChapters[Math.floor(Math.random() * fakeChapters.length)])
           }
 
           for (let i = 0; i < 20; i++) {
-            console.log("fake update number", i)
             let fakeUpdateDate = faker.date.past()
             fakeUpdates.push({
               bookTitle: book.title,
+              expectedLength: book.expectedLength,
               progress: Math.round(Math.random() * 2000),
               chapterUpdates: fakeChapterUpdates,
               date: fakeUpdateDate
             })
-
           }
-          book.updates.push(fakeUpdates);
-console.log("FAKE UPDATES", fakeUpdates[0].chapterUpdates)
-          return book
-          
-          });
-          
-            user.books = updatedBooks;
-            user.save((error, user) => {
-console.log("BOOK ARRAY!!!!!!!!!!!!!!!!!111",updatedBooks)
-              if (error) response.send(error)
-              response.send("updates added")
-            })
-         
-         
-         
+
+          if (error) {
+            response.send(error)
+          } else {
+
+            User
+              .findOneAndUpdate({ username: fakeUser }, { updates: fakeUpdates }, { runValidators: true })
+              .exec((error, updatedUser) => {
+                if (error) {
+                  response.send(error);
+                } else {
+
+                  response.send("updates added")
+                }
+              })
+          }
         })
-        for (let i = 0; i < 3; i++) {
-          fakeChapterUpdates.push(fakeChapters[Math.floor(Math.random() * fakeChapters.length)])
-        }
-
-        for (let i = 0; i < 20; i++) {
-          let fakeUpdateDate = faker.date.past()
-          fakeUpdates.push({
-            bookTitle: book.title,
-            expectedLength: book.expectedLength,
-            dailyWordCount: Math.round(Math.random() * 2000),
-            chapterUpdates: fakeChapterUpdates,
-            date: fakeUpdateDate
-          })
-      }
-      
-    if (error) {
-      response.send(error)
-    } else {
-
-      User
-      .findOneAndUpdate({ username: fakeUser }, { updates: fakeUpdates }, { runValidators: true })
-      .exec((error, updatedUser) => {
-        if (error) response.send(error);
-        response.send("updates added")
-      })
-  
+      });
+  })
 
   //add book
   app.post('/api/users/:userId/book', (request, response) => {

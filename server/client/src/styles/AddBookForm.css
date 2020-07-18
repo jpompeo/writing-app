@@ -34,9 +34,20 @@
 }
 
 input {
-    color: #7E8181;
+    color: #BFC0C0;
     border-radius: 5px; 
     border: solid 1px #dadcde;
 }
 
+.optional-info {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 12px;
+    margin: 0 10px;
+}
 
+.form-header {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto 30px;
+}

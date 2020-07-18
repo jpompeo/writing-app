@@ -20,6 +20,10 @@ const chapterUpdateSchema = new Schema({
     },
     expectedLength: {
         type: Number
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -36,6 +38,8 @@ class AddChapterForm extends Component {
     render() {
         return (
             <Form id="add-chapter-form" onSubmit={event => { event.preventDefault()}}>
+                <h3 className="form-header">
+                    {this.props.currentBook.title ? `Add chapter to ${this.props.currentBook.title}` : "Select a book to add a new chapter" }</h3>
                 <Form.Group>
                     <Form.Label>What number chapter is it?</Form.Label>
                         <Form.Control
@@ -116,4 +120,17 @@ class AddChapterForm extends Component {
     }
 }
 
-export default AddChapterForm;
+function mapStateToProps(state) {
+    return {
+     currentBook: state.currentBook
+    };
+  }
+  
+//   function mapDispatchToProps(dispatch) {
+//       return bindActionCreators(
+//           { getUserData },
+//           dispatch
+//       );
+//     }
+  
+  export default connect(mapStateToProps, null)(AddChapterForm);

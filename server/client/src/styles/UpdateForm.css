@@ -38,3 +38,8 @@ input {
     border: solid 1px #dadcde;
 }
 
+.form-header {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto 30px;
+}

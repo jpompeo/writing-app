@@ -53,7 +53,7 @@ class AddBookForm extends Component {
     render() {
         return (
             <Form id="add-book-form" onSubmit={event => { event.preventDefault() }}>
-                {/* <h1>Add a new book</h1> */}
+                <h3 className="form-header">Add a new book</h3>
                 <Form.Group >
                     <Form.Label>What is the name of your book?</Form.Label>
                     <Form.Control
@@ -110,6 +110,26 @@ class AddBookForm extends Component {
                         selected={this.state.deadline}
                         onChange={date => { this.setState({ deadline: date }) }}
                     />
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label className="date-label">When did you start?</Form.Label>
+                    <DatePicker
+                        classname="start-date"
+                        selected={this.state.deadline}
+                        onChange={date => { this.setState({ deadline: date }) }}
+                    /><span className="optional-info">optional - default today</span>
+                </Form.Group>
+
+                <Form.Group >
+                    <Form.Label>How many words have you written so far? <span className="optional-info">optional - default 0</span></Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="0"
+                        value={this.state.title}
+                        onChange={event => {
+                            this.setState({ title: event.target.value });
+                        }} />
                 </Form.Group>
 
                 <Form.Group className="form-button-container">

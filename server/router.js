@@ -53,13 +53,15 @@ module.exports = function (app) {
         "A man moves to a rural town to get away from his troubles but trouble keeps finding him.",
         "During the railroad boom, a group of homesteaders tries to keep up with a changing society."
       ]
-      let fakeDate = faker.date.future();
+      let fakeDeadline = faker.date.future();
+      let fakeStartDate = faker.date.past();
       const fakeBook = {
         title: titles[i],
         description: summaries[i],
         expectedLength: bookLengths[Math.floor(Math.random() * bookLengths.length)],
-        deadline: fakeDate,
-        chapters: []
+        deadline: fakeDeadline,
+        chapters: [],
+        startDate: fakeStartDate
       }
 
       fakeBook.progress = Math.round(Math.random() * fakeBook.expectedLength / 2)
@@ -163,12 +165,14 @@ module.exports = function (app) {
 
           for (let i = 0; i < 20; i++) {
             let fakeUpdateDate = faker.date.past()
+            let completedStatus = [false, true]
             fakeUpdates.push({
               bookTitle: book.title,
               expectedLength: book.expectedLength,
               progress: Math.round(Math.random() * 2000),
               chapterUpdates: fakeChapterUpdates,
-              date: fakeUpdateDate
+              date: fakeUpdateDate,
+              completed: completedStatus[Math.floor(Math.random() * completedStatus.length)]
             })
           }
 

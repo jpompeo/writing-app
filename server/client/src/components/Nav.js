@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import { bindActionCreators } from "redux";
 import { Col, Form, Container, Row, Navbar } from 'react-bootstrap';
 import '../styles/Nav.css'
@@ -24,7 +25,7 @@ class Nav extends Component {
         // this.setState({ selectedBook: event.target.value }, () => {
         //     console.log("Nav state set book to:", this.state.selectedBook)
         // });
-console.log("Book selected in nav state", this.state.selectedBook)
+        console.log("Book selected in nav state", this.state.selectedBook)
         //find book object
         let currentBook = this.props.books.find(book => {
             console.log("Books being iterated in handleBookChange", book)
@@ -60,8 +61,9 @@ console.log("Book selected in nav state", this.state.selectedBook)
                         <Col lg={4} id="logo-container" className="my-auto">
 
                             <div id="header-logo">
-
-                                <h1>Write Track</h1>
+                                <Link to="/me">
+                                    <h1>Write Track</h1>
+                                </Link>
                             </div>
                         </Col>
 
@@ -75,8 +77,8 @@ console.log("Book selected in nav state", this.state.selectedBook)
                                             as="select"
                                             value={this.props.selectedBook}
                                             onChange={event => {
-                                                
-                                                this.setState({selectedBook: event.target.value}, () => {
+
+                                                this.setState({ selectedBook: event.target.value }, () => {
                                                     this.handleBookChange(event)
                                                 })
                                             }}>

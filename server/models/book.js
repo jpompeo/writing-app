@@ -22,6 +22,10 @@ const bookSchema = new Schema({
         type: Number,
         default: 0
     },
+    startDate: {
+        type: Date,
+        default: new Date()
+    },
     completed: {
         type: Boolean,
         default: false

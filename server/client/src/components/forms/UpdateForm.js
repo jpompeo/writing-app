@@ -22,6 +22,7 @@ class UpdateForm extends Component {
     render() {
         return (
             <Form id="update-form" onSubmit={event => { event.preventDefault()}}>
+                <h3 className="form-header">Add updates for {this.props.currentBook.title}</h3>
                 <Form.Group>
                     <Form.Label>What number chapter is it?</Form.Label>
                         <Form.Control
@@ -102,4 +103,19 @@ class UpdateForm extends Component {
     }
 }
 
-export default UpdateForm;
+function mapStateToProps(state) {
+    return {
+     currentBook: state.currentBook
+    };
+  }
+  
+//   function mapDispatchToProps(dispatch) {
+//       return bindActionCreators(
+//           { getUserData },
+//           dispatch
+//       );
+//     }
+  
+  export default connect(mapStateToProps, null)(UpdateForm);
+  
+  

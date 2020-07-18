@@ -20,6 +20,8 @@ class Updates extends Component {
   }
 
   renderUpdates() {
+    if (this.props.currentBook.title) {
+console.log("THIS PROPS CURRENT BOOK (UPDATES)", this.props.currentBook)
     if (this.props.updates) {
 
 
@@ -50,18 +52,19 @@ class Updates extends Component {
               <VerticalTimelineElement
                 key={update._id}
                 className="vertical-timeline-element"
-                contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
+                contentStyle={{ background: '#F5D76B', color: '#fff', border: '#fff solid 1px' }}
                 contentArrowStyle={{ borderRight: '7px solid  #fff' }}
                 date={Moment(update.date || update.created).format('MMM D YYYY')}
                 iconStyle={{ background: '#6BBEC9', color: '#fff' }}
               // icon={<WorkIcon />}
               >
-                <p className="update-subtitle">Updated Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}</p>
+                
+                <p className="update-subtitle">{sampleChapter.completed ? `COMPLETED Chapter ${sampleChapter.chapterNumber}: ${sampleChapter.chapterTitle}!` : `Updated Chapter ${sampleChapter.chapterNumber}: ${sampleChapter.chapterTitle}`}</p>
                 <hr />
                 <p className="update-title">{sampleChapter.progress} words written</p>
                 <hr />
                 <p className="update-text">
-                  Completed {bookProgress > 0 ? bookProgress : 3}% more of {this.props.currentBook.title}!
+                  Completed {bookProgress > 0 ? bookProgress : 3}% more of your book!
     </p>
               </VerticalTimelineElement>
 
@@ -71,6 +74,24 @@ class Updates extends Component {
         })
       }
     }
+  } else {
+    return (
+
+      <VerticalTimelineElement
+        // key={}
+        className="vertical-timeline-element"
+        contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
+        contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+        date={Moment(new Date()).format('MMM D YYYY')}
+        iconStyle={{ background: '#6BBEC9', color: '#fff' }}
+        >
+        <hr />
+        <p className="update-title">Select a book to view recent updates!</p>
+        <hr />
+      </VerticalTimelineElement>
+
+    )
+  }
   }
 
   componentDidMount() {

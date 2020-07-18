@@ -36,13 +36,13 @@ componentDidUpdate() {
       
         <Row>
           {/* Goals  */}
-          <Col md={7}>
+          <Col md={8}>
         <Progress />
             <Goals />
           </Col>
 
           {/* Updates */}
-          <Col md={5}>
+          <Col md={4}>
           <Updates />
           </Col>
         </Row>

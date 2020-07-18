@@ -149,16 +149,19 @@ let fakeDate = faker.date.future();
             bookTitle: book.title,
             chapterTitle: chapter.title,
             chapterNumber: chapter.number,
-            progress: fakeProgress
+            progress: fakeProgress,
+            expectedLength: chapter.expectedLength
           })
         })
-        for (let i = 0; i < fakeChapters.length / 2; i++) {
+        for (let i = 0; i < 3; i++) {
           fakeChapterUpdates.push(fakeChapters[Math.floor(Math.random() * fakeChapters.length)])
         }
 
         for (let i = 0; i < 20; i++) {
           let fakeUpdateDate = faker.date.past()
           fakeUpdates.push({
+            bookTitle: book.title,
+            expectedLength: book.expectedLength,
             dailyWordCount: Math.round(Math.random() * 2000),
             chapterUpdates: fakeChapterUpdates,
             date: fakeUpdateDate

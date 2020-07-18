@@ -149,14 +149,13 @@ module.exports = function (app) {
           let fakeChapterUpdates = []
           let newUserBookArray = []
           
-          book.chapters.forEach(chapter => {
-            let fakeProgress = Math.round(Math.random() * chapter.expectedLength)
-            fakeChapters.push({
-              chapterTitle: chapter.title,
-              chapterNumber: chapter.number,
-              progress: fakeProgress,
-              expectedLength: chapter.expectedLength
-            })
+          let fakeProgress = Math.round(Math.random() * chapter.expectedLength)
+          fakeChapters.push({
+            bookTitle: book.title,
+            chapterTitle: chapter.title,
+            chapterNumber: chapter.number,
+            progress: fakeProgress,
+            expectedLength: chapter.expectedLength
           })
           for (let i = 0; i < 3; i++) {
             console.log("fake chapter updates", i)
@@ -190,7 +189,30 @@ console.log("BOOK ARRAY!!!!!!!!!!!!!!!!!111",updatedBooks)
          
          
         })
-        
+        for (let i = 0; i < 3; i++) {
+          fakeChapterUpdates.push(fakeChapters[Math.floor(Math.random() * fakeChapters.length)])
+        }
+
+        for (let i = 0; i < 20; i++) {
+          let fakeUpdateDate = faker.date.past()
+          fakeUpdates.push({
+            bookTitle: book.title,
+            expectedLength: book.expectedLength,
+            dailyWordCount: Math.round(Math.random() * 2000),
+            chapterUpdates: fakeChapterUpdates,
+            date: fakeUpdateDate
+          })
+      }
+      
+    if (error) {
+      response.send(error)
+    } else {
+
+      User
+      .findOneAndUpdate({ username: fakeUser }, { updates: fakeUpdates }, { runValidators: true })
+      .exec((error, updatedUser) => {
+        if (error) response.send(error);
+        response.send("updates added")
       })
   
 

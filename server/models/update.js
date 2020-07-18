@@ -15,7 +15,7 @@ const chapterUpdateSchema = new Schema({
         required: true
     },
     expectedLength: {
-        type: String
+        type: Number
     }
 }, { timestamps: true });
 
@@ -25,8 +25,10 @@ const updateSchema = new Schema({
         default: 0
     },
     bookTitle: {
-        type: String
+        type: String,
+        required: true
     },
+    expectedLength: String,
     date: Date,
     chapterUpdates: [chapterUpdateSchema],
     notes: String,

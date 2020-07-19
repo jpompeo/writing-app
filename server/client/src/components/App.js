@@ -12,6 +12,7 @@ import Nav from './Nav'
 // import Signup from './auth/Signup';
 // import Signin from './auth/Signin';
 // import Login from './auth/Login';
+import MixChart from './charts/MixChart'
 import BubbleWordCount from './charts/BubbleWordCount'
 import BurnDownChart from './charts/BurnDownChart'
 import WeeklyDoughnut from './charts/WeeklyDoughnut'
@@ -55,6 +56,7 @@ class App extends React.Component {
               <Route exact path="/me/addupdate" component={UpdateForm}/>
               <Route exact path="/me/storymap" component={StoryMap}/>
               <Route exact path="/generate-fake-data" component={FakeData} />
+              <Route exact path="/mixchart" component={MixChart} />
             </Switch>
           </Col>
         </Row>

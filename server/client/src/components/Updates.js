@@ -21,9 +21,7 @@ class Updates extends Component {
 
   renderUpdates() {
     if (this.props.currentBook.title) {
-console.log("THIS PROPS CURRENT BOOK (UPDATES)", this.props.currentBook)
     if (this.props.updates) {
-
 
       //find updates for currently selected book
       const currentBookUpdates = this.props.updates.filter(update => {
@@ -52,7 +50,7 @@ console.log("THIS PROPS CURRENT BOOK (UPDATES)", this.props.currentBook)
               <VerticalTimelineElement
                 key={update._id}
                 className="vertical-timeline-element"
-                contentStyle={{ background: '#F5D76B', color: '#fff', border: '#fff solid 1px' }}
+                contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
                 contentArrowStyle={{ borderRight: '7px solid  #fff' }}
                 date={Moment(update.date || update.created).format('MMM D YYYY')}
                 iconStyle={{ background: '#6BBEC9', color: '#fff' }}

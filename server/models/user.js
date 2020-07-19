@@ -21,6 +21,9 @@ const UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  dailyGoal: {
+    type: Number,
+  },
   books: [bookSchema],
   updates: [updateSchema]
 })

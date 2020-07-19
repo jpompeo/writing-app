@@ -20,64 +20,7 @@ class MixChart extends Component {
 
         if (currentBook.title && updates) {
 
-            //for line description
-            const plugins = [{
-                afterDraw: (chartInstance, easing) => {
-                    const ctx = chartInstance.chart.ctx;
-                    ctx.fillText("This text drawn by a plugin", 100, 100);
-                }
-            }];
-
-            //chart configuration
-            const options = {
-                responsive: true,
-                tooltips: {
-                    mode: 'label'
-                },
-                elements: {
-                    line: {
-                        fill: false
-                    }
-                },
-                scales: {
-                    xAxes: [
-                        {
-                            display: true,
-                            gridLines: {
-                                display: false
-                            },
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                        }
-                    ],
-                    yAxes: [
-                        {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            id: 'y-axis-1',
-                            gridLines: {
-                                display: false
-                            },
-                            labels: {
-                                show: true
-                            }
-                        },
-                        {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            id: 'y-axis-2',
-                            gridLines: {
-                                display: false
-                            },
-                            labels: {
-                                show: true
-                            }
-                        }
-                    ]
-                }
-            };
-
+            
             // calculate data needed for chart //
 
             //get updates for current book
@@ -138,6 +81,87 @@ class MixChart extends Component {
             let actualData = sortedUpdates.map(update => {
                 return update.progress;
             });
+
+            //date labels for bars
+            const barDates = sortedUpdates.map(update => {
+                return Moment(update.date || update.created).format('MMM DD')
+            })
+
+            //for line description
+            const plugins = [{
+                afterDraw: (chartInstance, easing) => {
+                    const ctx = chartInstance.chart.ctx;
+                    ctx.fillText("This text drawn by a plugin", 100, 100);
+                }
+            }];
+
+            //chart configuration
+            const options = {
+                responsive: true,
+                tooltips: {
+                    mode: 'label'
+                },
+                elements: {
+                    line: {
+                        fill: false
+                    }
+                },
+                scales: {
+                    xAxes: [
+                        {
+                            display: true,
+                            gridLines: {
+                                display: false
+                            },
+                            labels: [...barDates],
+                        }
+                    ],
+                    yAxes: [{
+
+                        ticks: {
+                            suggestedMin: 0
+                        }
+                          },
+                        {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            id: 'y-axis-1',
+                            gridLines: {
+                                display: false
+                            },
+                            labels: {
+                                show: true
+                            }
+                        },
+                        {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-2',
+                            gridLines: {
+                                display: false
+                            },
+                            labels: {
+                                show: true
+                            }
+                        },
+                        {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-3',
+                            gridLines: {
+                                display: false
+                            },
+                            labels: {
+                                show: true
+                            }
+                        }
+                    ]
+                }
+            };
+
 
             
             //chart data

@@ -14,14 +14,11 @@ class MainPage extends Component {
   }
 
   componentDidMount() {
-  // this.props.getUserData('bestselling_author1')
-    
-    console.log("main page props", this.props.auth)
+  this.props.getUserData('bestselling_author1')
+  
 }
 
-componentDidUpdate() {
-  console.log("main page updated props", this.props)
-}
+
 
   render() {
 
@@ -36,13 +33,13 @@ componentDidUpdate() {
       
         <Row>
           {/* Goals  */}
-          <Col md={7}>
+          <Col md={6}>
         <Progress />
-            <Goals />
+            {/* <Goals /> */}
           </Col>
 
           {/* Updates */}
-          <Col md={5}>
+          <Col md={6}>
           <Updates />
           </Col>
         </Row>

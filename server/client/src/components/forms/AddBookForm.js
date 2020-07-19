@@ -13,11 +13,13 @@ class AddBookForm extends Component {
         super(props)
 
         this.state = {
-            userId: '5f0fb6ea99e55b48642fb54a',
             title: '',
             description: '',
             expectedLength: 0,
             deadline: '',
+            startDate: '',
+            totalWordCount: 0,
+            dailyGoal: 0
         }
         this.sendBook = this.sendBook.bind(this);
     }
@@ -30,16 +32,20 @@ class AddBookForm extends Component {
         const description = this.state.description;
         const expectedLength = this.state.expectedLength;
         const deadline = this.state.deadline;
+        const startDate = this.state.startDate;
 
         // check if all fields were completed 
         if (title && description && expectedLength && deadline) {
 
             const bookInfo = {
-                userId: this.props.userId,
-                title,
-                description,
-                expectedLength,
-                deadline,
+                username: this.props.username,
+                title: title,
+                description: description,
+                expectedLength: expectedLength,
+                deadline: deadline,
+                startDate: startDate,
+                totalWordCount: this.state.totalWordCount,
+                dailyGoal: this.state.dailyGoal
             }
 
             addBook(bookInfo)
@@ -87,7 +93,7 @@ class AddBookForm extends Component {
                         onChange={event => {
                             this.setState({ expectedLength: event.target.value });
                         }}>
-                        <option value="">Word Count...</option>
+                        <option value="">Book Length...</option>
                         <option>10000</option>
                         <option>20000</option>
                         <option>30000</option>
@@ -103,6 +109,37 @@ class AddBookForm extends Component {
                     </Form.Control>
                 </Form.Group>
 
+                <Form.Group >
+                    <Form.Label>How many words have you written so far? <span className="optional-info">optional - default 0</span></Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="0"
+                        value={this.state.totalWordCount}
+                        onChange={event => {
+                            this.setState({ totalWordCount: event.target.value });
+                        }} />
+                </Form.Group>
+
+                <Form.Group >
+                    <Form.Label>Set a daily writing goal</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="word count"
+                        value={this.state.dailyGoal}
+                        onChange={event => {
+                            this.setState({ dailyGoal: event.target.value });
+                        }} />
+                </Form.Group>
+
+                <Form.Group>
+                    <Form.Label className="date-label">When did you start?</Form.Label>
+                    <DatePicker
+                        classname="start-date"
+                        selected={this.state.startDate}
+                        onChange={date => { this.setState({ startDate: date }) }}
+                    /><span className="optional-info">optional - default today</span>
+                </Form.Group>
+
                 <Form.Group>
                     <Form.Label className="date-label">When do you plan to finish?  </Form.Label>
                     <DatePicker
@@ -110,26 +147,6 @@ class AddBookForm extends Component {
                         selected={this.state.deadline}
                         onChange={date => { this.setState({ deadline: date }) }}
                     />
-                </Form.Group>
-
-                <Form.Group>
-                    <Form.Label className="date-label">When did you start?</Form.Label>
-                    <DatePicker
-                        classname="start-date"
-                        selected={this.state.deadline}
-                        onChange={date => { this.setState({ deadline: date }) }}
-                    /><span className="optional-info">optional - default today</span>
-                </Form.Group>
-
-                <Form.Group >
-                    <Form.Label>How many words have you written so far? <span className="optional-info">optional - default 0</span></Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="0"
-                        value={this.state.title}
-                        onChange={event => {
-                            this.setState({ title: event.target.value });
-                        }} />
                 </Form.Group>
 
                 <Form.Group className="form-button-container">
@@ -147,7 +164,8 @@ class AddBookForm extends Component {
 
 function mapStateToProps(state) {
     return {
-        userId: state.auth.userId,
+        username: state.userData.username,
+        currentBook: state.currentBook
     };
 }
 

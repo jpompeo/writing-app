@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Link } from 'react-router-dom';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
@@ -10,6 +11,7 @@ import { Bar } from 'react-chartjs-2';
 import _ from 'lodash';
 import Moment from 'moment'
 import MixChart from './charts/MixChart'
+import LineGraph from './charts/LineGraph'
 
 
 class Progress extends Component {
@@ -27,6 +29,7 @@ class Progress extends Component {
         this.handleArrowClick = this.handleArrowClick.bind(this);
         this.renderPage = this.renderPage.bind(this);
         this.renderProjections = this.renderProjections.bind(this);
+        this.renderComparison = this.renderComparison.bind(this);
     }
 
     // for pagination
@@ -56,11 +59,30 @@ renderPage() {
         } else if (currentPage === 2) {
             return this.renderBurnDownChart();
         } else if (currentPage === 3) {
-            return this.renderProjections();
+            return this.renderComparison();
+        // } else if (currentPage === 4) {
+        //     return this.renderProjections();
         }
     } else {
         return (
-            <h1 className="chart-header">Select a book</h1>
+            <div className="chart-zero-view">
+
+            <h1 className="chart-header">Select a book to view your stats!</h1>
+            <p>Haven't started tracking yet? < Link id="progress-add-book-link" to="/me/addbook">Get started here!</Link>
+            </p>
+            </div>
+        )
+    }
+}
+
+//Comparisons - actual, average, goal
+renderComparison() {
+    let currentBook = this.props.currentBook;
+    let updates = this.props.updates;
+
+    if (currentBook.title) {
+        return (
+            <LineGraph />
         )
     }
 }
@@ -115,7 +137,13 @@ renderBurnDownChart() {
             //to alternate colors
             const graphColors = barDisplay.map((bar, index) => {
                 let even = index % 2;
-                return even ? "#979C9C" : "#DD8172";
+                return even ? "#979C9C" : "rgba(221, 129, 114, .7)";
+            })
+
+            //to alternate border colors
+            const graphBorderColors = barDisplay.map((bar, index) => {
+                let even = index % 2;
+                return even ? "#4D4F4F" : "rgba(221, 129, 114, 1)";
             })
 
             //full data to pass to graph
@@ -125,7 +153,7 @@ renderBurnDownChart() {
                     {
                         label: 'Word Count',
                         backgroundColor: ['#979C9C', ...graphColors],
-                        borderColor: 'rgba(0,0,0,1)',
+                        borderColor: ['#4D4F4F', ...graphBorderColors],
                         borderWidth: 2,
                         data: [currentBook.expectedLength, ...barDisplay, null]
                     }
@@ -180,17 +208,17 @@ renderTotalProgress() {
                     label: 'Overall Progress',
                     fill: true,
                     lineTension: 0.5,
-                    backgroundColor: ['#F5D76B', '#979C9C'],
-                    borderColor: ['#979C9C', '#979C9C'],
-                    borderWidth: 2,
-                    data: [bookTotalProgress, bookExpectedLength]
+                    backgroundColor: ['rgba(252, 171, 58 , .4)', 'rgba(77, 79, 79, .7)', ],
+                    borderColor: ['rgba(252, 171, 58 , 1)', 'rgba(77, 79, 79, .8)'],
+                    borderWidth: [3],
+                    data: [bookTotalProgress, bookExpectedLength ]
                 }
             ],
             legend: {
                 display: false
             }
         }
-
+        // rgba(230, 204, 110,.9)
         // render doughnut chart 
         return (
             <React.Fragment>
@@ -237,7 +265,7 @@ renderChapterProgress() {
 //final render of component
 render() {
     return (
-        <Container id="progress-container" >
+        <Container id="progress-container" fluid>
             <Row>
                 <Col id="progress-burndown-col">
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_CURRENT_BOOK, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
+import { SET_CURRENT_BOOK, SEND_UPDATE, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
 
 
 
@@ -31,7 +31,7 @@ export function setCurrentBook(bookInfo) {
 }
 
 export function addBook(bookInfo) {
-  const url = `${ROOT_URL}/users/${bookInfo.userId}/book`;
+  const url = `${ROOT_URL}/users/${bookInfo.username}/book`;
   const request = axios.post(url, bookInfo);
 
   return {
@@ -40,12 +40,12 @@ export function addBook(bookInfo) {
   };
 }
 
-export function addChapter(chapterInfo) {
-  const url = `${ROOT_URL}/users/${chapterInfo.userId}/${chapterInfo.bookId}/chapter`;
+export function sendChapter(chapterInfo) {
+  const url = `${ROOT_URL}/users/${chapterInfo.username}/chapter`;
   const request = axios.post(url, chapterInfo);
 
   return {
-    type: ADD_CHAPTER,
+    type: GET_USER_DATA,
     payload: request,
   };
 }
@@ -57,6 +57,16 @@ export function getUserData(username) {
   request.then((response) => {
     console.log("RESPONSE GET USER INFO", response)
   });
+
+  return {
+    type: GET_USER_DATA,
+    payload: request,
+  };
+}
+
+export function sendUpdate(updateInfo) {
+  const url = `${ROOT_URL}/users/${updateInfo.username}/update`;
+  const request = axios.post(url, updateInfo);
 
   return {
     type: GET_USER_DATA,

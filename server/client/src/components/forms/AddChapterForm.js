@@ -5,49 +5,40 @@ import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../../styles/AddChapterForm.css'
+import { sendChapter } from '../../actions'
 
 class AddChapterForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            userId: '',
-            bookId: '',
             title: '',
             description: '',
+            number: '',
             expectedLength: 0,
             progress: 0,
-            deadline: ''
+            deadline: '',
         }
         this.renderChapterNumbers = this.renderChapterNumbers.bind(this);
+        this.createNewChapter = this.createNewChapter.bind(this);
+        this.renderChapterForm = this.renderChapterForm.bind(this);
     }
 
-    renderChapterNumbers() {
-        let chapterNumbers = []
-        for (let chapterNumber = 1; chapterNumber < 101; chapterNumber++) {
-            chapterNumbers.push(chapterNumber)
-        }
-
-        return chapterNumbers.map(chapter => {
-            return (
-                <option>{chapter}</option>
-            )
-        })
-    }
-
-    render() {
-        return (
-            <Form id="add-chapter-form" onSubmit={event => { event.preventDefault()}}>
-                <h3 className="form-header">
+    renderChapterForm() {
+            const currentBookTitle = this.props.currentBook.title;
+            if (currentBookTitle) {
+                return (
+    
+                    <React.Fragment>
+                        <h3 className="form-header">
                     {this.props.currentBook.title ? `Add chapter to ${this.props.currentBook.title}` : "Select a book to add a new chapter" }</h3>
                 <Form.Group>
                     <Form.Label>What number chapter is it?</Form.Label>
                         <Form.Control
                             as="select"
-                            defaultValue="Chapter..."
-                            value={this.state.expectedLength}
+                            value={this.state.number}
                             onChange={event => {
-                                this.setState({ expectedLength: event.target.value });
+                                this.setState({ number: event.target.value });
                             }}>
                             <option value="">Chapter...</option>
                             {this.renderChapterNumbers()}
@@ -111,10 +102,76 @@ class AddChapterForm extends Component {
                 </Form.Group>
                 <Form.Group className="form-button-container">
 
-                <Button id="add-chapter-button">
+                <Button 
+                    id="add-chapter-button"
+                    onClick={event => {this.createNewChapter(event)}}
+                >
                     Save
                 </Button>
                 </Form.Group>
+                    
+                    </React.Fragment>
+            )
+            } else {
+                return (
+                    <h3 className="form-header">Select a book to start tracking!</h3>
+                )
+            }
+   
+    }
+
+    createNewChapter(event) {
+        const title = this.state.title;
+        const description = this.state.description;
+        const number = this.state.number;
+        const progress = this.state.progress;
+        const expectedLength = this.state.expectedLength;
+        const deadline = this.state.deadline;
+        const bookTitle = this.props.currentBook.title;
+        const username = this.props.username;
+        if (title && number) {
+
+            if (bookTitle) {
+                const chapterInfo = {
+                    username,
+                    bookTitle,
+                    chapter: {
+                        title,
+                        number,
+                        description,
+                        deadline,
+                        expectedLength,
+                        progress
+                    }
+                }
+
+                this.props.sendChapter(chapterInfo);
+                this.props.history.push('/me')
+            }
+        } else {
+            alert("All required fields must be completed");
+        }
+    }
+
+    renderChapterNumbers() {
+        let totalChapters = this.props.currentBook.chapters.length;
+
+        let chapterNumbers = []
+        for (let chapterNumber = totalChapters + 1; chapterNumber < totalChapters + 20; chapterNumber++) {
+            chapterNumbers.push(chapterNumber)
+        }
+
+        return chapterNumbers.map(chapter => {
+            return (
+                <option>{chapter}</option>
+            )
+        })
+    }
+
+    render() {
+        return (
+            <Form id="add-chapter-form" onSubmit={event => { event.preventDefault()}}>
+                {this.renderChapterForm()}
             </Form>
         )
     }
@@ -122,15 +179,16 @@ class AddChapterForm extends Component {
 
 function mapStateToProps(state) {
     return {
-     currentBook: state.currentBook
+        username: state.userData.username,
+        currentBook: state.currentBook
     };
   }
   
-//   function mapDispatchToProps(dispatch) {
-//       return bindActionCreators(
-//           { getUserData },
-//           dispatch
-//       );
-//     }
+  function mapDispatchToProps(dispatch) {
+      return bindActionCreators(
+          { sendChapter },
+          dispatch
+      );
+    }
   
-  export default connect(mapStateToProps, null)(AddChapterForm);
+  export default connect(mapStateToProps, mapDispatchToProps)(AddChapterForm);

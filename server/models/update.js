@@ -36,7 +36,7 @@ const updateSchema = new Schema({
         type: String,
         required: true
     },
-    expectedLength: String,
+    expectedLength: Number,
     date: Date,
     chapterUpdates: [chapterUpdateSchema],
     notes: String,

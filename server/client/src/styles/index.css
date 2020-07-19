@@ -1,3 +1,10 @@
 body {
     background-color: #4D4F4F;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+a {
+    color: rgba(107, 190, 201, .9);
+    font-weight: 500;
 }

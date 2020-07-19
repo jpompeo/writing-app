@@ -28,7 +28,7 @@ class Updates extends Component {
         return update.bookTitle === this.props.currentBook.title;
       });
 
-      if (currentBookUpdates) {
+      if (currentBookUpdates.length > 0) {
         let updates = _.sortBy(currentBookUpdates, (update => {
           let sortByDate = update.date || update.createdAt;
           return sortByDate;
@@ -50,19 +50,19 @@ class Updates extends Component {
               <VerticalTimelineElement
                 key={update._id}
                 className="vertical-timeline-element"
-                contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
-                contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+                contentStyle={{ background: 'rgba(107, 190, 201, .7)', color: '#fff', border: 'rgba(107, 190, 201, 1) solid 4px', boxShadow: '3px 3px 4px rgba(0, 0, 0, .2)' }}
+                contentArrowStyle={{ borderRight: '18px solid  rgba(107, 190, 201, 1)' }}
                 date={Moment(update.date || update.created).format('MMM D YYYY')}
-                iconStyle={{ background: '#6BBEC9', color: '#fff' }}
+                iconStyle={{ background: 'rgba(107, 190, 201, .8)', color: '#fff'}}
               // icon={<WorkIcon />}
               >
                 
-                <p className="update-subtitle">{sampleChapter.completed ? `COMPLETED Chapter ${sampleChapter.chapterNumber}: ${sampleChapter.chapterTitle}!` : `Updated Chapter ${sampleChapter.chapterNumber}: ${sampleChapter.chapterTitle}`}</p>
+                <p className="update-subtitle"><span id="update-type">{sampleChapter.completed ? "COMPLETED" : "Updated"}</span> Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}!</p>
                 <hr />
                 <p className="update-title">{sampleChapter.progress} words written</p>
                 <hr />
                 <p className="update-text">
-                  Completed {bookProgress > 0 ? bookProgress : 3}% more of your book!
+                 <span id="update-percent"> {bookProgress > 0 ? bookProgress : 3}%</span> closer to finishing your book!
     </p>
               </VerticalTimelineElement>
 
@@ -70,6 +70,24 @@ class Updates extends Component {
           }
 
         })
+      } else {
+        return (
+
+          <VerticalTimelineElement
+            // key={}
+            className="vertical-timeline-element"
+            contentStyle={{ background: 'rgba(107, 190, 201, .7)', color: '#fff', border: 'rgba(107, 190, 201, 1) solid 4px', boxShadow: '3px 3px 4px rgba(0, 0, 0, .2)' }}
+            contentArrowStyle={{ borderRight: '18px solid  rgba(107, 190, 201, 1)' }}
+            date={Moment(new Date()).format('MMM D YYYY')}
+            iconStyle={{ background: 'rgba(107, 190, 201, .8)', color: '#fff' }}
+            >
+            <hr />
+            <p className="update-subtitle">No updates yet</p>
+            <p className="update-title">Start writing today!</p>
+            <hr />
+          </VerticalTimelineElement>
+    
+        )
       }
     }
   } else {
@@ -78,10 +96,10 @@ class Updates extends Component {
       <VerticalTimelineElement
         // key={}
         className="vertical-timeline-element"
-        contentStyle={{ background: '#6BBEC9', color: '#fff', border: '#fff solid 1px' }}
-        contentArrowStyle={{ borderRight: '7px solid  #fff' }}
+        contentStyle={{ background: 'rgba(107, 190, 201, .7)', color: '#fff', border: 'rgba(107, 190, 201, 1) solid 4px', boxShadow: '3px 3px 4px rgba(0, 0, 0, .2)' }}
+        contentArrowStyle={{ borderRight: '18px solid  rgba(107, 190, 201, 1)' }}
         date={Moment(new Date()).format('MMM D YYYY')}
-        iconStyle={{ background: '#6BBEC9', color: '#fff' }}
+        iconStyle={{ background: 'rgba(107, 190, 201, .8)', color: '#fff'}}
         >
         <hr />
         <p className="update-title">Select a book to view recent updates!</p>

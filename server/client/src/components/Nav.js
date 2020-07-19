@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from "redux";
-import { Col, Form, Container, Row, Navbar } from 'react-bootstrap';
+import { Col, Form, Container, Row, Button } from 'react-bootstrap';
 import '../styles/Nav.css'
-import { setCurrentBook } from '../actions'
+import { setCurrentBook, getUserData } from '../actions'
 
 class Nav extends Component {
     constructor(props) {
@@ -16,6 +16,11 @@ class Nav extends Component {
 
         this.renderBooks = this.renderBooks.bind(this);
         this.handleBookChange = this.handleBookChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getUserData('bestselling_author1')
+
     }
 
     handleBookChange(event) {
@@ -55,26 +60,37 @@ class Nav extends Component {
     render() {
         return (
             <div id="header-nav">
-                <Container>
+                <Container id="container-in-header">
 
                     <Row>
                         <Col lg={4} id="logo-container" className="my-auto">
 
                             <div id="header-logo">
                                 <Link to="/me">
-                                    <h1>Write Track</h1>
+                                    <h1> Write Track </h1>
                                 </Link>
                             </div>
                         </Col>
 
-                        <Col id="nav-links">
+                        <Col lg={8} id="nav-links">
                             <div id="select-book-container">
+                            <h4 id="select-book-header">Select a book to start tracking!</h4>
+                                <div id="new-book-link-container">
+
+                                    <Link id="new-book-link" to="/me/addbook">
+
+                                        [+] 
+
+                                    </Link>
+                                </div>
 
                                 <Form id="choose-book-form" inline >
+                                    
                                     <Form.Group>
                                         {/* <Form.Label></Form.Label> */}
                                         <Form.Control
                                             as="select"
+                                            id="choose-book-select"
                                             value={this.props.selectedBook}
                                             onChange={event => {
 
@@ -82,11 +98,12 @@ class Nav extends Component {
                                                     this.handleBookChange(event)
                                                 })
                                             }}>
-                                            <option value="">Select Book...</option>
+                                            <option value="">Choose Book...</option>
                                             {this.renderBooks()}
                                         </Form.Control>
                                     </Form.Group>
                                 </Form>
+
 
                             </div>
                         </Col>
@@ -105,7 +122,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { setCurrentBook },
+        { setCurrentBook, getUserData },
         dispatch
     );
 }

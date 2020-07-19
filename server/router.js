@@ -27,10 +27,11 @@ module.exports = function (app) {
     const fakeAuthor = new User({
       username: request.params.username,
       streakDays: Math.round(Math.random() * 14),
-      totalWordCount: Math.round(Math.random() * 30000)
+      totalWordCount: Math.round(Math.random() * 30000),
+      dailyGoal: Math.round(Math.random() * 2000)
     })
     fakeAuthor.save((error, addedUser) => {
-      if (error) response.end(error)
+      if (error) response.send(error)
       console.log(addedUser)
       response.send("user added");
     })
@@ -196,28 +197,32 @@ module.exports = function (app) {
   })
 
   //add book
-  app.post('/api/users/:userId/book', (request, response) => {
+  app.post('/api/users/:username/book', (request, response) => {
     //get book info from request
     const title = request.body.title;
     const description = request.body.description;
     const expectedLength = request.body.expectedLength;
     const deadline = request.body.deadline;
-    const userId = request.params.userId;
+    const username = request.params.username;
+    const progress = request.body.progress;
+    const startDate = request.body.startDate || new Date();
 
     //create new book
     const newBook = {
-      title: title,
-      description: description,
-      expectedLength: expectedLength,
-      deadline: deadline
+      title,
+      description,
+      expectedLength,
+      deadline,
+      progress,
+      startDate
     };
 
 
     //find user and add new book ID to books array
     User
-      .findOneAndUpdate({ _id: userId }, { $push: { books: [newBook] } }, { runValidators: true })
+      .findOneAndUpdate({ username: username }, { $push: { books: [newBook] } }, { runValidators: true })
       .exec((error, updatedUser) => {
-        if (error) response.end(error)
+        if (error) response.send(error)
         response.send(updatedUser)
       })
   })
@@ -230,7 +235,7 @@ module.exports = function (app) {
     User
       .findOne({ username: request.params.username })
       .exec((error, user) => {
-        if (error) response.status(404).end(error)
+        if (error) response.status(404).send(error)
         response.send(user);
       })
   });
@@ -269,25 +274,74 @@ module.exports = function (app) {
   // }); 
 
   //add update
-  // app.post('/api/users/:userId/update', (request, response) => {
-  //   //get update info from request
-  //   const bookId = request.body.bookId;
-  //   const dailyWordCount = request.body.dailyWordCount;
-  //   const notes = request.body.notes;
-  //   const userId = request.params.userId;
+  app.post('/api/users/:username/update', (request, response) => {
+    //get update info from request
+    const update = request.body.update;
+    const username = request.params.username;
+    const progress = Number(request.body.update.progress)
+    
 
-  //   //create new update
-  //   const newUpdate = new Update ({
-  //     bookId: bookId,
-  //     dailyWordCount: dailyWordCount,
-  //     notes: notes,
-  //     userId: userId
-  //   });
+    //add update to user
+    User
+      .findOneAndUpdate({ username: username }, { $push: { updates: [update] },  }, { runValidators: true })
+      .exec((error, updatedUser) => {
+        if (error) response.send(error)
+        //update total words
+        updatedUser.totalWordCount += progress;
+
+        const bookToUpdate = updatedUser.books.find(book => {
+          return book.title == update.bookTitle;
+        });
+
+        bookToUpdate.progress += progress;
+
+        const chapterToUpdate = bookToUpdate.chapters.find(chapter => {
+          return chapter.number == update.chapterUpdates[0].chapterNumber;
+        })
+
+        chapterToUpdate.progress += progress;
+        chapterToUpdate.completed = update.chapterUpdates[0].completed || false;
+
+        updatedUser.save((error, user) => {
+          if (error) response.send(error)
+          response.send(user)
+        })
+      })
+  })
 
 
   // });
 
   //add chapter
+  app.post('/api/users/:username/chapter', (request, response) => {
+    //get update info from request
+    const chapter = request.body.chapter;
+    const username = request.params.username;
+    const progress = Number(request.body.chapter.progress)
+    
+
+    //add update to user
+    User
+      .findOne({ username: username })
+      .exec((error, user) => {
+        if (error) response.send(error)
+        //update total words
+        user.totalWordCount += progress;
+
+        const bookToUpdate = user.books.find(book => {
+          return book.title == request.body.bookTitle;
+        });
+
+        bookToUpdate.progress += progress;
+
+        bookToUpdate.chapters.push(chapter);
+
+        user.save((error, updatedUser) => {
+          if (error) response.send(error)
+          response.send(updatedUser)
+        })
+      })
+  })
 
   //get user
 

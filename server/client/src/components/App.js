@@ -12,8 +12,8 @@ import Nav from './Nav'
 // import Signup from './auth/Signup';
 // import Signin from './auth/Signin';
 // import Login from './auth/Login';
+import TestLineChart from './charts/testChart'
 import MixChart from './charts/MixChart'
-import BubbleWordCount from './charts/BubbleWordCount'
 import BurnDownChart from './charts/BurnDownChart'
 import WeeklyDoughnut from './charts/WeeklyDoughnut'
 import LineGraph from './charts/LineGraph'
@@ -26,7 +26,7 @@ import FakeData from './FakeData'
 class App extends React.Component {
   componentDidMount() {
     // this.props.fetchUser();
-    this.props.getUserData('bestselling_author1');
+    // this.props.getUserData('bestselling_author1');
   }
 
   // componentDidUpdate() {
@@ -48,7 +48,7 @@ class App extends React.Component {
               <Route exact path="/signin" component={Signin} /> */}
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/me/addbook" component={AddBookForm} />
-              <Route exact path="/bubblechart" component={BubbleWordCount}/>
+              <Route exact path="/mixchart" component={MixChart}/>
               <Route exact path="/burndownchart" component={BurnDownChart}/>
               <Route exact path="/linegraph" component={LineGraph}/>
               <Route exact path="/doughnut" component={WeeklyDoughnut}/>
@@ -56,7 +56,7 @@ class App extends React.Component {
               <Route exact path="/me/addupdate" component={UpdateForm}/>
               <Route exact path="/me/storymap" component={StoryMap}/>
               <Route exact path="/generate-fake-data" component={FakeData} />
-              <Route exact path="/mixchart" component={MixChart} />
+              <Route exact path="/TestLineChart" component={TestLineChart} />
             </Switch>
           </Col>
         </Row>

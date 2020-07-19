@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Moment from 'moment';
 import _ from 'lodash';
+import '../../styles/Progress.css'
 
 
 
-class MixChart extends Component {
+class LineGraph extends Component {
     constructor(props) {
         super(props)
 
@@ -16,74 +18,40 @@ class MixChart extends Component {
 
     renderMixChart() {
         let currentBook = this.props.currentBook;
-        let updates = this.props.updates;
+       
+        //get updates for current book
+        let bookUpdates = this.props.user.updates.filter(update => {
+          return update.bookTitle === currentBook.title;
+      })
 
-        if (currentBook.title && updates) {
-
-            //for line description
-            const plugins = [{
-                afterDraw: (chartInstance, easing) => {
-                    const ctx = chartInstance.chart.ctx;
-                    ctx.fillText("This text drawn by a plugin", 100, 100);
-                }
-            }];
+        if (bookUpdates.length > 0) {
 
             //chart configuration
             const options = {
-                responsive: true,
-                tooltips: {
-                    mode: 'label'
-                },
-                elements: {
-                    line: {
-                        fill: false
+              title: {
+                display: false,
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      suggestedMin: 0
                     }
-                },
-                scales: {
-                    xAxes: [
-                        {
-                            display: true,
-                            gridLines: {
-                                display: false
-                            },
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                        }
-                    ],
-                    yAxes: [
-                        {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            id: 'y-axis-1',
-                            gridLines: {
-                                display: false
-                            },
-                            labels: {
-                                show: true
-                            }
-                        },
-                        {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            id: 'y-axis-2',
-                            gridLines: {
-                                display: false
-                            },
-                            labels: {
-                                show: true
-                            }
-                        }
-                    ]
-                }
+                  }
+                ]
+              }
             };
 
-            // calculate data needed for chart //
+            const legend = {
+              display: true,
+              position: "bottom",
+              labels: {
+                fontColor: "#323130",
+                fontSize: 14
+              }
+            };            
 
-            //get updates for current book
-            let bookUpdates = updates.filter(update => {
-                return update.bookTitle === currentBook.title;
-            })
+            // calculate data needed for chart //
 
             //sort by date
             let sortedUpdates = _.sortBy(bookUpdates, (update => {
@@ -98,13 +66,15 @@ class MixChart extends Component {
 
             // divide word count into days (goal start till today) //
             //get dates needed
-            const goalStart = Moment(currentBook.startDate);
+            const goalStart = Moment(sortedUpdates[0].date || sortedUpdates[0].createdAt);
             const today = Moment(new Date());
             const goalEnd = Moment(currentBook.deadline);
+            const bookStart = Moment(currentBook.startDate);
 
             //Differences in number of days
             let totalDays = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asDays()));
             let daysRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asDays()));
+            let overallDays = Math.abs(Math.round(Moment.duration(bookStart.diff(goalEnd)).asDays()));
 
             //Differences in number of weeks
             let totalWeeks = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asWeeks()));
@@ -119,6 +89,12 @@ class MixChart extends Component {
             let weeklyAverage = Math.round(totalWordCount / totalWeeks);
             let monthlyAverage = Math.round(totalWordCount / totalMonths);
 
+            // for demo- averages for incomplete generated fake data
+            let fakeDailyAverage = Math.round(totalWordCount / sortedUpdates.length)
+
+            //daily word count goal to finish on deadline
+            let currentDailyTarget = (currentBook.expectedLength - totalWordCount) / daysRemaining;
+
             console.log("Averages", dailyAverage, weeklyAverage, monthlyAverage)
             console.log("totals", totalDays, totalWeeks, totalMonths)
 
@@ -127,11 +103,17 @@ class MixChart extends Component {
             
             //map average and goal to array for graph
             let averageLineData = bookUpdates.map(update => {
-                return dailyAverage;
+                // return dailyAverage;
+
+                //for demo
+                return fakeDailyAverage
             })
 
             let goalLineData = bookUpdates.map(update => {
-                return dailyGoal;
+                // return dailyGoal;
+
+                // for demo
+                return this.props.user.dailyGoal;
             })
 
             //get daily actual word counts
@@ -139,63 +121,66 @@ class MixChart extends Component {
                 return update.progress;
             });
 
+            //get dates for graph
+            let graphDates = sortedUpdates.map(update => {
+              return Moment(update.date || update.created).format('MMM DD')
+            })
             
             //chart data
             const data = {
-
-                datasets: [{
-                    label: 'Daily Average',
-                    type: 'line',
-                    data: [...averageLineData],
-                    fill: true,
-                    borderColor: '#EC932F',
-                    backgroundColor: '#EC932F',
-                    pointBorderColor: '#EC932F',
-                    pointBackgroundColor: '#EC932F',
-                    pointHoverBackgroundColor: '#EC932F',
-                    pointHoverBorderColor: '#EC932F',
-                    yAxisID: 'y-axis-2'
+              labels: [...graphDates],
+              datasets: [
+                {
+                  label: "Daily Average",
+                  data: [...averageLineData],
+                  fill: false,
+                  borderColor: "rgba(91, 9, 52, .6)",
+                  backgroundColor: "rgba(91, 9, 52, 1)",
+                  pointRadius: 0,
+                  pointHoverRadius: 5
                 },
                 {
-                    label: 'Daily Goal',
-                    type: 'line',
-                    data: [...goalLineData],
-                    fill: false,
-                    borderColor: '#979C9C',
-                    backgroundColor: '#979C9C',
-                    pointBorderColor: '#EC932F',
-                    pointBackgroundColor: '#EC932F',
-                    pointHoverBackgroundColor: '#EC932F',
-                    pointHoverBorderColor: '#EC932F',
-                    yAxisID: 'y-axis-2'
+                  label: "Target Goal",
+                  data: [...goalLineData],
+                  fill: false,
+                  borderColor: "rgba(252, 171, 58 , .7)",
+                  backgroundColor: "rgba(252, 171, 58 , 1)",
+                  pointRadius: 0,
+                  pointHoverRadius: 5
                 },
                 {
-                    type: 'bar',
-                    label: 'Actual Word Count',
-                    data: [...actualData],
-                    fill: false,
-                    backgroundColor: '#71B37C',
-                    borderColor: '#71B37C',
-                    hoverBackgroundColor: '#71B37C',
-                    hoverBorderColor: '#71B37C',
-                    yAxisID: 'y-axis-1'
-                }]
+                  label: "Actual Word Count",
+                  data: [...actualData],
+                  fill: true,
+                  backgroundColor: "rgba(107, 190, 201, .2)",
+                  borderColor: "rgba(107, 190, 201, 1)",
+                  pointRadius: 0,
+                  pointHoverRadius: 5
+                },
+              ]
             };
+          
 
             return (
                 <React.Fragment>
 
-                    <h2>Mixed data Example</h2>
-                    <Bar
-                        data={data}
-                        options={options}
-                        plugins={plugins}
-                    />
+                    <h2 className="chart-header">Differentials</h2>
+                    <Line data={data} legend={legend} options={options} />
 
                 </React.Fragment>
 
             )
+        } else {
+          return (
+            <div className="chart-zero-view">
+
+            <h1 className="chart-header">No updates yet</h1>
+            <p>Haven't started tracking yet? <Link to="/me/addupdate">Get started here!</Link>
+            </p>
+            </div>
+          )
         }
+      
     }
 
     render() {
@@ -209,7 +194,7 @@ class MixChart extends Component {
 
 function mapStateToProps(state) {
     return {
-        updates: state.userData.updates,
+        user: state.userData,
         currentBook: state.currentBook
     };
 }
@@ -221,4 +206,4 @@ function mapStateToProps(state) {
 //     );
 //   }
 
-export default connect(mapStateToProps, null)(MixChart);
+export default connect(mapStateToProps, null)(LineGraph);

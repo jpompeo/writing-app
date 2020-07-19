@@ -1,20 +1,26 @@
 #header-nav {
 box-sizing: border-box;
-   padding: 20px;
+   padding: 15px 0 5px;
    width: 100%;
-   /* border-top: 2px solid #BCBDBD; */
-   border-bottom: 1px solid #e3e3e3;
+   border-top: 7px solid rgba(227, 227, 227, .15 );
+   border-bottom: 7px solid rgba(227, 227, 227, .15 );
    margin: 0 0 20px;
-   background-color: #979C9C;
+   background-color: rgba(151, 156, 156, .8 );
    /* box-shadow: 1px 1px 2px rgba(100, 100, 100, 1); */
 }
 
 #header-nav h1 {
-    font-size: 30px;
+    font-size: 55px;
+    font-variant: small-caps;
+    font-weight: bold;
     text-align: left;
     color: #e3e3e3;
+    /* color: rgba(107, 190, 201, .8); */
+    /* color: rgba(252, 171, 58 , .7); */
+    /* color: #4D4F4F; */
     display: inline-block;
-    
+    font-family: 'Shadows Into Light Two', sans-serif;
+    text-decoration: underline;
 }
 
 #nav-links {
@@ -30,4 +36,32 @@ box-sizing: border-box;
 
 #logo-container {
     vertical-align: middle;
+    text-align: left;
+}
+
+#new-book-link {
+    color:rgba(107, 190, 201, 1);
+    font-weight: 500;
+    font-size: 25px;
+}
+
+
+
+#new-book-link-container {
+    display: inline-block;
+    /* margin: 0 10px; */
+    color: #e3e3e3; 
+}
+
+#select-book-header {
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+    color: #e3e3e3; 
+}
+
+#container-in-header {
+    margin: 0 auto;
+    padding: 0;
 }

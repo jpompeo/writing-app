@@ -57,8 +57,9 @@ class UpdateForm extends Component {
                 }]
             }  
         }
-        this.props.sendUpdate(updateInfo);
-        setTimeout(this.props.history.push('/me'), 5000)
+        this.props.sendUpdate(updateInfo, () => {
+            this.props.history.push('/me')
+        });
     } else {
         alert("All required fields must be completed")
     }

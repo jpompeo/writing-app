@@ -33,14 +33,16 @@ class MainPage extends Component {
       
         <Row>
           {/* Goals  */}
-          <Col md={6}>
-        <Progress />
+          <Col md={5}>
+        
+        <Updates />
+
             {/* <Goals /> */}
           </Col>
 
           {/* Updates */}
-          <Col md={6}>
-          <Updates />
+          <Col md={7}>
+          <Progress />
           </Col>
         </Row>
 

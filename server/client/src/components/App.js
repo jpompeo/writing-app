@@ -13,7 +13,7 @@ import Nav from './Nav'
 // import Signin from './auth/Signin';
 // import Login from './auth/Login';
 import TestLineChart from './charts/testChart'
-import MixChart from './charts/MixChart'
+import MixChart from './charts/Projections'
 import BurnDownChart from './charts/BurnDownChart'
 import WeeklyDoughnut from './charts/WeeklyDoughnut'
 import LineGraph from './charts/LineGraph'

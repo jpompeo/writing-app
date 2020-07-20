@@ -1,0 +1,17 @@
+#link-menu-list {
+    list-style: none;
+    text-align: left;
+    
+}
+
+#link-menu-list li {
+    color: #e3e3e3 !important;
+    font-family: 'Shadows Into Light Two', sans-serif;
+    letter-spacing: 2.5px;
+    font-weight: 600;
+}
+
+#link-menu-list li:hover {
+    color: rgba(107, 190, 201, .7) !important;
+    text-decoration: underline;
+}

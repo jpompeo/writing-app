@@ -1,248 +1,283 @@
-// import React, { Component } from 'react';
-// import { Bar } from 'react-chartjs-2';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from "redux";
-// import Moment from 'moment';
-// import _ from 'lodash';
+import React, { Component } from 'react';
+import { Line, Bar } from 'react-chartjs-2';
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import Moment from 'moment';
+import _ from 'lodash';
+import '../../styles/Progress.css'
 
 
 
-// class MixChart extends Component {
-//     constructor(props) {
-//         super(props)
+class Projections extends Component {
+    constructor(props) {
+        super(props)
 
-//         this.renderMixChart = this.renderMixChart.bind(this);
-//     }
+        this.renderMixChart = this.renderMixChart.bind(this);
+    }
 
-//     renderMixChart() {
-//         let currentBook = this.props.currentBook;
-//         let updates = this.props.updates;
+    renderMixChart() {
+        let currentBook = this.props.currentBook;
+       if (this.props.user.updates) {
 
-//         if (currentBook.title && updates) {
+       
+        //get updates for current book
+        let bookUpdates = this.props.user.updates.filter(update => {
+          return update.bookTitle === currentBook.title;
+      })
 
+        if (bookUpdates.length > 0) {
+
+            //chart configuration
+            const options = {
+              title: {
+                display: false,
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      suggestedMin: 0
+                    }
+                  }
+                ]
+              }
+            };
+
+            const legend = {
+              display: true,
+              position: "top",
+              labels: {
+                fontColor: "#323130",
+                fontSize: 14
+              }
+            };            
+
+            // calculate data needed for chart //
+
+            //sort by date
+            let sortedUpdates = _.sortBy(bookUpdates, (update => {
+                let sortByDate = update.date || update.createdAt;
+                return sortByDate;
+            }))
+
+            //get total word count
+            let totalWordCount = bookUpdates.reduce((total, update) => {
+                return total + update.progress;
+            }, 0);
+
+            // divide word count into days (goal start till today) //
+            //get dates needed
+            const goalStart = Moment(sortedUpdates[0].date || sortedUpdates[0].createdAt);
+            const today = Moment(new Date());
+            const goalEnd = Moment(currentBook.deadline);
+            const bookStart = Moment(currentBook.startDate);
+
+            //Differences in number of days
+            let pastDays = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asDays()));
+            let daysRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asDays()));
+            let overallDays = Math.abs(Math.round(Moment.duration(bookStart.diff(goalEnd)).asDays()));
+
+            //Differences in number of weeks
+            let pastWeeks = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asWeeks()));
+            let weeksRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asWeeks()));
+
+            //Differences in number of weeks
+            let pastMonths = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asMonths()));
+            let monthsRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asMonths()));
+
+            //get averages daily, weekly, monthly word count
+            let dailyAverage = Math.round(totalWordCount / pastDays);
+            let weeklyAverage = Math.round(totalWordCount / pastWeeks);
+            let monthlyAverage = Math.round(totalWordCount / pastMonths);
+
+            // for demo- averages for incomplete generated fake data
+            let fakeDailyAverage = Math.round(totalWordCount / sortedUpdates.length)
+
+            //daily word count goal to finish on deadline
+            let currentDailyTarget = (currentBook.expectedLength - totalWordCount) / daysRemaining;
+
+            console.log("Averages", dailyAverage, weeklyAverage, monthlyAverage)
+            console.log("totals", pastDays, pastWeeks, pastMonths)
+
+            //get initial daily word goal
+            let dailyGoal = Math.round(currentBook.expectedLength / (pastDays + daysRemaining))
+
+            //map compounded word counts to array for bar graph
+           let accumulatedBarData = sortedUpdates.reduce((accArray, update, index) => {
+            if (index > 0) {
+                accArray.push(Math.round(update.progress + accArray[index - 1]))
+                return accArray;
+            } else {
+                accArray.push(Math.round(update.progress))
+                return accArray;
+            }
+           }, [])
+
+           //split averages into groups based on number of updates
+           const groupBy = pastDays / sortedUpdates.length;
+
+           //map daily averages into array of same length as updates, grouped by number of updates
+           const projectionLineData = sortedUpdates.map(update => {
+               return Math.round(dailyAverage * groupBy);
+           })
+
+           //get difference between current progress and expected count
+           const remainingWords = currentBook.expectedLength - totalWordCount;
+
+           //divide remaining words by daily average to get projected number of days until finished
+           const projectedRemainingDays = Math.round(remainingWords / dailyAverage);
+
+           //get projected finish date
+           const projectedFinishDate = today.add(projectedRemainingDays, 'days')
+
+           //get data labels for projection array
+           const projectionLabels = [];
+           for (let i = 0; i < sortedUpdates.length; i++) {
+               if (i === 0) {
+                   projectionLabels.push('Today');
+               } else if (i === sortedUpdates.length - 2) {
+                projectionLabels.push(projectedFinishDate.format('MMM DD YY'));
+               } else if (i % 2 === 0) {
+                projectionLabels.push('-')
+               } else {
+                   projectionLabels.push(' ')
+               }
+           }
+
+           //divide remaining words into amount of past updates to balance chart
+           const projectedGraphItem = Math.round(remainingWords / sortedUpdates.length);
+           const projectedFutureData = sortedUpdates.map(update => {
+                return projectedGraphItem;
+           })
+
+           console.log("DATA BEFORE ACC", projectionLineData, projectedFutureData)
+
+            //map compounded word counts to array for projection graph
+            const accumulatedProjections = [...projectionLineData, ...projectedFutureData].reduce((accArray, count, index) => {
+                if (index > 0) {
+                    accArray.push(count + accArray[index - 1])
+                    return accArray;
+                } else {
+                    accArray.push(count)
+                    return accArray;
+                }
+               }, [])
+
+               console.log("PROJECTIONS", accumulatedProjections, )
+               console.log("FUTURE LABELS", projectionLabels)
+               console.log("ACTUAL ACC", accumulatedBarData)
+
+            // //map average and goal to array for graph
+            // let averageLineData = bookUpdates.map(update => {
+            //     // return dailyAverage;
+
+            //     //for demo
+            //     return fakeDailyAverage
+            // })
+
+            // let goalLineData = bookUpdates.map(update => {
+            //     // return dailyGoal;
+
+            //     // for demo
+            //     return this.props.user.dailyGoal;
+            // })
+
+            // //get daily actual word counts
+            // let actualData = sortedUpdates.map(update => {
+            //     return update.progress;
+            // });
+
+            //get dates for graph
+            let graphDates = sortedUpdates.map(update => {
+              return Moment(update.date || update.created).format('MMM DD YY')
+            })
+
+            console.log("LABELS", projectionLabels)
             
-//             // calculate data needed for chart //
+            //chart data
+            const data = {
+              labels: [...graphDates, ...projectionLabels],
+              datasets: [
+                {
+                    label: "Projections",
+                    type: 'line',
+                    data: [...accumulatedProjections],
+                    fill: true,
+                    borderColor: "rgba(252, 171, 58 , 1)",
+                    backgroundColor: "rgba(252, 171, 58 , .5)",
+                    pointRadius: 0,
+                    pointHoverRadius: 5
+                  },
+                {
+                  label: "Past Progress",
+                  data: [...accumulatedBarData],
+                  type: 'bar',
+                  fill: true,
+                  borderColor: "rgba(91, 9, 52, 1)",
+                  backgroundColor: "rgba(252, 171, 58 , 1)",
+                  pointRadius: 0,
+                  pointHoverRadius: 5
+                },
+                
+                // {
+                //   label: "Actual Word Count",
+                //   data: [...actualData],
+                //   type: 'bar',
+                //   fill: true,
+                //   backgroundColor: "rgba(107, 190, 201, .2)",
+                //   borderColor: "rgba(107, 190, 201, 1)",
+                //   pointRadius: 0,
+                //   pointHoverRadius: 5
+                // },
+              ]
+            };
+          
 
-//             //get updates for current book
-//             let bookUpdates = updates.filter(update => {
-//                 return update.bookTitle === currentBook.title;
-//             })
+            return (
+                <React.Fragment>
 
-//             //sort by date
-//             let sortedUpdates = _.sortBy(bookUpdates, (update => {
-//                 let sortByDate = update.date || update.createdAt;
-//                 return sortByDate;
-//             }))
+                    <h2 className="chart-header">Projections</h2>
+                    <Line data={data} legend={legend} options={options} />
 
-//             //get total word count
-//             let totalWordCount = bookUpdates.reduce((total, update) => {
-//                 return total + update.progress;
-//             }, 0);
+                </React.Fragment>
 
-//             // divide word count into days (goal start till today) //
-//             //get dates needed
-//             const goalStart = Moment(currentBook.startDate);
-//             const today = Moment(new Date());
-//             const goalEnd = Moment(currentBook.deadline);
+            )
+        } else {
+          return (
+            <div className="chart-zero-view">
 
-//             //Differences in number of days
-//             let totalDays = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asDays()));
-//             let daysRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asDays()));
+            <h1 className="chart-header">No updates yet</h1>
+            <p>Haven't started tracking yet? <Link to="/me/addupdate">Get started here!</Link>
+            </p>
+            </div>
+          )
+        }
+    }
+    }
 
-//             //Differences in number of weeks
-//             let totalWeeks = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asWeeks()));
-//             let weeksRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asWeeks()));
+    render() {
+        return (
+            <div>
+                {this.renderMixChart()}
+            </div>
+        );
+    }
+        
+};
 
-//             //Differences in number of weeks
-//             let totalMonths = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asMonths()));
-//             let monthsRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asMonths()));
+function mapStateToProps(state) {
+    return {
+        user: state.userData,
+        currentBook: state.currentBook
+    };
+}
 
-//             //get averages daily, weekly, monthly word count
-//             let dailyAverage = Math.round(totalWordCount / totalDays);
-//             let weeklyAverage = Math.round(totalWordCount / totalWeeks);
-//             let monthlyAverage = Math.round(totalWordCount / totalMonths);
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators(
+//         { logoutUser },
+//         dispatch
+//     );
+//   }
 
-//             console.log("Averages", dailyAverage, weeklyAverage, monthlyAverage)
-//             console.log("totals", totalDays, totalWeeks, totalMonths)
-
-//             //get daily word goal
-//             let dailyGoal = Math.round(currentBook.expectedLength / (totalDays + daysRemaining))
-            
-//             //map average and goal to array for graph
-//             let averageLineData = bookUpdates.map(update => {
-//                 return dailyAverage;
-//             })
-
-//             let goalLineData = bookUpdates.map(update => {
-//                 return dailyGoal;
-//             })
-
-//             //get daily actual word counts
-//             let actualData = sortedUpdates.map(update => {
-//                 return update.progress;
-//             });
-
-//             //date labels for bars
-//             const barDates = sortedUpdates.map(update => {
-//                 return Moment(update.date || update.created).format('MMM DD')
-//             })
-
-//             //for line description
-//             const plugins = [{
-//                 afterDraw: (chartInstance, easing) => {
-//                     const ctx = chartInstance.chart.ctx;
-//                     ctx.fillText("This text drawn by a plugin", 100, 100);
-//                 }
-//             }];
-
-//             //chart configuration
-//             const options = {
-//                 responsive: true,
-//                 tooltips: {
-//                     mode: 'label'
-//                 },
-//                 elements: {
-//                     line: {
-//                         fill: false
-//                     }
-//                 },
-//                 scales: {
-//                     xAxes: [
-//                         {
-//                             display: true,
-//                             gridLines: {
-//                                 display: false
-//                             },
-//                             labels: [...barDates],
-//                         }
-//                     ],
-//                     yAxes: [{
-
-//                         ticks: {
-//                             suggestedMin: 0
-//                         }
-//                           },
-//                         {
-//                             type: 'linear',
-//                             display: true,
-//                             position: 'left',
-//                             id: 'y-axis-1',
-//                             gridLines: {
-//                                 display: false
-//                             },
-//                             labels: {
-//                                 show: true
-//                             }
-//                         },
-//                         {
-//                             type: 'linear',
-//                             display: true,
-//                             position: 'right',
-//                             id: 'y-axis-2',
-//                             gridLines: {
-//                                 display: false
-//                             },
-//                             labels: {
-//                                 show: true
-//                             }
-//                         },
-//                         {
-//                             type: 'linear',
-//                             display: true,
-//                             position: 'right',
-//                             id: 'y-axis-3',
-//                             gridLines: {
-//                                 display: false
-//                             },
-//                             labels: {
-//                                 show: true
-//                             }
-//                         }
-//                     ]
-//                 }
-//             };
-
-
-            
-//             //chart data
-//             const data = {
-
-//                 datasets: [{
-//                     label: 'Daily Average',
-//                     type: 'line',
-//                     data: [...averageLineData],
-//                     fill: true,
-//                     borderColor: '#EC932F',
-//                     backgroundColor: '#EC932F',
-//                     pointBorderColor: '#EC932F',
-//                     pointBackgroundColor: '#EC932F',
-//                     pointHoverBackgroundColor: '#EC932F',
-//                     pointHoverBorderColor: '#EC932F',
-//                     yAxisID: 'y-axis-2'
-//                 },
-//                 {
-//                     label: 'Daily Goal',
-//                     type: 'line',
-//                     data: [...goalLineData],
-//                     fill: false,
-//                     borderColor: '#979C9C',
-//                     backgroundColor: '#979C9C',
-//                     pointBorderColor: '#EC932F',
-//                     pointBackgroundColor: '#EC932F',
-//                     pointHoverBackgroundColor: '#EC932F',
-//                     pointHoverBorderColor: '#EC932F',
-//                     yAxisID: 'y-axis-2'
-//                 },
-//                 {
-//                     type: 'bar',
-//                     label: 'Actual Word Count',
-//                     data: [...actualData],
-//                     fill: false,
-//                     backgroundColor: '#71B37C',
-//                     borderColor: '#71B37C',
-//                     hoverBackgroundColor: '#71B37C',
-//                     hoverBorderColor: '#71B37C',
-//                     yAxisID: 'y-axis-1'
-//                 }]
-//             };
-
-//             return (
-//                 <React.Fragment>
-
-//                     <h2>Mixed data Example</h2>
-//                     <Bar
-//                         data={data}
-//                         options={options}
-//                         plugins={plugins}
-//                     />
-
-//                 </React.Fragment>
-
-//             )
-//         }
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 {this.renderMixChart()}
-//             </div>
-//         );
-//     }
-// };
-
-// function mapStateToProps(state) {
-//     return {
-//         updates: state.userData.updates,
-//         currentBook: state.currentBook
-//     };
-// }
-
-// // function mapDispatchToProps(dispatch) {
-// //     return bindActionCreators(
-// //         { logoutUser },
-// //         dispatch
-// //     );
-// //   }
-
-// export default connect(mapStateToProps, null)(MixChart);
+export default connect(mapStateToProps, null)(Projections);

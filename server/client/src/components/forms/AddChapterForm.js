@@ -145,8 +145,10 @@ class AddChapterForm extends Component {
                     }
                 }
 
-                this.props.sendChapter(chapterInfo);
-                this.props.history.push('/me')
+                this.props.sendChapter(chapterInfo, () => {
+                    this.props.history.push('/me')
+                });
+                
             }
         } else {
             alert("All required fields must be completed");

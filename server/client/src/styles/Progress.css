@@ -9,6 +9,7 @@
     padding: 0;
     box-shadow: 4px 4px 8px rgba(48, 49, 49, .7);
     min-height: 190px;
+    /* max-height: 65vh; */
 }
 
 .chart-header {
@@ -17,6 +18,7 @@
     /* font-weight: bold; */
     /* font-family: 'Shadows Into Light Two', sans-serif; */
     font-variant: small-caps;
+    margin: 5px auto;
 }
 
 #progress-charts {
@@ -60,4 +62,12 @@
 #progress-add-book-link {
     color: rgba(107, 190, 201, .9);
     font-weight: 500;
+}
+
+.current-stats {
+    color: rgba(107, 190, 201, .9);
+    font-weight: 600;
+    font-size: 25px;
+    letter-spacing: 2px;
+    font-family: 'Shadows Into Light Two', sans-serif;
 }

@@ -30,9 +30,10 @@ export function setCurrentBook(bookInfo) {
   };
 }
 
-export function addBook(bookInfo) {
+export function addBook(bookInfo, callback) {
   const url = `${ROOT_URL}/users/${bookInfo.username}/book`;
   const request = axios.post(url, bookInfo);
+  request.then(() => callback())
 
   return {
     type: ADD_BOOK,
@@ -40,9 +41,10 @@ export function addBook(bookInfo) {
   };
 }
 
-export function sendChapter(chapterInfo) {
+export function sendChapter(chapterInfo, callback) {
   const url = `${ROOT_URL}/users/${chapterInfo.username}/chapter`;
   const request = axios.post(url, chapterInfo);
+  request.then(() => callback())
 
   return {
     type: GET_USER_DATA,
@@ -54,9 +56,6 @@ export function getUserData(username) {
   const url = `${ROOT_URL}/users/${username}`;
   const request = axios.get(url);
 
-  request.then((response) => {
-    console.log("RESPONSE GET USER INFO", response)
-  });
 
   return {
     type: GET_USER_DATA,
@@ -64,9 +63,10 @@ export function getUserData(username) {
   };
 }
 
-export function sendUpdate(updateInfo) {
+export function sendUpdate(updateInfo, callback) {
   const url = `${ROOT_URL}/users/${updateInfo.username}/update`;
   const request = axios.post(url, updateInfo);
+  request.then(() => callback())
 
   return {
     type: GET_USER_DATA,

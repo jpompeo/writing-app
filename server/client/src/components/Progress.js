@@ -12,6 +12,8 @@ import _ from 'lodash';
 import Moment from 'moment'
 import MixChart from './charts/MixChart'
 import LineGraph from './charts/LineGraph'
+import Projections from './charts/Projections';
+import CurrentStats from './CurrentStats';
 
 
 class Progress extends Component {
@@ -20,7 +22,7 @@ class Progress extends Component {
 
         this.state = {
             currentPage: 1,
-            totalPages: 3
+            totalPages: 5
         }
 
         this.renderChapterProgress = this.renderChapterProgress.bind(this);
@@ -60,8 +62,10 @@ renderPage() {
             return this.renderBurnDownChart();
         } else if (currentPage === 3) {
             return this.renderComparison();
-        // } else if (currentPage === 4) {
-        //     return this.renderProjections();
+        } else if (currentPage === 4) {
+            return this.renderProjections();
+        } else if (currentPage === 5) {
+            return this.renderCurrentStats();
         }
     } else {
         return (
@@ -71,6 +75,18 @@ renderPage() {
             <p>Haven't started tracking yet? < Link id="progress-add-book-link" to="/me/addbook">Get started here!</Link>
             </p>
             </div>
+        )
+    }
+}
+
+//Comparisons - actual, average, goal
+renderCurrentStats() {
+    let currentBook = this.props.currentBook;
+    let updates = this.props.updates;
+
+    if (currentBook.title) {
+        return (
+            <CurrentStats />
         )
     }
 }
@@ -94,7 +110,7 @@ renderProjections() {
 
     if (currentBook.title) {
         return (
-            <MixChart />
+            <Projections />
         )
     }
 }
@@ -208,9 +224,9 @@ renderTotalProgress() {
                     label: 'Overall Progress',
                     fill: true,
                     lineTension: 0.5,
-                    backgroundColor: ['rgba(252, 171, 58 , .4)', 'rgba(77, 79, 79, .7)', ],
-                    borderColor: ['rgba(252, 171, 58 , 1)', 'rgba(77, 79, 79, .8)'],
-                    borderWidth: [3],
+                    backgroundColor: ['rgba(91, 9, 52, .9)', 'rgba(91, 9, 52, .5)', ],
+                    borderColor: ['rgba(80, 8, 46, .5)', 'rgba(80, 8, 46, .5)'],
+                    borderWidth: [3, 3],
                     data: [bookTotalProgress, bookExpectedLength ]
                 }
             ],

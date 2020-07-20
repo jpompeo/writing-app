@@ -5,6 +5,8 @@ import { bindActionCreators } from "redux";
 import { Col, Form, Container, Row, Button } from 'react-bootstrap';
 import '../styles/Nav.css'
 import { setCurrentBook, getUserData } from '../actions'
+import Popup from "reactjs-popup";
+import LinkMenu from './LinkMenu'
 
 class Nav extends Component {
     constructor(props) {
@@ -74,36 +76,44 @@ class Nav extends Component {
 
                         <Col lg={8} id="nav-links">
                             <div id="select-book-container">
-                            <h4 id="select-book-header">Select a book to start tracking!</h4>
-                                <div id="new-book-link-container">
+                                <h4 id="select-book-header">Select a book to start tracking!</h4>
 
-                                    <Link id="new-book-link" to="/me/addbook">
+                                <div id="choose-book-form-container">
+                                    <Form id="choose-book-form" >
 
-                                        [+] 
+                                        <Form.Group>
+                                            {/* <Form.Label></Form.Label> */}
+                                            <Form.Control
+                                                as="select"
+                                                id="choose-book-select"
+                                                value={this.props.selectedBook}
+                                                onChange={event => {
 
-                                    </Link>
+                                                    this.setState({ selectedBook: event.target.value }, () => {
+                                                        this.handleBookChange(event)
+                                                    })
+                                                }}>
+                                                <option value="">Choose Book...</option>
+                                                {this.renderBooks()}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Form>
                                 </div>
 
-                                <Form id="choose-book-form" inline >
-                                    
-                                    <Form.Group>
-                                        {/* <Form.Label></Form.Label> */}
-                                        <Form.Control
-                                            as="select"
-                                            id="choose-book-select"
-                                            value={this.props.selectedBook}
-                                            onChange={event => {
+                                <div id="new-book-link-container">
+                                    <Popup 
+                                        id="link-menu-popup"
+                                        trigger={
+                                            <span id="new-book-link">
 
-                                                this.setState({ selectedBook: event.target.value }, () => {
-                                                    this.handleBookChange(event)
-                                                })
-                                            }}>
-                                            <option value="">Choose Book...</option>
-                                            {this.renderBooks()}
-                                        </Form.Control>
-                                    </Form.Group>
-                                </Form>
+                                            [+]
 
+                                            </span>
+                                        } 
+                                        position="left center">
+                                        <LinkMenu />
+                                    </Popup>
+                                </div>
 
                             </div>
                         </Col>

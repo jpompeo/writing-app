@@ -48,8 +48,10 @@ class AddBookForm extends Component {
                 dailyGoal: this.state.dailyGoal
             }
 
-            addBook(bookInfo)
-            this.props.history.push('/me')
+            addBook(bookInfo, () => {
+
+                this.props.history.push('/me')
+            })
         } else {
             alert("All fields must be completed")
         }

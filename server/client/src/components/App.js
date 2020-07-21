@@ -50,15 +50,15 @@ class App extends React.Component {
               <Route exact path="/signin" component={Signin} /> */}
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/me/addbook" component={AddBookForm} />
-              <Route exact path="/mixchart" component={MixChart}/>
-              <Route exact path="/burndownchart" component={BurnDownChart}/>
-              <Route exact path="/linegraph" component={LineGraph}/>
-              <Route exact path="/doughnut" component={WeeklyDoughnut}/>
+              {/* <Route exact path="/mixchart" component={MixChart}/> */}
+              {/* <Route exact path="/burndownchart" component={BurnDownChart}/> */}
+              {/* <Route exact path="/linegraph" component={LineGraph}/> */}
+              {/* <Route exact path="/doughnut" component={WeeklyDoughnut}/> */}
               <Route exact path="/me/addchapter" component={AddChapterForm}/>
               <Route exact path="/me/addupdate" component={UpdateForm}/>
-              <Route exact path="/me/storymap" component={StoryMap}/>
+              {/* <Route exact path="/me/storymap" component={StoryMap}/> */}
               <Route exact path="/generate-fake-data" component={FakeData} />
-              <Route exact path="/TestLineChart" component={TestLineChart} />
+              {/* <Route exact path="/TestLineChart" component={TestLineChart} /> */}
             </Switch>
           </Col>
         </Row>

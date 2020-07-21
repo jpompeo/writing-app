@@ -67,7 +67,10 @@ class UpdateForm extends Component {
 
     renderChapterNumbers() {
         if (this.props.currentBook.title) {
-            return this.props.currentBook.chapters.map(chapter => {
+            let currentBook = this.props.userData.books.find(book => {
+                return book.title == this.props.currentBook.title;
+            })
+            return currentBook.chapters.map(chapter => {
                 return (
                     <option value={chapter.number}>Chapter {chapter.number}: {chapter.title}</option>
                     )
@@ -160,7 +163,8 @@ class UpdateForm extends Component {
 function mapStateToProps(state) {
     return {
         username: state.userData.username,
-        currentBook: state.currentBook
+        currentBook: state.currentBook,
+        userData: state.UserData
     };
   }
   

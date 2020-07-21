@@ -4,7 +4,7 @@ import { SET_CURRENT_BOOK, SET_CURRENT_USER, SEND_UPDATE, AUTH_USER, AUTH_ERROR,
 
 
   // server address
-const ROOT_URL = 'http://localhost:5000/api';
+const ROOT_URL = '/api';
 
 //for fake data
 

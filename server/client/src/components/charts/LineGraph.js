@@ -17,7 +17,9 @@ class LineGraph extends Component {
     }
 
     renderMixChart() {
-        let currentBook = this.props.currentBook;
+      let currentBook = this.props.user.books.find(book => {
+        return book.title == this.props.currentBook.title;
+    })
        
         //get updates for current book
         let bookUpdates = this.props.user.updates.filter(update => {
@@ -97,19 +99,20 @@ class LineGraph extends Component {
             //daily word count goal to finish on deadline
             let currentDailyTarget = (currentBook.expectedLength - totalWordCount) / daysRemaining;
 
-            console.log("Averages", dailyAverage, weeklyAverage, monthlyAverage)
-            console.log("totals", totalDays, totalWeeks, totalMonths)
-
+            console.log("Averages-----", dailyAverage)
+            console.log("totals", totalDays)
+            
             //get daily word goal
             let dailyGoal = Math.round(currentBook.expectedLength / (totalDays + daysRemaining))
             
             //map average and goal to array for graph
             let averageLineData = bookUpdates.map(update => {
-                return dailyAverage;
-
-                //for demo
-                // return fakeDailyAverage
+              return dailyAverage;
+              
+              //for demo
+              // return fakeDailyAverage
             })
+            console.log("LINE AVE DATA", averageLineData)
 
             let goalLineData = bookUpdates.map(update => {
                 // return dailyGoal;
@@ -122,6 +125,8 @@ class LineGraph extends Component {
             let actualData = sortedUpdates.map(update => {
                 return update.progress;
             });
+
+            console.log("ACTUAAAAAAALS", actualData)
 
             //get dates for graph
             let graphDates = sortedUpdates.map(update => {

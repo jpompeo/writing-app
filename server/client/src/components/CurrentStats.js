@@ -22,10 +22,17 @@ class CurrentStats extends Component {
     }
 
     renderStats() {
-        let currentBook = this.props.currentBook;
+        
+
+        
+        
+            
         let user = this.props.userData;
 
-        if (user.updates) {
+        if (user.updates && this.props.currentBook.title) {
+            let currentBook = this.props.userData.books.find(book => {
+                return book.title == this.props.currentBook.title;
+            })
 
             //get updates for current book
             let bookUpdates = user.updates.filter(update => {
@@ -139,9 +146,11 @@ class CurrentStats extends Component {
                     // </React.Fragment>
 
                 )
-            } else {
-                return (
-                    <div className="chart-zero-view">
+            }
+        } else {
+
+            return (
+                <div className="chart-zero-view">
 
                         <h1 className="chart-header">Select a book to view your stats!</h1>
                         <p>Haven't started tracking yet? <Link to="/me/addupdate">Get started here!</Link>
@@ -149,8 +158,8 @@ class CurrentStats extends Component {
                     </div>
                 )
             }
-        }
-
+        
+    
     }
 
     render() {

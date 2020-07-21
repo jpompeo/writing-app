@@ -113,7 +113,7 @@ class AddBookForm extends Component {
                     </Form.Control>
                 </Form.Group>
 
-                <Form.Group >
+                {/* <Form.Group >
                     <Form.Label>How many words have you written so far? <span className="optional-info">optional - default 0</span></Form.Label>
                     <Form.Control
                         type="text"
@@ -122,7 +122,7 @@ class AddBookForm extends Component {
                         onChange={event => {
                             this.setState({ totalWordCount: event.target.value });
                         }} />
-                </Form.Group>
+                </Form.Group> */}
 
                 <Form.Group >
                     <Form.Label>Set a daily writing goal</Form.Label>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { generateFakeData } from '../actions'
+import { generateFakeData, deleteFakeUser } from '../actions'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -50,6 +50,20 @@ super(props)
                 const updateUrl = `/generate-fake-updates/${this.state.username}`;
                 this.props.generateFakeData(updateUrl)}}
             >Generate Fake Updates</Button>
+            <Button variant="info"
+            style={{margin: 20}}
+            onClick={event => { 
+                event.preventDefault(); 
+                const userUrl = `/fixtotal/${this.state.username}`;
+                this.props.generateFakeData(userUrl)}}
+            >Fix Fake Data</Button>
+            <Button variant="info"
+            style={{margin: 20}}
+            onClick={event => { 
+                event.preventDefault(); 
+                const userUrl = `/delete-fake-user/${this.state.username}`;
+                this.props.deleteFakeUser(userUrl)}}
+            >Delete Fake User</Button>
             </Form>
         )
     }
@@ -57,7 +71,7 @@ super(props)
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { generateFakeData },
+        { generateFakeData, deleteFakeUser },
         dispatch
     );
   }

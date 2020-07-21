@@ -38,6 +38,15 @@ module.exports = function (app) {
 
   })
 
+  app.delete('/api/delete-fake-user/:username', (request, response) => {
+    User.findOneAndDelete({username: request.params.username}, (error, del) => {
+      
+      if (error) response.send(error)
+      response.send(del)
+    });
+
+  })
+
   app.get('/api/generate-fake-books/:username', (request, response) => {
     let fakeUser = request.params.username;
     let fakeBooks = []

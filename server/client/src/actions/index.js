@@ -22,6 +22,20 @@ export function generateFakeData(path) {
   };
 }
 
+export function deleteFakeUser(path) {
+  const url = ROOT_URL + path;
+  const request = axios.delete(url);
+
+  request.then((response) => {
+    console.log("Fake Data Response: ", response)
+  })
+
+  return {
+    type: GENERATE_FAKE_DATA,
+    payload: request,
+  };
+}
+
 export function setCurrentBook(bookInfo) {
  
   return {

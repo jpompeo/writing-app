@@ -107,10 +107,12 @@ class Progress extends Component {
 
     // progress over time
     renderBurnDownChart() {
-        const currentBook = this.props.currentBook
         const updates = this.props.user.updates;
 
-        if (currentBook.title) {
+        if (this.props.currentBook.title) {
+            let currentBook = this.props.user.books.find(book => {
+                return book.title == this.props.currentBook.title;
+            })
             if (updates) {
                 //get updates for current book
                 let bookUpdates = updates.filter(update => {
@@ -215,9 +217,10 @@ class Progress extends Component {
 
     //doughnut chart- overall percentage completed
     renderTotalProgress() {
-        let currentBook = this.props.currentBook;
-        if (currentBook.title) {
-
+        if (this.props.currentBook.title) {
+            let currentBook = this.props.user.books.find(book => {
+                return book.title == this.props.currentBook.title;
+            })
             //calculate chapter progress
             // let chaptersTotal = currentBook.chapters.length;
             // let chaptersCompleted = currentBook.chapters.filter(chapter => {

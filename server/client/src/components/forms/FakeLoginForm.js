@@ -13,7 +13,7 @@ class FakeLoginForm extends Component {
         super(props)
 
         this.state = {
-            username: ''
+            username: 'wordsmith'
         }
         this.sendFakeUser = this.sendFakeUser.bind(this);
     }
@@ -23,10 +23,10 @@ class FakeLoginForm extends Component {
 
         // get user info 
         const username = this.state.username;
-        const password = this.state.password;
+        // const password = this.state.password;
 
         // check if all fields were completed 
-        if (username && password) {
+        if (username) {
             this.props.setFakeUser(username, () => {
                     console.log("FAKE USER CALLBACK", username, this.props.history)
                     this.props.history.push('/me')
@@ -40,20 +40,21 @@ class FakeLoginForm extends Component {
     render() {
         return (
             <Form id="fake-login-form" onSubmit={event => { event.preventDefault() }}>
-                <h3 className="form-header">Sign In</h3>
+                <h3 className="form-header">For Demo</h3>
 
                 <Form.Group >
                     <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="username"
+                        placeholder="wordsmith"
                         value={this.state.username}
-                        onChange={event => {
-                            this.setState({ username: event.target.value });
-                        }} />
+                        // onChange={event => {
+                        //     this.setState({ username: event.target.value });
+                        // }}
+                         />
                 </Form.Group>
 
-                <Form.Group >
+                {/* <Form.Group >
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -62,14 +63,14 @@ class FakeLoginForm extends Component {
                         onChange={event => {
                             this.setState({ password: event.target.value });
                         }} />
-                </Form.Group>
+                </Form.Group> */}
 
                 <Form.Group className="form-button-container">
                         <Button
                             id="login-user-button"
                             onClick={event => {this.sendFakeUser(event)}}
                         >
-                            Sign In
+                            Enter
                         </Button>
                 </Form.Group>
             </Form>

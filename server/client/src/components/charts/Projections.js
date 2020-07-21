@@ -17,9 +17,10 @@ class Projections extends Component {
     }
 
     renderMixChart() {
-        let currentBook = this.props.currentBook;
-       if (this.props.user.updates) {
-
+       if (this.props.user.updates && this.props.currentBook.title) {
+        let currentBook = this.props.user.books.find(book => {
+          return book.title == this.props.currentBook.title;
+      })
        
         //get updates for current book
         let bookUpdates = this.props.user.updates.filter(update => {

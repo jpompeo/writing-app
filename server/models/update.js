@@ -38,8 +38,8 @@ const updateSchema = new Schema({
     },
     expectedLength: Number,
     date: Date,
-    chapterUpdates: [chapterUpdateSchema],
-    notes: String,
+    chapterUpdate: chapterUpdateSchema,
+    notes: String
 }, { timestamps: true });
 
 module.exports = updateSchema;

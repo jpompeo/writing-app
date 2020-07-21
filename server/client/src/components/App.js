@@ -22,6 +22,7 @@ import AddChapterForm from './forms/AddChapterForm'
 import UpdateForm from './forms/UpdateForm'
 import StoryMap from './StoryMap'
 import FakeData from './FakeData'
+import FakeLoginForm from './forms/FakeLoginForm'
 
 class App extends React.Component {
   componentDidMount() {
@@ -43,6 +44,7 @@ class App extends React.Component {
           </Switch>
           {/* <Nav /> */}
             <Switch>
+              <Route exact path="/" component={FakeLoginForm} />
               <Route exact path="/me" component={MainPage} />
               {/* <Route exact path="/signup" component={Signup} />
               <Route exact path="/signin" component={Signin} /> */}

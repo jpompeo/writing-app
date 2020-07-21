@@ -7,15 +7,29 @@ import Progress from './Progress';
 import Updates from './Updates';
 import { getUserData } from '../actions'
 import '../styles/MainPage.css'
+import CurrentStats from './CurrentStats';
 
 class MainPage extends Component {
   constructor(props) {
     super(props)
+    this.renderCurrentStats = this.renderCurrentStats.bind(this);
   }
 
   componentDidMount() {
-  this.props.getUserData('bestselling_author1')
+  this.props.getUserData(this.props.currentUser)
   
+}
+
+//Comparisons - actual, average, goal
+renderCurrentStats() {
+  let currentBook = this.props.currentBook;
+  let updates = this.props.updates;
+
+  if (currentBook.title) {
+      return (
+          <CurrentStats />
+      )
+  }
 }
 
 
@@ -24,28 +38,39 @@ class MainPage extends Component {
 
     return (
       <Container id="main-page-container" fluid>
+        <Row >
 
-        {/* Progress */}
-        {/* <Row>
-          <Col> */}
-          {/* </Col>
-        </Row> */}
-      
-        <Row>
-          {/* Goals  */}
-          <Col md={5}>
-        
+      {/* Updates */}
+          <Col md={5} >
+
+            <h2 className="main-page-header">{this.props.currentBook.title ? `"${this.props.currentBook.title}"` : 'Updates'}</h2>
         <Updates />
 
-            {/* <Goals /> */}
           </Col>
 
-          {/* Updates */}
-          <Col md={7}>
+          
+          <Col md={7} >
+   
+{/* Current Stats  */}
+<Row>
+            <Col >
+            <h2 className="main-page-header">Overview</h2>
+          <CurrentStats /> 
+            </Col>
+          </Row>
+
+{/* Progress */}
+          <Row>
+            <Col>
+            <h2 className="main-page-header">Performance Graphs</h2>
           <Progress />
-          </Col>
-        </Row>
+            </Col>
+          </Row>
 
+          </Col>
+            
+
+        </Row>
         </Container>
         
     );
@@ -54,7 +79,9 @@ class MainPage extends Component {
 
 function mapStateToProps(state) {
   return {
-   user: state.userData
+   userData: state.userData,
+   currentUser: state.currentUser,
+   currentBook: state.currentBook
   };
 }
 

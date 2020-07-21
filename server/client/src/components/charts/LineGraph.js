@@ -60,9 +60,11 @@ class LineGraph extends Component {
             }))
 
             //get total word count
-            let totalWordCount = bookUpdates.reduce((total, update) => {
+            let totalUpdateWordCount = bookUpdates.reduce((total, update) => {
                 return total + update.progress;
             }, 0);
+
+            let totalWordCount = currentBook.progress;
 
             // divide word count into days (goal start till today) //
             //get dates needed
@@ -103,17 +105,17 @@ class LineGraph extends Component {
             
             //map average and goal to array for graph
             let averageLineData = bookUpdates.map(update => {
-                // return dailyAverage;
+                return dailyAverage;
 
                 //for demo
-                return fakeDailyAverage
+                // return fakeDailyAverage
             })
 
             let goalLineData = bookUpdates.map(update => {
                 // return dailyGoal;
 
-                // for demo
-                return this.props.user.dailyGoal;
+                // updates as data changes
+                return currentDailyTarget;
             })
 
             //get daily actual word counts
@@ -164,7 +166,7 @@ class LineGraph extends Component {
             return (
                 <React.Fragment>
 
-                    <h2 className="chart-header">Differentials</h2>
+                    <h2 className="chart-header">Daily Performance</h2>
                     <Line data={data} legend={legend} options={options} />
 
                 </React.Fragment>

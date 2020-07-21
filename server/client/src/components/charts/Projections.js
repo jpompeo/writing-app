@@ -62,9 +62,11 @@ class Projections extends Component {
             }))
 
             //get total word count
-            let totalWordCount = bookUpdates.reduce((total, update) => {
+            let totalUpdatesWordCount = bookUpdates.reduce((total, update) => {
                 return total + update.progress;
             }, 0);
+
+            let totalWordCount = currentBook.progress;
 
             // divide word count into days (goal start till today) //
             //get dates needed
@@ -237,7 +239,7 @@ class Projections extends Component {
             return (
                 <React.Fragment>
 
-                    <h2 className="chart-header">Projections</h2>
+                    <h2 className="chart-header">Projected Finish Date: {projectedFinishDate.format('MMMM DD, YYYY')}</h2>
                     <Line data={data} legend={legend} options={options} />
 
                 </React.Fragment>

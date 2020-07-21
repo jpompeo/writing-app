@@ -18,10 +18,11 @@ class Nav extends Component {
 
         this.renderBooks = this.renderBooks.bind(this);
         this.handleBookChange = this.handleBookChange.bind(this);
+        this.renderBookSelect = this.renderBookSelect.bind(this);
     }
 
     componentDidMount() {
-        this.props.getUserData('bestselling_author1')
+        this.props.getUserData(this.props.currentUser)
 
     }
 
@@ -59,13 +60,66 @@ class Nav extends Component {
         }
     }
 
+    renderBookSelect() {
+        console.log("RENDER BOOK SELECT USER", this.props.currentUser)
+        if (this.props.currentUser.length > 0) {
+            
+            return (
+                <React.Fragment>
+
+                <div id="choose-book-form-container">
+                <h4 id="select-book-header">Select a book to start tracking!</h4>
+                    <Form  id="choose-book-form" >
+
+                        <Form.Group 
+                        >
+                            {/* <Form.Label></Form.Label> */}
+                            <Form.Control 
+                                size="sm"
+                                
+                                as="select"
+                                id="choose-book-select"
+                                value={this.props.selectedBook}
+                                onChange={event => {
+
+                                    this.setState({ selectedBook: event.target.value }, () => {
+                                        this.handleBookChange(event)
+                                    })
+                                }}>
+                                <option value="">Choose Book...</option>
+                                {this.renderBooks()}
+                            </Form.Control>
+                        </Form.Group>
+                    </Form>
+                
+
+                <div id="new-book-link-container">
+                    <Popup
+                        id="link-menu-popup"
+                        trigger={
+                            <span id="new-book-link">
+
+                                [+]
+
+                            </span>
+                        }
+                        position="left center">
+                        <LinkMenu />
+                    </Popup>
+                </div>
+                </div>
+                </React.Fragment>
+            )
+        }
+    }
+
     render() {
         return (
-            <div id="header-nav">
-                <Container id="container-in-header">
+                // <div id="header-nav">
+            <Container fluid id="header-nav">
 
                     <Row>
-                        <Col lg={4} id="logo-container" className="my-auto">
+                        <Col lg={5} id="logo-container" >
 
                             <div id="header-logo">
                                 <Link to="/me">
@@ -74,59 +128,23 @@ class Nav extends Component {
                             </div>
                         </Col>
 
-                        <Col lg={8} id="nav-links">
+                        <Col lg={7} id="nav-links">
                             <div id="select-book-container">
-                                <h4 id="select-book-header">Select a book to start tracking!</h4>
 
-                                <div id="choose-book-form-container">
-                                    <Form id="choose-book-form" >
-
-                                        <Form.Group>
-                                            {/* <Form.Label></Form.Label> */}
-                                            <Form.Control
-                                                as="select"
-                                                id="choose-book-select"
-                                                value={this.props.selectedBook}
-                                                onChange={event => {
-
-                                                    this.setState({ selectedBook: event.target.value }, () => {
-                                                        this.handleBookChange(event)
-                                                    })
-                                                }}>
-                                                <option value="">Choose Book...</option>
-                                                {this.renderBooks()}
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Form>
-                                </div>
-
-                                <div id="new-book-link-container">
-                                    <Popup 
-                                        id="link-menu-popup"
-                                        trigger={
-                                            <span id="new-book-link">
-
-                                            [+]
-
-                                            </span>
-                                        } 
-                                        position="left center">
-                                        <LinkMenu />
-                                    </Popup>
-                                </div>
-
+                            {this.renderBookSelect()}
                             </div>
                         </Col>
                     </Row>
                 </Container>
-            </div>
+            // </div>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-        books: state.userData.books
+        books: state.userData.books,
+        currentUser: state.currentUser
     };
 }
 

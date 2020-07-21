@@ -47,14 +47,14 @@ class UpdateForm extends Component {
                 progress: this.state.progress,
                 expectedLength: this.props.currentBook.expectedLength,
                 date: this.state.date || new Date(),
-                chapterUpdates: [{
+                chapterUpdate: {
                     bookTitle: this.props.currentBook.title,
                     chapterNumber: this.state.chapterNumber,
                     progress: this.state.progress,
                     completed: this.state.completed,
                     chapterTitle: chapterTitle,
                     expectedLength: expectedLength
-                }]
+                }
             }  
         }
         this.props.sendUpdate(updateInfo, () => {

@@ -38,7 +38,7 @@ class Updates extends Component {
 
         return updates.map((update, index) => {
 
-          let sampleChapter = update.chapterUpdates[Math.floor(Math.random() * update.chapterUpdates.length)];
+          let sampleChapter = update.chapterUpdate;
 
           let bookProgress = Math.round((sampleChapter.progress / this.props.currentBook.expectedLength) * 100);
 
@@ -130,7 +130,7 @@ class Updates extends Component {
       <Container id="update-container" fluid>
         <Row>
           <Col>
-            <SimpleBar style={{ maxHeight: 600 }}>
+            <SimpleBar style={{ maxHeight: '200vh' }}>
 
               <VerticalTimeline>
                 {this.renderUpdates()}

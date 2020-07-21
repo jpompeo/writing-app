@@ -1,31 +1,31 @@
-#progress-container {
+#stats-container {
     /* box-sizing: border-box; */
     position: relative;
     /* border: 2px solid rgba(94, 166, 176, .5); */
     border: 7px solid rgba(151, 156, 156, .15 );
     border-radius: 3px;
-    margin: 15px auto;
+    margin: 15px auto 30px;
     background-color: #e3e3e3;
     padding: 0;
-    width: 98%;
     box-shadow: 4px 4px 8px rgba(48, 49, 49, .7);
-    /* min-height: 190px; */
+    min-height: 190px;
     /* max-height: 65vh; */
+    width: 98%;
 }
 
-.chart-header {
+.stats-header {
     text-align: center;
-    font-size: 28px;
+    font-size: 20px;
     /* font-weight: bold; */
     /* font-family: 'Shadows Into Light Two', sans-serif; */
     font-variant: small-caps;
     margin: 5px auto;
 }
 
-#progress-charts {
+#stats-display {
    text-align: center;
-   margin: 20px;
-   padding: 10px;
+   margin: 0px;
+   padding: 5px 0 0px;
 }
 
 #left-arrow, #right-arrow {
@@ -68,7 +68,11 @@
 .current-stats {
     color: rgba(107, 190, 201, .9);
     font-weight: 600;
-    font-size: 25px;
+    font-size: 20px;
     letter-spacing: 2px;
     font-family: 'Shadows Into Light Two', sans-serif;
+}
+
+.stats-hr {
+    width: 30%;
 }

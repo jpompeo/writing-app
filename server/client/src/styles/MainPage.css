@@ -1,5 +1,23 @@
 #main-page-container {
     padding: 0 20px;
-    width: 100%;
-    margin: 0;
+    width: 97%;
+    margin: 0 auto;
 }
+
+.main-page-header {
+    text-align: center;
+    color: rgba(227, 227, 227, 1);
+    /* color: #4D4F4F; */
+    background-color: rgba(107, 190, 201, .2);
+    box-shadow: 4px 4px 8px rgba(48, 49, 49, .7);
+    padding: 5px;
+    border: 7px solid rgba(107, 190, 201, .3);
+    border-radius: 3px;
+    /* font-variant: small-caps; */
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    width: 98%;
+    margin: 0 auto;
+}
+

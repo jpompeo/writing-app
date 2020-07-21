@@ -22,7 +22,7 @@ class StoryMap extends Component {
   }
 
   componentDidMount() {
-    this.props.getUserData('bestselling_author1')
+    this.props.getUserData(this.props.currentUser)
   }
 
   componentDidUpdate() {
@@ -35,7 +35,7 @@ class StoryMap extends Component {
 
     if (this.state.currentBookTitle) {
       //find book
-      const selectedBook = this.props.user.books.find(book => {
+      const selectedBook = this.props.userData.books.find(book => {
         return book.title === this.state.currentBookTitle;
       })
 
@@ -86,8 +86,9 @@ class StoryMap extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.userData,
-    currentBook: state.currentBook
+    userData: state.userData,
+    currentBook: state.currentBook,
+    currentUser: state.currentUser
   };
 }
 

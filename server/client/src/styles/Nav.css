@@ -1,20 +1,25 @@
 #header-nav {
 box-sizing: border-box;
-   padding: 15px 0 5px;
+   /* padding: 5px 0 0; */
    width: 100%;
-   border-top: 7px solid rgba(227, 227, 227, .15 );
-   border-bottom: 6px solid rgba(227, 227, 227, .15);
+   border-top: 7px solid rgba(151, 156, 156, .2 );
+   border-bottom: 6px solid rgba(151, 156, 156, .2 );
+   /* border-top: 7px solid rgba(227, 227, 227, .15 );
+   border-bottom: 6px solid rgba(227, 227, 227, .15); */
    margin: 0 0 20px;
+   padding: 0 2%;
+   height: 80px;
    background-color: rgba(151, 156, 156, .3 );
    /* box-shadow: 1px 1px 2px rgba(100, 100, 100, 1); */
    box-shadow: 0px 4px 8px rgba(48, 49, 49, .5);
+   /* height: 85px; */
 }
 
 #header-nav h1 {
-    font-size: 55px;
+    font-size: 40px;
     font-variant: small-caps;
     font-weight: bold;
-    text-align: left;
+    /* text-align: left; */
     color: #e3e3e3;
     /* color: rgba(107, 190, 201, .8); */
     /* color: rgba(252, 171, 58 , .7); */
@@ -22,22 +27,27 @@ box-sizing: border-box;
     display: inline-block;
     font-family: 'Shadows Into Light Two', sans-serif;
     text-decoration: underline;
+    /* text-shadow: 3px 0px 10px rgba(48, 49, 49, .4); */
 }
 
 #nav-links {
     display: inline-block;
     text-align: right;
+    padding-right: 50px;
 }
 
 #header-logo {
     display: inline-block;
     text-align: left;
     /* vertical-align: middle; */
+    
 }
 
 #logo-container {
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
+    padding: 0;
+    margin: 0 !important;
 }
 
 #new-book-link {
@@ -50,23 +60,26 @@ box-sizing: border-box;
     cursor: pointer;
     text-decoration: none;
     color: #e3e3e3;
+    
 }
-
-
 
 #new-book-link-container {
     display: inline-block;
     /* margin: 0 10px; */
     color: #e3e3e3; 
+    
 }
 
 #select-book-header {
-    font-size: 18px;
+    display: inline-block;
+    font-size: 16px;
     padding: 0;
     margin: 0;
     font-weight: 500;
     color: #e3e3e3; 
+    text-align: right;
 }
+
 
 #container-in-header {
     margin: 0 auto;
@@ -75,12 +88,14 @@ box-sizing: border-box;
 
 #choose-book-form-container {
     display: inline-block;
-    text-align: left;
+    text-align: right;
+    padding: 0;
 }
 
 #choose-book-form {
    display: inline-block;
-   width: 80% !important;
+   width: 30% !important;
+   margin: 15px !important;
 }
 
 .popup-content {

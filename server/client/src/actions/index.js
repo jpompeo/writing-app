@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_CURRENT_BOOK, SEND_UPDATE, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
+import { SET_CURRENT_BOOK, SET_CURRENT_USER, SEND_UPDATE, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
 
 
 
@@ -30,10 +30,32 @@ export function setCurrentBook(bookInfo) {
   };
 }
 
+export function setFakeUser(username, callback) {
+ console.log("SET USER ACTION", username)
+  localStorage.setItem('username', username);
+  setTimeout(callback(), 1000)
+  
+  return {
+    type: SET_CURRENT_USER,
+    payload: username,
+  };
+}
+
+export function updateCurrentBook(bookInfo, callback) {
+  setTimeout(callback(), 2000)
+
+  return {
+    type: SET_CURRENT_BOOK,
+    payload: bookInfo,
+  };
+}
+
 export function addBook(bookInfo, callback) {
   const url = `${ROOT_URL}/users/${bookInfo.username}/book`;
   const request = axios.post(url, bookInfo);
-  request.then(() => callback())
+  request.then(() => {
+    setTimeout(callback(), 1000)
+  })
 
   return {
     type: ADD_BOOK,
@@ -44,7 +66,9 @@ export function addBook(bookInfo, callback) {
 export function sendChapter(chapterInfo, callback) {
   const url = `${ROOT_URL}/users/${chapterInfo.username}/chapter`;
   const request = axios.post(url, chapterInfo);
-  request.then(() => callback())
+  request.then(() => {
+    setTimeout(callback(), 1000)
+  })
 
   return {
     type: GET_USER_DATA,
@@ -53,7 +77,8 @@ export function sendChapter(chapterInfo, callback) {
 }
 
 export function getUserData(username) {
-  const url = `${ROOT_URL}/users/${username}`;
+  const loggedInUser = localStorage.getItem('username')
+  const url = `${ROOT_URL}/users/${loggedInUser}`;
   const request = axios.get(url);
 
 
@@ -66,7 +91,9 @@ export function getUserData(username) {
 export function sendUpdate(updateInfo, callback) {
   const url = `${ROOT_URL}/users/${updateInfo.username}/update`;
   const request = axios.post(url, updateInfo);
-  request.then(() => callback())
+  request.then(() => {
+    setTimeout(callback(), 1000)
+  })
 
   return {
     type: GET_USER_DATA,

@@ -6,7 +6,7 @@ import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../../styles/AddBookForm.css'
-import { addBook } from '../../actions'
+import { addBook, updateCurrentBook } from '../../actions'
 
 class AddBookForm extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class AddBookForm extends Component {
             expectedLength: 0,
             deadline: '',
             startDate: '',
-            totalWordCount: 0,
+            // totalWordCount: 0,
             dailyGoal: 0
         }
         this.sendBook = this.sendBook.bind(this);
@@ -44,13 +44,15 @@ class AddBookForm extends Component {
                 expectedLength: expectedLength,
                 deadline: deadline,
                 startDate: startDate,
-                totalWordCount: this.state.totalWordCount,
+                // totalWordCount: this.state.totalWordCount,
                 dailyGoal: this.state.dailyGoal
             }
 
             addBook(bookInfo, () => {
+                // updateCurrentBook(bookInfo, () => {
 
-                this.props.history.push('/me')
+                    this.props.history.push('/me')
+                // })
             })
         } else {
             alert("All fields must be completed")
@@ -173,7 +175,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { addBook },
+        { addBook, updateCurrentBook },
         dispatch
     );
 }

@@ -271,7 +271,8 @@ class Projections extends Component {
 function mapStateToProps(state) {
     return {
         user: state.userData,
-        currentBook: state.currentBook
+        currentBook: state.currentBook,
+        updates: state.userData.updates
     };
 }
 

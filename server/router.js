@@ -335,24 +335,36 @@ console.log("fake chapter update", fakeChapterUpdate)
 
     //add update to user
     User
-      .findOneAndUpdate({ username: username }, { $push: { updates: [update] },  }, { runValidators: true })
+      .findOne({ username: username })
       .exec((error, updatedUser) => {
         if (error) response.send(error)
+
+        updatedUser.updates.push(update);
         //update total words
         updatedUser.totalWordCount += progress;
 
-        const bookToUpdate = updatedUser.books.find(book => {
-          return book.title == update.bookTitle;
+        updatedUser.books.forEach(book => {
+          if (book.title == update.bookTitle) {
+            let newBookTotal = Number(book.progress) + Number(update.progress);
+            book.progress = newBookTotal
+
+            book.chapters.forEach(chapter => {
+              if (chapter.title == update.chapterUpdate.chapterTitle) {
+                let newChapterTotal = chapter.progress + update.progress;
+                chapter.progress = newChapterTotal;
+
+                // chapterToUpdate.progress += progress;
+        chapter.completed = update.chapterUpdate.completed || false;
+              }
+            })
+          }
         });
 
-        bookToUpdate.progress += progress;
+        // const chapterToUpdate = bookToUpdate.chapters.find(chapter => {
+        //   return chapter.number == update.chapterUpdate.chapterNumber;
+        // })
 
-        const chapterToUpdate = bookToUpdate.chapters.find(chapter => {
-          return chapter.number == update.chapterUpdate.chapterNumber;
-        })
-
-        chapterToUpdate.progress += progress;
-        chapterToUpdate.completed = update.chapterUpdate.completed || false;
+        
 
         updatedUser.save((error, user) => {
           if (error) response.send(error)

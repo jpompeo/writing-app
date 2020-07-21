@@ -58,7 +58,7 @@ class UpdateForm extends Component {
             }  
         }
         this.props.sendUpdate(updateInfo, () => {
-            this.props.history.push('/me')
+           this.props.history.push('/me')
         });
     } else {
         alert("All required fields must be completed")

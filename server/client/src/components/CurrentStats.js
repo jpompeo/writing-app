@@ -17,6 +17,10 @@ class CurrentStats extends Component {
 
     }
 
+    componentDidUpdate() {
+        console.log("OVERVIEW UPDATED",)
+    }
+
     renderStats() {
         let currentBook = this.props.currentBook;
         let user = this.props.userData;

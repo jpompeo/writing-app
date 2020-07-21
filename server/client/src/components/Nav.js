@@ -103,7 +103,7 @@ class Nav extends Component {
 
                             </span>
                         }
-                        position="left center">
+                        position="left top">
                         <LinkMenu />
                     </Popup>
                 </div>

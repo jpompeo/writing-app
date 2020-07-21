@@ -42,7 +42,7 @@ export function setFakeUser(username, callback) {
 }
 
 export function updateCurrentBook(bookInfo, callback) {
-  setTimeout(callback(), 2000)
+  callback()
 
   return {
     type: SET_CURRENT_BOOK,
@@ -92,7 +92,7 @@ export function sendUpdate(updateInfo, callback) {
   const url = `${ROOT_URL}/users/${updateInfo.username}/update`;
   const request = axios.post(url, updateInfo);
   request.then(() => {
-    setTimeout(callback(), 1000)
+    setTimeout(callback(), 3000)
   })
 
   return {

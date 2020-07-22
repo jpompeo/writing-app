@@ -72,7 +72,7 @@ class Progress extends Component {
                 <div className="chart-zero-view">
 
                     <h1 className="chart-header">No updates yet</h1>
-                    <p>Haven't started tracking yet? < Link id="progress-add-book-link" to="/me/addbook">Get started here!</Link>
+                    <p>Haven't started tracking yet? < Link id="progress-add-book-link" to="/me/addupdate">Get started here!</Link>
                     </p>
                 </div>
             )

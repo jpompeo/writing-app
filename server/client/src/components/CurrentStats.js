@@ -153,7 +153,7 @@ class CurrentStats extends Component {
                 <div className="chart-zero-view">
 
                         <h1 className="chart-header">Add a chapter to start tracking now!</h1>
-                        <p>Haven't created any goals yet? <Link to="/me/createbook">Get started here!</Link>
+                        <p>Haven't created any goals yet? <Link to="/me/addchapter">Get started here!</Link>
                         </p>
                     </div>
                 )
@@ -164,7 +164,7 @@ class CurrentStats extends Component {
                 <div className="chart-zero-view">
 
                         <h1 className="chart-header">Select a book to view your stats!</h1>
-                        <p>Haven't created any goals yet? <Link to="/me/createbook">Get started here!</Link>
+                        <p>Haven't created any goals yet? <Link to="/me/addbook">Get started here!</Link>
                         </p>
                     </div>
                 )

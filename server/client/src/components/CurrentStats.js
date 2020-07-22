@@ -28,11 +28,12 @@ class CurrentStats extends Component {
         
             
         let user = this.props.userData;
-
+        
         if (user.updates && this.props.currentBook.title) {
             let currentBook = this.props.userData.books.find(book => {
                 return book.title == this.props.currentBook.title;
             })
+                        if (currentBook.chapters.length !== 0) {
 
             //get updates for current book
             let bookUpdates = user.updates.filter(update => {
@@ -148,12 +149,22 @@ class CurrentStats extends Component {
                 )
             }
         } else {
+            return (
+                <div className="chart-zero-view">
+
+                        <h1 className="chart-header">Add a chapter to start tracking now!</h1>
+                        <p>Haven't created any goals yet? <Link to="/me/createbook">Get started here!</Link>
+                        </p>
+                    </div>
+                )
+        }
+        } else {
 
             return (
                 <div className="chart-zero-view">
 
                         <h1 className="chart-header">Select a book to view your stats!</h1>
-                        <p>Haven't started tracking yet? <Link to="/me/addupdate">Get started here!</Link>
+                        <p>Haven't created any goals yet? <Link to="/me/createbook">Get started here!</Link>
                         </p>
                     </div>
                 )

@@ -26,10 +26,12 @@ class UpdateForm extends Component {
     saveUpdate(event) {
         event.preventDefault();
 
-        if (this.state.progress && this.state.chapterNumber) {
-
+        if (this.state.progress && this.state.chapterNumber && this.props.currentBook && this.props.userData) {
+            let currentBook = this.props.userData.books.find(book => {
+                return book.title == this.props.currentBook.title;
+            })
        
-        const selectedChapter = this.props.currentBook.chapters.find(chapter => {
+        const selectedChapter = currentBook.chapters.find(chapter => {
             return chapter.number == this.state.chapterNumber;
         })
 
@@ -43,12 +45,12 @@ class UpdateForm extends Component {
         const updateInfo = {
             username: this.props.username,
             update: {
-                bookTitle: this.props.currentBook.title,
+                bookTitle: currentBook.title,
                 progress: this.state.progress,
-                expectedLength: this.props.currentBook.expectedLength,
+                expectedLength: currentBook.expectedLength,
                 date: this.state.date || new Date(),
                 chapterUpdate: {
-                    bookTitle: this.props.currentBook.title,
+                    bookTitle: currentBook.title,
                     chapterNumber: this.state.chapterNumber,
                     progress: this.state.progress,
                     completed: this.state.completed,
@@ -66,7 +68,7 @@ class UpdateForm extends Component {
     }
 
     renderChapterNumbers() {
-        if (this.props.currentBook.title) {
+        if (this.props.currentBook.title && this.props.userData) {
             let currentBook = this.props.userData.books.find(book => {
                 return book.title == this.props.currentBook.title;
             })
@@ -80,7 +82,7 @@ class UpdateForm extends Component {
 
     renderUpdateForm() {
         const currentBookTitle = this.props.currentBook.title;
-        if (currentBookTitle) {
+        if (currentBookTitle && this.props.userData.books) {
             return (
 
                 <React.Fragment>
@@ -164,7 +166,7 @@ function mapStateToProps(state) {
     return {
         username: state.userData.username,
         currentBook: state.currentBook,
-        userData: state.UserData
+        userData: state.userData
     };
   }
   

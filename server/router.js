@@ -416,6 +416,31 @@ console.log("fake chapter update", fakeChapterUpdate)
       })
   })
 
+  //edit book goal
+  app.put('/api/users/:username/book/:bookId', (request, response) => {
+    const newTitle = request.body.title;
+    const newDescription = request.body.description;
+    const newDeadline = request.body.deadline;
+    const newLength = request.body.expectedLength;
+    
+    User
+      .find({username: request.params.username})
+      .exec((error, user) => {
+        if (error) response.send(error);
+        let bookToUpdate = user.books.find(book => {
+          return book._id === request.params.bookId;
+        });
+        bookToUpdate.title = newTitle;
+        bookToUpdate.description = newDescription;
+        bookToUpdate.deadline = newDeadline;
+        bookToUpdate.expectedLength = newLength;
+        user.save((error, updatedUser) => {
+          if (error) response.send(error);
+          response.send(updatedUser);
+        })
+      })
+  });
+
   //get user
 
   //get books

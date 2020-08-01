@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SET_CURRENT_BOOK, SET_CURRENT_USER, SEND_UPDATE, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
+import { SET_CURRENT_BOOK, SET_CURRENT_USER, EDIT_BOOK, SEND_UPDATE, AUTH_USER, AUTH_ERROR, ADD_BOOK, ADD_CHAPTER, GET_USER_DATA, GENERATE_FAKE_DATA } from './types';
 
 
 
@@ -73,6 +73,19 @@ export function addBook(bookInfo, callback) {
 
   return {
     type: ADD_BOOK,
+    payload: request,
+  };
+}
+
+export function editBook(bookInfo, callback) {
+  const url = `${ROOT_URL}/users/${bookInfo.username}/book/${bookInfo.bookId}`;
+  const request = axios.put(url, bookInfo);
+  request.then(() => {
+    setTimeout(callback(), 1000)
+  })
+
+  return {
+    type: GET_USER_DATA,
     payload: request,
   };
 }

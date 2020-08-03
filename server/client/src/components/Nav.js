@@ -106,6 +106,11 @@ class Nav extends Component {
                         position="left top">
                         <LinkMenu />
                     </Popup>
+                    <span id="edit-book-link">
+
+                                
+
+                            </span>
                 </div>
                 </div>
                 </React.Fragment>

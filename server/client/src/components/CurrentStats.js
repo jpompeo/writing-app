@@ -13,8 +13,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 class CurrentStats extends Component {
     constructor(props) {
         super(props)
-
-
     }
 
     componentDidUpdate() {
@@ -22,155 +20,200 @@ class CurrentStats extends Component {
     }
 
     renderStats() {
-        
-
-        
-        
-            
         let user = this.props.userData;
-        
+
         if (user.updates && this.props.currentBook.title) {
             let currentBook = this.props.userData.books.find(book => {
                 return book.title == this.props.currentBook.title;
             })
-                        if (currentBook.chapters.length !== 0) {
+            if (currentBook.chapters.length !== 0) {
 
-            //get updates for current book
-            let bookUpdates = user.updates.filter(update => {
-                return update.bookTitle === currentBook.title;
-            })
+                //get updates for current book
+                let bookUpdates = user.updates.filter(update => {
+                    return update.bookTitle === currentBook.title;
+                })
 
-            if (bookUpdates.length > 0) {
+                if (bookUpdates.length > 0) {
 
-                // calculate data needed for stats //
+                    // calculate data needed for stats //
 
-                //sort by date
-                let sortedUpdates = _.sortBy(bookUpdates, (update => {
-                    let sortByDate = update.date || update.createdAt;
-                    return sortByDate;
-                }))
+                    //sort by date
+                    let sortedUpdates = _.sortBy(bookUpdates, (update => {
+                        let sortByDate = update.date || update.createdAt;
+                        return sortByDate;
+                    }))
 
-                //get total word count
-                let totalUpdateWordCount = bookUpdates.reduce((total, update) => {
-                    return total + update.progress;
-                }, 0);
+                    //get total word count
+                    let totalUpdateWordCount = bookUpdates.reduce((total, update) => {
+                        return total + update.progress;
+                    }, 0);
 
-                let totalWordCount = currentBook.progress;
+                    let totalWordCount = currentBook.progress;
 
-                // divide word count into days (goal start till today) //
-                //get dates needed
-                const goalStart = Moment(sortedUpdates[0].date || sortedUpdates[0].createdAt);
-                const today = Moment(new Date());
-                const goalEnd = Moment(currentBook.deadline);
-                const bookStart = Moment(currentBook.startDate);
+                    // divide word count into days (goal start till today) //
+                    //get dates needed
+                    const goalStart = Moment(sortedUpdates[0].date || sortedUpdates[0].createdAt);
+                    const today = Moment(new Date());
+                    const goalEnd = Moment(currentBook.deadline);
+                    const bookStart = Moment(currentBook.startDate);
 
-                //Differences in number of days
-                let totalDays = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asDays()));
-                let daysRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asDays()));
-                let overallDays = Math.abs(Math.round(Moment.duration(bookStart.diff(goalEnd)).asDays()));
+                    //Differences in number of days
+                    let totalDays = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asDays()));
+                    let daysRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asDays()));
+                    let overallDays = Math.abs(Math.round(Moment.duration(bookStart.diff(goalEnd)).asDays()));
 
-                //Differences in number of weeks
-                let totalWeeks = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asWeeks()));
-                let weeksRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asWeeks()));
+                    //Differences in number of weeks
+                    let totalWeeks = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asWeeks()));
+                    let weeksRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asWeeks()));
 
-                //Differences in number of weeks
-                let totalMonths = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asMonths()));
-                let monthsRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asMonths()));
+                    //Differences in number of weeks
+                    let totalMonths = Math.abs(Math.round(Moment.duration(goalStart.diff(today)).asMonths()));
+                    let monthsRemaining = Math.abs(Math.round(Moment.duration(today.diff(goalEnd)).asMonths()));
 
-                //get averages daily, weekly, monthly word count
-                let dailyAverage = Math.round(totalWordCount / totalDays);
-                let weeklyAverage = Math.round(totalWordCount / totalWeeks);
-                let monthlyAverage = Math.round(totalWordCount / totalMonths);
+                    //get averages daily, weekly, monthly word count
+                    let dailyAverage = Math.round(totalWordCount / totalDays);
+                    let weeklyAverage = Math.round(totalWordCount / totalWeeks);
+                    let monthlyAverage = Math.round(totalWordCount / totalMonths);
 
-                // for demo- averages for incomplete generated fake data
-                let fakeDailyAverage = Math.round(totalWordCount / sortedUpdates.length)
+                    // for demo- averages for incomplete generated fake data
+                    let fakeDailyAverage = Math.round(totalWordCount / sortedUpdates.length)
 
-                //daily word count goal to finish on deadline
-                let currentDailyTarget = Math.round((currentBook.expectedLength - totalWordCount) / daysRemaining);
+                    //daily word count goal to finish on deadline
+                    let currentDailyTarget = Math.round((currentBook.expectedLength - totalWordCount) / daysRemaining);
 
-                //get daily word goal
-                let dailyGoal = Math.round(currentBook.expectedLength / (totalDays + daysRemaining))
-
-
-                //get difference between current progress and expected count
-                const remainingWords = currentBook.expectedLength - totalWordCount;
-
-                //divide remaining words by daily average to get projected number of days until finished
-                const projectedRemainingDays = Math.round(remainingWords / dailyAverage);
-
-                //get projected finish date
-                const projectedFinishDate = today.add(projectedRemainingDays, 'days')
+                    //get daily word goal
+                    let dailyGoal = Math.round(currentBook.expectedLength / (totalDays + daysRemaining))
 
 
+                    //get difference between current progress and expected count
+                    const remainingWords = currentBook.expectedLength - totalWordCount;
+
+                    //divide remaining words by daily average to get projected number of days until finished
+                    const projectedRemainingDays = Math.round(remainingWords / dailyAverage);
+
+                    //get projected finish date
+                    const projectedFinishDate = today.add(projectedRemainingDays, 'days')
+
+
+                    return (
+                        // <React.Fragment>
+                        <Container fluid >
+                            {/* Top Row Categories*/}
+                            <Row>
+
+                                <Col >
+                                    <h4 className="stats-header">Goal </h4>
+                               
+                                </Col>
+
+                                <Col>
+
+                                    <h4 className="stats-header">Goal Target Date </h4>
+                                 
+                                </Col>
+
+
+
+                                <Col >
+                                    <h4 className="stats-header">Daily Average </h4>
+                              
+                                </Col>
+
+                            </Row>
+
+                            {/* Top Row Values*/}
+                            <Row>
+                                <Col >
+                                    <p className="current-stats">{currentBook.expectedLength} words</p>
+                                </Col>
+
+                                <Col>
+                                    <p className="current-stats">{goalEnd.format("MMM D, YYYY")}</p>
+                                </Col>
+
+                                <Col >
+                                    <p className="current-stats">{dailyAverage} words per day</p>
+                                </Col>
+
+                            </Row>
+
+                            {/*break*/}
+                            <Row>
+                                <Col >
+                                    <hr/>
+                                </Col>
+
+                                <Col>
+                                    <hr/>
+                                </Col>
+
+                                <Col >
+                                    <hr/>
+                                </Col>
+
+                            </Row>
+
+                            {/* Bottom Row Categories*/}
+                            <Row>
+                                <Col >
+                                    <h4 className="stats-header">Current Progress</h4>
+                                </Col>
+
+                                <Col>
+                                    <h4 className="stats-header">Projected Finish Date </h4>
+                                </Col>
+
+                                <Col >
+                                    <h4 className="stats-header">Current Daily Target: </h4>
+                                </Col>
+                            </Row>
+
+                             {/* Bottom Row Values*/}
+                             <Row>
+                                <Col >
+                                    <p className="current-stats">{totalWordCount} words</p>
+                                </Col>
+
+                                <Col>
+                                    <p className="current-stats">{projectedFinishDate.format("MMM D, YYYY")}</p>
+                                </Col>
+
+
+
+                                <Col >
+                                    <p className="current-stats">{currentDailyTarget} words</p>
+                                </Col>
+                            </Row>
+                        </Container>
+
+
+                        // </React.Fragment>
+
+                    )
+                }
+            } else {
                 return (
-                    // <React.Fragment>
-                    <Container fluid >
-                        <Row>
-
-                            <Col >
-                                <h4 className="stats-header">Goal </h4>
-                                <p className="current-stats">{currentBook.expectedLength} words</p>
-
-                                <hr className="stats-hr" />
-
-                                <h4 className="stats-header">Current Progress</h4>
-                                <p className="current-stats">{totalWordCount} words</p>
-                            </Col>
-
-                            <Col>
-
-                                <h4 className="stats-header">Goal Target Date </h4>
-                                <p className="current-stats">{goalEnd.format("MMM D, YYYY")}</p>
-
-                                <hr className="stats-hr" />
-
-                                <h4 className="stats-header">Projected Finish Date </h4>
-                                <p className="current-stats">{projectedFinishDate.format("MMM D, YYYY")}</p>
-                            </Col>
-
-
-
-                            <Col >
-                                <h4 className="stats-header">Daily Average </h4>
-                                <p className="current-stats">{dailyAverage} words per day</p>
-
-                                <hr className="stats-hr" />
-
-                                <h4 className="stats-header">Current Daily Target: </h4>
-                                <p className="current-stats">{currentDailyTarget} words</p>
-                            </Col>
-
-                        </Row>
-                    </Container>
-
-
-                    // </React.Fragment>
-
-                )
-            }
-        } else {
-            return (
-                <div className="chart-zero-view">
+                    <div className="chart-zero-view">
 
                         <h1 className="chart-header">Add a chapter to start tracking now!</h1>
                         <p>Haven't created any goals yet? <Link to="/me/addchapter">Get started here!</Link>
                         </p>
                     </div>
                 )
-        }
+            }
         } else {
 
             return (
                 <div className="chart-zero-view">
 
-                        <h1 className="chart-header">Select a book to view your stats!</h1>
-                        <p>Haven't created any goals yet? <Link to="/me/addbook">Get started here!</Link>
-                        </p>
-                    </div>
-                )
-            }
-        
-    
+                    <h1 className="chart-header">Select a book to view your stats!</h1>
+                    <p>Haven't created any goals yet? <Link to="/me/addbook">Get started here!</Link>
+                    </p>
+                </div>
+            )
+        }
+
+
     }
 
     render() {

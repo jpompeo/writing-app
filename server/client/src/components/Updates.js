@@ -53,9 +53,10 @@ class Updates extends Component {
                 contentStyle={{ background: 'rgba(107, 190, 201, .7)', color: '#fff', border: 'rgba(107, 190, 201, 1) solid 4px', boxShadow: '3px 3px 4px rgba(0, 0, 0, .2)' }}
                 contentArrowStyle={{ borderRight: '18px solid  rgba(107, 190, 201, 1)' }}
                 date={Moment(update.date || update.created).format('MMM D YYYY')}
-                iconStyle={{ background: 'rgba(107, 190, 201, .8)', color: '#fff'}}
+                iconStyle={{ background: 'rgba(107, 190, 201, .8)', color: '#fff', }}
               // icon={<WorkIcon />}
               >
+                
                 
                 <p className="update-subtitle"><span id="update-type">{sampleChapter.completed ? "COMPLETED" : "Updated"}</span> Chapter {sampleChapter.chapterNumber}: {sampleChapter.chapterTitle}!</p>
                 <hr />

@@ -82,3 +82,11 @@ hr {
     color: #fff;
     /* text-decoration: underline; */
 }
+
+.vertical-timeline-element:nth-child(even):not(.vertical-timeline-element--left) .vertical-timeline-element-date {
+    right: 140% !important;
+}
+
+.vertical-timeline-element:nth-child(odd):not(.vertical-timeline-element--right) .vertical-timeline-element-date {
+    left: 140% !important;
+}

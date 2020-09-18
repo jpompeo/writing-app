@@ -2,13 +2,13 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
-const router = require('./router');
+// const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const keys = require('./config/keys');
 
 // DB Setup
-mongoose.connect(keys.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true } );
+mongoose.connect(keys.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true } );
 
 app.use(cors());
 

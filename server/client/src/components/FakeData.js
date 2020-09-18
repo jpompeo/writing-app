@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 class FakeData extends Component {
     constructor(props) {
-super(props)
+        super();
         this.state = {
             username: ''
         }

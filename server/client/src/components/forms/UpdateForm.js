@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Container, Col, Row, Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../../styles/UpdateForm.css'
@@ -9,7 +9,7 @@ import { sendUpdate } from '../../actions'
 
 class UpdateForm extends Component {
     constructor(props) {
-        super(props)
+        super()
 
         this.state = {
             chapterNumber: '',
@@ -35,10 +35,6 @@ class UpdateForm extends Component {
             return chapter.number == this.state.chapterNumber;
         })
 
-        console.log("STATE CHAPTER NUMBER", this.state.chapterNumber)
-
-        console.log("SELECTED CHAPTER", selectedChapter)
-        console.log("CURRENT BOOK", this.props.currentBook)
         const chapterTitle = selectedChapter.title;
         const expectedLength = selectedChapter.expectedLength;
 

@@ -4,7 +4,6 @@ const passport = require('passport');
 const User = require('./models/user');
 const Book = require('./models/book');
 const Chapter = require('./models/chapter');
-const Goal = require('./models/goal');
 const Update = require('./models/update');
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
@@ -23,6 +22,8 @@ module.exports = function (app) {
   app.get('/auth/current_user', requireAuth, Authentication.currentUser);
 */
 
+/////////////FAKE DATA GENERATORS
+//to create a fake user for demo
   app.get('/api/generate-fake-user/:username', (request, response) => {
     const fakeAuthor = new User({
       username: request.params.username,
@@ -38,15 +39,16 @@ module.exports = function (app) {
 
   })
 
+//to delete fake user for demo reset
   app.delete('/api/delete-fake-user/:username', (request, response) => {
-    User.findOneAndDelete({username: request.params.username}, (error, del) => {
-      
+    User.findOneAndDelete({ username: request.params.username }, (error, del) => {
+
       if (error) response.send(error)
       response.send(del)
     });
-
   })
 
+  //to create 3 fake books for demo
   app.get('/api/generate-fake-books/:username', (request, response) => {
     let fakeUser = request.params.username;
     let fakeBooks = []
@@ -137,16 +139,14 @@ module.exports = function (app) {
       //     chapter.completed = true;
       //   }
       // })
-      
+
       // let progressToDate = book.chapters.reduce((sum, chapter) => {
       //   let subTotal = sum + chapter;
       //   return subTotal;
       // }, 0);
-      
+
       // book.totalWordCount = progressToDate;
     })
-
-  
 
     User
       .findOneAndUpdate({ username: fakeUser }, { books: fakeBooks }, { runValidators: true })
@@ -157,11 +157,9 @@ module.exports = function (app) {
 
   })
 
+  //to create fake updates for demo
   app.get('/api/generate-fake-updates/:username', (request, response) => {
     let fakeUser = request.params.username;
-    
-    
-    
 
     User
       .findOne({ username: fakeUser })
@@ -186,33 +184,32 @@ module.exports = function (app) {
           for (let i = 0; i < 30; i++) {
             let fakeUpdateDate = faker.date.between('2020-04-01', '2020-07-15')
             fakeChapterUpdate = Object.assign({}, fakeChapters[Math.floor(Math.random() * fakeChapters.length)])
-console.log("fake chapter update", fakeChapterUpdate)
+            console.log("fake chapter update", fakeChapterUpdate)
             fakeUpdates.push({
               bookTitle: book.title,
               expectedLength: book.expectedLength,
               progress: fakeChapterUpdate.progress,
               chapterUpdate: Object.assign({}, fakeChapterUpdate),
               date: fakeUpdateDate,
-              
+
             })
           }
 
-         
           fakeUpdates.map(update => {
             if (update.bookTitle == book.title) {
               book.progress += update.progress;
             }
- 
-               book.chapters.map(chapter => {
-                 if (chapter.number == update.chapterUpdate.chapterNumber) {
-                   chapter.progress += update.chapterUpdate.progress;
-                 }
-               })
-           })
-          
+
+            book.chapters.map(chapter => {
+              if (chapter.number == update.chapterUpdate.chapterNumber) {
+                chapter.progress += update.chapterUpdate.progress;
+              }
+            })
+          })
+
         })
         user.books.forEach(book => {
-           book.progress = user.updates.reduce((acc, update) => {
+          book.progress = user.updates.reduce((acc, update) => {
             return update.progress + acc;
           }, 0)
         })
@@ -226,25 +223,19 @@ console.log("fake chapter update", fakeChapterUpdate)
             response.send("updates added")
           }
         })
-
-       
-           
       });
   })
 
+  //to fix random generated "Fake" data so the totals are accurate
   app.get('/api/fixtotal/:username', (request, response) => {
     User.findOne({ username: request.params.username }).exec((error, user) => {
       user.books.forEach(book => {
         let bookTotal = 0;
         user.updates.forEach((update) => {
           if (update.bookTitle == book.title) {
-            // console.log("UPDATE", acc)
-           bookTotal += update.progress
-            
+            bookTotal += update.progress
           }
         })
-        console.log("BOOK TOTAL", bookTotal)
-        
         book.progress = bookTotal
       })
 
@@ -254,6 +245,7 @@ console.log("fake chapter update", fakeChapterUpdate)
       })
     })
   })
+//////////////////////////////////////
 
   //add book
   app.post('/api/users/:username/book', (request, response) => {
@@ -278,7 +270,6 @@ console.log("fake chapter update", fakeChapterUpdate)
       dailyGoal
     };
 
-
     //find user and add new book ID to books array
     User
       .findOneAndUpdate({ username: username }, { $push: { books: [newBook] } }, { runValidators: true })
@@ -287,8 +278,6 @@ console.log("fake chapter update", fakeChapterUpdate)
         response.send(updatedUser)
       })
   })
-
-
 
   //get user
   app.get('/api/users/:username', (request, response) => {
@@ -301,46 +290,13 @@ console.log("fake chapter update", fakeChapterUpdate)
       })
   });
 
-  // //add goal
-  // app.post('/api/users/:userId/goals', (request, response) => {
-  //   //get goal info from request
-  //   const goalStartDate = request.body.goalStartDate;
-  //   const goalEndDate = request.body.description;
-  //   const goalItem = request.body.goalItem;
-  //   const goalType = request.body.goalType;
-  //   const notes = request.body.notes;
-  //   const userId = request.params.userId;
-
-  //   //create new goal
-  //   const newGoal = new Goal({
-  //     goalStartDate: goalStartDate,
-  //     goalEndDate: goalEndDate,
-  //     goalItem: goalItem,
-  //     goalType: goalType,
-  //     notes: notes,
-  //     userId: userId
-  //   });
-
-  // //save book and send back response
-  //   newGoal.save((error, goalCreated) => {
-  //     if (error) response.end(error)
-  //     //find user and add new book ID to books array
-  //     User
-  //       .findOneAndUpdate({ _id: userId }, { $push: { goals: [goalCreated._id] } }, { runValidators: true })
-  //       .exec((error, updatedUser) => {
-  //         if (error) response.end(error)
-  //         response.send(goalCreated)
-  //       })
-  //   })
-  // }); 
-
   //add update
   app.post('/api/users/:username/update', (request, response) => {
     //get update info from request
     const update = request.body.update;
     const username = request.params.username;
     const progress = Number(request.body.update.progress)
-    
+
 
     //add update to user
     User
@@ -363,7 +319,7 @@ console.log("fake chapter update", fakeChapterUpdate)
                 chapter.progress = newChapterTotal;
 
                 // chapterToUpdate.progress += progress;
-        chapter.completed = update.chapterUpdate.completed || false;
+                chapter.completed = update.chapterUpdate.completed || false;
               }
             })
           }
@@ -373,8 +329,6 @@ console.log("fake chapter update", fakeChapterUpdate)
         //   return chapter.number == update.chapterUpdate.chapterNumber;
         // })
 
-        
-
         updatedUser.save((error, user) => {
           if (error) response.send(error)
           response.send(user)
@@ -382,16 +336,12 @@ console.log("fake chapter update", fakeChapterUpdate)
       })
   })
 
-
-  // });
-
   //add chapter
   app.post('/api/users/:username/chapter', (request, response) => {
     //get update info from request
     const chapter = request.body.chapter;
     const username = request.params.username;
     const progress = Number(request.body.chapter.progress)
-    
 
     //add update to user
     User
@@ -422,9 +372,9 @@ console.log("fake chapter update", fakeChapterUpdate)
     const newDescription = request.body.description;
     const newDeadline = request.body.deadline;
     const newLength = request.body.expectedLength;
-    
+
     User
-      .find({username: request.params.username})
+      .find({ username: request.params.username })
       .exec((error, user) => {
         if (error) response.send(error);
         let bookToUpdate = user.books.find(book => {
@@ -440,17 +390,5 @@ console.log("fake chapter update", fakeChapterUpdate)
         })
       })
   });
-
-  //get user
-
-  //get books
-
-  //get goals
-
-  //get chapters
-
-  //get updates
-
-  //get word count
 
 }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { Container, Col, Row } from 'react-bootstrap';
-import Goals from './Goals';
 import Progress from './Progress';
 import Updates from './Updates';
 import { getUserData } from '../actions'
